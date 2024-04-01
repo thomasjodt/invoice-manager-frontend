@@ -20,9 +20,10 @@ export const SideButton: React.FC<Props> = function ({ label, icon, link }) {
         size='lg'
         fullWidth
         variant={(isActive) ? 'flat' : 'light'}
+        color={isActive ? 'primary' : 'default'}
         startContent={icon}
         onClick={() => { navigate(link) }}
-        className={`flex justify-start font-medium text-lg ${isActive ? 'text-purple-500' : 'text-neutral-600'}`}
+        className={`flex justify-start font-medium text-lg`}
       >
         {label}
       </Button>

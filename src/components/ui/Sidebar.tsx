@@ -1,14 +1,15 @@
 import { Divider } from '@nextui-org/react'
-import { ShuffleIcon, DashboardIcon, UserIcon } from '@/components/icons'
+import { UserIcon, ReceiptIcon, SunLowIcon } from '@/components/icons'
 import { SideButton } from './SideButton'
 import { NavLink } from 'react-router-dom'
+import { CashIcon } from '../icons/CashIcon'
 
 export const Sidebar: React.FC = function () {
   return (
     <aside className='border-r p-4'>
       <section>
-        <NavLink to='/' className='p-3 flex gap-4 items-center text-purple-800'>
-          <ShuffleIcon size={24} />
+        <NavLink to='/' className='p-3 flex gap-4 items-center text-yellow-500'>
+          <SunLowIcon size={32} />
           <h3 className='font-semibold text-neutral-800 text-2xl'>
             Intifarma
           </h3>
@@ -21,13 +22,19 @@ export const Sidebar: React.FC = function () {
         <SideButton
           link='invoices'
           label='Invoices'
-          icon={<DashboardIcon size={24} />}
+          icon={<ReceiptIcon size={24} />}
         />
 
         <SideButton
           link='vendors'
           label='Vendors'
           icon={<UserIcon size={24} />}
+        />
+
+        <SideButton
+          link='payments'
+          label='Payments'
+          icon={<CashIcon size={24} />}
         />
       </section>
     </aside>
