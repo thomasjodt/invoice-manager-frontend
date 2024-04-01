@@ -1,6 +1,5 @@
-
 import axios from 'axios'
-import { Vendor } from '@/types'
+import type { Vendor } from '@/types'
 import { useEffect, useState } from 'react'
 import { SearchIcon, PlusIcon } from '@/components/icons'
 import {
@@ -11,7 +10,7 @@ import {
   TableCell,
   TableColumn,
   TableHeader,
-  TableRow,
+  TableRow
 } from '@nextui-org/react'
 import { RenderCell } from './utils/RenderCell'
 import { Header } from '@/components/ui/Header'
@@ -26,15 +25,14 @@ export const Vendors: React.FC = function () {
   const [vendors, setVendors] = useState<Vendor[]>([])
 
   useEffect(() => {
-    const getUsers = async () => {
-      const { data } = await axios.get('http://localhost:8080/invoices/api/vendors/balance')
+    const getUsers = async (): Promise<void> => {
+      const { data } = await axios.get<Vendor[]>('http://localhost:8080/invoices/api/vendors/balance')
       setVendors(data)
       console.log(vendors)
     }
 
-    getUsers()
+    getUsers().catch(console.log)
   }, [])
-
 
   return (
     <section>
@@ -73,12 +71,12 @@ export const Vendors: React.FC = function () {
               <TableRow key={vendor.id}>
                 {
                   (columnKey) =>
-                  <TableCell>
-                    <RenderCell
-                      vendor={vendor}
-                      columnKey={columnKey}
-                    />
-                  </TableCell>
+                    <TableCell>
+                      <RenderCell
+                        vendor={vendor}
+                        columnKey={columnKey}
+                      />
+                    </TableCell>
                 }
               </TableRow>
             )}

@@ -1,5 +1,5 @@
 import { Divider } from '@nextui-org/react'
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 
 interface Props {
   title: string

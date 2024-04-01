@@ -1,4 +1,4 @@
-import { statuses } from '@/data'
+import type { statuses } from '@/data'
 
 export interface Vendor {
   id: number
@@ -10,7 +10,7 @@ export interface Vendor {
 export interface Payment {
   amount: number
   id: number
-  invoiceId:number
+  invoiceId: number
   paymentDate: string
 }
 

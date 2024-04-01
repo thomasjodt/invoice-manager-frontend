@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { Button, Input, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react'
 
-import { Invoice } from '@/types'
+import type { Invoice } from '@/types'
 import { RenderCell } from './utils/RenderCell'
 import { Header } from '@/components/ui/Header'
 import { PlusIcon, SearchIcon } from '@/components/icons'
@@ -24,21 +24,23 @@ export const Invoices: React.FC = function () {
   const [invoices, setInvoices] = useState<Invoice[]>([])
 
   useEffect(() => {
-    const getInvoices = async () => {
-      const { data } = await axios.get('http://localhost:8080/invoices/api/invoices')
+    const getInvoices = async (): Promise<void> => {
+      const { data } = await axios.get<Invoice[]>('http://localhost:8080/invoices/api/invoices')
       setInvoices(data)
     }
 
-    getInvoices()
+    getInvoices().catch(console.log)
   }, [])
 
   return (
     <section>
-      <Header title='Invoices' actionButton={
-        <Button color='primary' variant='solid'>
+      <Header
+        title='Invoices'
+        actionButton={
+          <Button color='primary' variant='solid'>
             Add Invoice
-          <PlusIcon size={18} />
-        </Button>
+            <PlusIcon size={18} />
+          </Button>
         }
       />
 
@@ -66,12 +68,12 @@ export const Invoices: React.FC = function () {
               <TableRow key={invoice.id}>
                 {
                   (columnKey) =>
-                  <TableCell>
-                    <RenderCell
-                      invoice={invoice}
-                      columnKey={columnKey}
-                    />
-                  </TableCell>
+                    <TableCell>
+                      <RenderCell
+                        invoice={invoice}
+                        columnKey={columnKey}
+                      />
+                    </TableCell>
                 }
               </TableRow>
             )}

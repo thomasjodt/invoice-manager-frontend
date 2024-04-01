@@ -1,4 +1,4 @@
-export const dateFormat = (date: Date) => {
+export const dateFormat = (date: Date): string => {
   const formatter = Intl.DateTimeFormat('es-PE', {
     day: '2-digit',
     month: 'short',

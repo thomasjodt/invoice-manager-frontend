@@ -1,2 +1,2 @@
-export { Invoices} from './Invoices'
+export { Invoices } from './Invoices'
 export { Vendors } from './Vendors'

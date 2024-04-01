@@ -1,4 +1,4 @@
-import { Status } from '@/types'
+import type { Status } from '@/types'
 
 export const getStatus = (dueDate: Date, balance: number): Status => {
   let status: Status

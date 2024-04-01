@@ -1,7 +1,8 @@
 import { Chip, User } from '@nextui-org/react'
 import { ContextActions } from '../components/ContextActions'
 import { CheckIcon } from '@/components/icons/CheckIcon'
-import { Vendor } from '@/types'
+import type { Vendor } from '@/types'
+import { currencyFormat } from '@/utils'
 
 interface Props {
   vendor: Vendor
@@ -9,14 +10,6 @@ interface Props {
 }
 
 export const RenderCell: React.FC<Props> = ({ vendor, columnKey }) => {
-  const currencyFormat = (amount: number) => {
-    const formatter = new Intl.NumberFormat('es-PE', {
-      style: 'currency',
-      currency: 'PEN'
-    })
-    return formatter.format(amount)
-  }
-
   if (columnKey === 'actions') {
     return <ContextActions />
   }

@@ -27,6 +27,6 @@ rules:
   '@typescript-eslint/non-nullable-type-assertion-style': off
 ignorePatterns:
   - dist
-  - postcss.config.css
-  - tailwind.config.css
+  - postcss.config.js
+  - tailwind.config.js
 parser: '@typescript-eslint/parser'

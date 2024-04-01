@@ -1,4 +1,4 @@
-export const currencyFormat = (amount: number) => {
+export const currencyFormat = (amount: number): string => {
   const formatter = new Intl.NumberFormat('es-PE', {
     style: 'currency',
     currency: 'PEN'

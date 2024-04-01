@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import { Button } from '@nextui-org/react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
@@ -23,7 +23,7 @@ export const SideButton: React.FC<Props> = function ({ label, icon, link }) {
         color={isActive ? 'primary' : 'default'}
         startContent={icon}
         onClick={() => { navigate(link) }}
-        className={`flex justify-start font-medium text-lg`}
+        className='flex justify-start font-medium text-lg'
       >
         {label}
       </Button>

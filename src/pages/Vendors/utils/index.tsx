@@ -1,1 +1,1 @@
-export * from './RenderCell'
+export { RenderCell } from './RenderCell'

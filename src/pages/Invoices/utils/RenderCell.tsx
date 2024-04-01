@@ -1,21 +1,16 @@
-import { Invoice } from '@/types'
+import type { Invoice } from '@/types'
 import { ContextActions } from '@/pages/Vendors/components/ContextActions'
 import { Chip, User } from '@nextui-org/react'
 import { currencyFormat } from '@/utils'
 import { getDays } from '.'
 import { dateFormat } from '@/utils/dateFormat'
 import { getStatus } from './getStatus'
+import { statuses } from '@/data'
 
 interface Props {
   invoice: Invoice
   columnKey: React.Key
 }
-
-export const statuses = {
-  pending: 'warning',
-  paid: 'success',
-  overdue: 'danger'
-} as const
 
 export type Status = keyof typeof statuses
 
