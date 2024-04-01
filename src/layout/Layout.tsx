@@ -6,7 +6,7 @@ interface Props {
 }
 export const Layout: React.FC<Props> = function ({ children }) {
   return (
-    <div className='min-h-screen grid grid-cols-[300px_1fr] gap-2'>
+    <div className='min-h-screen grid grid-cols-[300px_1fr]'>
       <Sidebar />
       <main>
         {children}
