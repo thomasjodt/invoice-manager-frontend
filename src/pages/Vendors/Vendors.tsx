@@ -21,11 +21,10 @@ export const Vendors: React.FC = function () {
       }
 
       setVendors(data)
-      console.error(vendors)
     }
 
     getUsers()
-      .catch(console.log)
+      .catch(console.error)
   }, [])
 
   return (

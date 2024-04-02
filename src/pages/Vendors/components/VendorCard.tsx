@@ -1,7 +1,6 @@
 import { Vendor } from '@/types'
 import { currencyFormat } from '@/utils'
 import { Card, CardHeader, Chip, User } from '@nextui-org/react'
-import { ContextActions } from './ContextActions'
 
 interface Props {
   vendor: Vendor
@@ -25,8 +24,6 @@ export const VendorCard: React.FC<Props> = function ({ vendor }) {
         >
           Saldo: {currencyFormat(vendor.balance)}
         </Chip>
-
-        <ContextActions />
         </div>
       </CardHeader>
     </Card>
