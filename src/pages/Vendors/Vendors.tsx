@@ -1,41 +1,35 @@
 import axios from 'axios'
-import type { Vendor } from '@/types'
+import { Button } from '@nextui-org/react'
 import { useEffect, useState } from 'react'
-import { SearchIcon, PlusIcon } from '@/components/icons'
-import {
-  Button,
-  Input,
-  Table,
-  TableBody,
-  TableCell,
-  TableColumn,
-  TableHeader,
-  TableRow
-} from '@nextui-org/react'
-import { RenderCell } from './utils/RenderCell'
-import { Header } from '@/components/ui/Header'
 
-const columns = [
-  { name: 'VENDOR', uid: 'vendor' },
-  { name: 'BALANCE', uid: 'balance' },
-  { name: 'ACTIONS', uid: 'actions' }
-]
+import type { Vendor } from '@/types'
+import { PlusIcon } from '@/components/icons'
+import { Header } from '@/components/ui'
+import { VendorCard } from './components'
+
+const url = 'http://localhost:8080/invoices/api/vendors/balance'
 
 export const Vendors: React.FC = function () {
   const [vendors, setVendors] = useState<Vendor[]>([])
 
   useEffect(() => {
     const getUsers = async (): Promise<void> => {
-      const { data } = await axios.get<Vendor[]>('http://localhost:8080/invoices/api/vendors/balance')
+      const { data, status } = await axios.get<Vendor[]>(url)
+
+      if (status !== 200) {
+        throw new Error('Hubo un error al conseguir los proveedores.')
+      }
+
       setVendors(data)
-      console.log(vendors)
+      console.error(vendors)
     }
 
-    getUsers().catch(console.log)
+    getUsers()
+      .catch(console.log)
   }, [])
 
   return (
-    <section>
+    <>
       <Header
         title='Vendors'
         actionButton={
@@ -45,44 +39,17 @@ export const Vendors: React.FC = function () {
           </Button>
         }
       />
-
-      <div className='px-8 mt-5'>
-        <Input
-          label='Vendor'
-          labelPlacement='inside'
-          isClearable
-          startContent={<SearchIcon />}
-          className='max-w-[300px] text-neutral-400 mb-3'
-          placeholder='Search by name...'
-        />
-
-        <div className='mb-3 text-neutral-400 font-medium'>Total {vendors.length} vendors</div>
-        <Table removeWrapper aria-label='Table that shows a list of all vendors.' className='max-w-[1000px] mx-auto'>
-          <TableHeader columns={columns} className=''>
-            {(column) => (
-              <TableColumn key={column.uid} className='font-bold'>
-                {column.name}
-              </TableColumn>
-            )}
-          </TableHeader>
-
-          <TableBody items={vendors} emptyContent='No vendors found'>
-            {(vendor) => (
-              <TableRow key={vendor.id}>
-                {
-                  (columnKey) =>
-                    <TableCell>
-                      <RenderCell
-                        vendor={vendor}
-                        columnKey={columnKey}
-                      />
-                    </TableCell>
-                }
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
-    </section>
+      <section className={
+        (vendors.length > 0)
+        ? 'grid gap-3 p-5 lg:p-8 2xl:p-15 lg:grid-cols-2 2xl:grid-cols-3'
+        : ' flex justify-center items-center'
+      }>
+        {
+          (vendors.length > 0)
+            ? vendors.map(vendor => <VendorCard vendor={vendor} />)
+            : <p className='mt-32 font-semibold text-neutral-400'>No se encuentran Proveedores</p>
+        }
+      </section>
+    </>
   )
 }
