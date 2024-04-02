@@ -46,7 +46,7 @@ export const Vendors: React.FC = function () {
       }>
         {
           (vendors.length > 0)
-            ? vendors.map(vendor => <VendorCard vendor={vendor} />)
+            ? vendors.map(vendor => <VendorCard key={vendor.id} vendor={vendor} />)
             : <p className='mt-32 font-semibold text-neutral-400'>No se encuentran Proveedores</p>
         }
       </section>
