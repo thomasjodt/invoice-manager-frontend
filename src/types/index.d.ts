@@ -24,4 +24,10 @@ export interface Invoice {
   payments: Payment[]
 }
 
+export interface UseForm<T> {
+  form: T
+  reset: () => void
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+}
+
 export type Status = keyof typeof statuses
