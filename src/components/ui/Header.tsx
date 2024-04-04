@@ -3,15 +3,15 @@ import type { ReactNode } from 'react'
 
 interface Props {
   title: string
-  actionButton?: ReactNode
+  children?: ReactNode
 }
 
-export const Header: React.FC<Props> = function ({ title, actionButton }) {
+export const Header: React.FC<Props> = function ({ title, children }) {
   return (
     <>
       <header className='flex justify-between items-center p-6'>
         <h1 className='text-3xl text-neutral-700 font-bold'>{title}</h1>
-        {actionButton}
+        {children}
       </header>
 
       <Divider />
