@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Button } from '@nextui-org/react'
+import { Button, Link } from '@nextui-org/react'
 import { useEffect, useState } from 'react'
 
 import type { Vendor } from '@/types'
@@ -29,19 +29,17 @@ export const Vendors: React.FC = function () {
 
   return (
     <>
-      <Header
-        title='Vendors'
-        actionButton={
-          <Button color='primary' variant='solid'>
-            Add Vendor
-            <PlusIcon size={18} />
-          </Button>
-        }
-      />
+      <Header title='Vendors'>
+        <Button href='/vendors/new' color='primary' as={Link} variant='solid'>
+          Add Vendor
+          <PlusIcon size={18} />
+        </Button>
+      </Header>
+
       <section className={
         (vendors.length > 0)
-        ? 'grid gap-3 p-5 lg:p-8 2xl:p-15 lg:grid-cols-2 2xl:grid-cols-3'
-        : ' flex justify-center items-center'
+          ? 'grid gap-3 p-5 lg:p-8 2xl:p-15 lg:grid-cols-2 2xl:grid-cols-3'
+          : ' flex justify-center items-center'
       }>
         {
           (vendors.length > 0)
