@@ -1,2 +1,3 @@
 export { Invoices } from './Invoices'
-export { Vendors } from './Vendors'
+export { Payments } from './Payments'
+export { NewVendor, VendorForm, Vendors } from './Vendors'
