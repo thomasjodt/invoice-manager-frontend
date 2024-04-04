@@ -1,5 +1,9 @@
+import { Header } from '@/components/ui'
+
 export const Payments: React.FC = function () {
   return (
-    <div>Payments</div>
+    <>
+      <Header title='Payments' />
+    </>
   )
 }
