@@ -16,7 +16,7 @@ export const InvoicesCard: React.FC<Props> = function ({ invoice }) {
   const days: number = getDays(invoice.emissionDate, invoice.dueDate)
 
   return (
-    <Card shadow='none' className='border px-5 pt-2'>
+    <Card shadow='none' className='border px-5 pt-2 bg-neutral'>
       <CardHeader className='flex items-center justify-between'>
         <User
           name={invoice.vendor.name}
@@ -55,8 +55,13 @@ export const InvoicesCard: React.FC<Props> = function ({ invoice }) {
           <AccordionItem subtitle={'Balance: ' + currencyFormat(balance)} textValue='List of payments'>
             <div>
               {
-                invoice.payments.map(payment => (
-                  <div key={payment.id} className='flex items-center justify-between px-8 border-b py-1'>
+                invoice.payments.map((payment, index) => (
+                  <div
+                    key={payment.id}
+                    className={
+                      `flex items-center justify-between px-8 py-1 ${index === invoice.payments.length - 1 ? '' :  'border-b'}`
+                    }
+                  >
                     <h4 className='font-semibold'>{currencyFormat(payment.amount)}</h4>
                     <p>{dateFormat(payment.paymentDate)}</p>
                   </div>
