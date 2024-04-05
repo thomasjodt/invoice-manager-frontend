@@ -1,8 +1,8 @@
 import { Divider } from '@nextui-org/react'
-import { UserIcon, ReceiptIcon, SunLowIcon } from '@/components/icons'
-import { SideButton } from './SideButton'
 import { NavLink } from 'react-router-dom'
-import { CashIcon } from '../icons/CashIcon'
+
+import { SideButton } from './SideButton'
+import { UserIcon, ReceiptIcon, SunLowIcon, CashIcon } from '@/components/icons'
 
 export const Sidebar: React.FC = function () {
   return (
