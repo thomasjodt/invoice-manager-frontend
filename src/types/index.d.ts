@@ -14,6 +14,10 @@ export interface Payment {
   paymentDate: string
 }
 
+export interface FullPayment extends Omit<Payment, 'invoiceId'> {
+  invoice: Invoice
+}
+
 export interface Invoice {
   amount: number
   dueDate: string
