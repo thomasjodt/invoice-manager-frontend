@@ -16,7 +16,7 @@ export const InvoicesCard: React.FC<Props> = function ({ invoice }) {
   const days: number = getDays(invoice.emissionDate, invoice.dueDate)
 
   return (
-    <Card shadow='none' className='border px-5 pt-2 bg-neutral'>
+    <Card shadow='none' className='border px-5 pt-2'>
       <CardHeader className='flex items-center justify-between'>
         <User
           name={invoice.vendor.name}
