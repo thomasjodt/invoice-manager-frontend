@@ -4,6 +4,8 @@ import { http } from '@/data'
 import { Header } from '@/components/ui'
 import { PaymentCard } from './components/PaymentCard'
 import type { FullPayment, Invoice, Payment } from '@/types'
+import { Button } from '@nextui-org/react'
+import { PlusIcon } from '@/components/icons'
 
 export const Payments: React.FC = function () {
   const [payments, setPayments] = useState<FullPayment[]>([])
@@ -25,7 +27,9 @@ export const Payments: React.FC = function () {
 
   return (
     <>
-      <Header title='Payments' />
+      <Header title='Payments'>
+        <Button color='primary' endContent={<PlusIcon />}>Add Payment</Button>
+      </Header>
 
       <section className='grid gap-3 p-5'>
         <div className='grid grid-cols-3 place-items-center bg-primary-100 rounded-md font-semibold p-1 text-neutral-600'>
