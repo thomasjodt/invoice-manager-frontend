@@ -1,6 +1,7 @@
+import { VendorTag } from '@/components/ui'
 import { Vendor } from '@/types'
 import { currencyFormat } from '@/utils'
-import { Card, CardHeader, Chip, User } from '@nextui-org/react'
+import { Card, CardHeader, Chip } from '@nextui-org/react'
 import { Link } from 'react-router-dom'
 
 interface Props {
@@ -17,11 +18,7 @@ export const VendorCard: React.FC<Props> = function ({ vendor }) {
       to={vendor.id.toString()}
     >
       <CardHeader className='flex justify-between items-center'>
-        <User
-          name={vendor.name}
-          description={vendor.fullName}
-          className='text-start'
-        />
+        <VendorTag vendor={vendor} />
 
         <div className='flex items-center gap-2'>
           <Chip

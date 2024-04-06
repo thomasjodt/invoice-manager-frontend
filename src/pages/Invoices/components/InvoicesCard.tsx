@@ -5,13 +5,13 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
-  User
 } from '@nextui-org/react'
 
 import { Invoice } from '@/types'
 import { getDays, getStatus } from '../utils'
 import { currencyFormat, dateFormat } from '@/utils'
 import { StatusChip } from './StatusChip'
+import { VendorTag } from '@/components/ui'
 
 interface Props {
   invoice: Invoice
@@ -26,11 +26,7 @@ export const InvoicesCard: React.FC<Props> = function ({ invoice }) {
   return (
     <Card shadow='none' className='border px-5 pt-2'>
       <CardHeader className='flex items-center justify-between'>
-        <User
-          name={invoice.vendor.name}
-          description={invoice.vendor.fullName}
-          className='text-start place-self-start font-normal'
-        />
+        <VendorTag vendor={invoice.vendor}/>
         <StatusChip status={status} />
       </CardHeader>
 

@@ -1,10 +1,11 @@
 import { useMemo } from 'react'
-import { Card, CardHeader, Checkbox, User } from '@nextui-org/react'
+import { Card, CardHeader, Checkbox } from '@nextui-org/react'
 
 import { Invoice } from '@/types'
 import { currencyFormat, dateFormat } from '@/utils'
 import { getDays, getStatus } from '../utils'
 import { StatusChip } from './StatusChip'
+import { VendorTag } from '@/components/ui'
 
 interface Props {
   invoice: Invoice
@@ -26,11 +27,7 @@ export const InvoiceListItem: React.FC<Props> = function ({ invoice }) {
     <Card shadow='none' className='border'>
       <CardHeader className='grid grid-cols-[36px_repeat(9,_1fr)] place-items-center'>
         <Checkbox className='justify-self-start' />
-        <User
-          name={vendor.name}
-          description={vendor.fullName}
-          className='place-self-start'
-        />
+        <VendorTag vendor={vendor} />
 
         <p className='font-semibold text-primary'>{invoiceNumber}</p>
         <p className='text-neutral-600'>{dateFormat(emissionDate)}</p>
