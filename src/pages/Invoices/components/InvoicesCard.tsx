@@ -1,9 +1,17 @@
-import { Accordion, AccordionItem, Card, CardBody, CardFooter, CardHeader, Chip, User } from '@nextui-org/react'
+import {
+  Accordion,
+  AccordionItem,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  User
+} from '@nextui-org/react'
 
 import { Invoice } from '@/types'
-import { currencyFormat, dateFormat } from '@/utils'
-import { statuses } from '@/data'
 import { getDays, getStatus } from '../utils'
+import { currencyFormat, dateFormat } from '@/utils'
+import { StatusChip } from './StatusChip'
 
 interface Props {
   invoice: Invoice
@@ -23,14 +31,7 @@ export const InvoicesCard: React.FC<Props> = function ({ invoice }) {
           description={invoice.vendor.fullName}
           className='text-start place-self-start font-normal'
         />
-        <Chip
-          color={statuses[status]}
-          variant='flat'
-          radius='sm'
-          className={`min-w-[80px] text-center border border-${statuses[status]}-200`}
-        >
-          {status}
-        </Chip>
+        <StatusChip status={status} />
       </CardHeader>
 
       <CardBody>
