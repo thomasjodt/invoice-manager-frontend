@@ -1,21 +1,31 @@
 import { VendorTag } from '@/components/ui'
 import { Vendor } from '@/types'
 import { currencyFormat } from '@/utils'
-import { Card, CardHeader, Chip } from '@nextui-org/react'
-import { Link } from 'react-router-dom'
+import { Card, CardHeader, Chip, useDisclosure } from '@nextui-org/react'
+import { EditVendorModal } from './EditVendorModal'
 
 interface Props {
   vendor: Vendor
+  updateVendors: (vendor: Vendor) => void
 }
 
-export const VendorCard: React.FC<Props> = function ({ vendor }) {
+export const VendorCard: React.FC<Props> = function ({ vendor, updateVendors }) {
+  const { onOpen, isOpen, onOpenChange } = useDisclosure()
+
   return (
-    <Card
+    <>
+      <EditVendorModal
+        vendor={vendor}
+        isOpen={isOpen}
+        update={updateVendors}
+        onOpenChange={onOpenChange}
+      />
+
+      <Card
       isPressable
       shadow='none'
       className='border'
-      as={Link}
-      to={vendor.id.toString()}
+      onPress={onOpen}
     >
       <CardHeader className='flex justify-between items-center'>
         <VendorTag vendor={vendor} />
@@ -31,5 +41,6 @@ export const VendorCard: React.FC<Props> = function ({ vendor }) {
         </div>
       </CardHeader>
     </Card>
+    </>
   )
 }
