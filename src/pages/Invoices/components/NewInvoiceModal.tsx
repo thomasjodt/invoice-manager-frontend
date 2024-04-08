@@ -11,10 +11,9 @@ import {
   SelectItem
 } from '@nextui-org/react'
 
-import { VendorTag } from '@/components/ui'
-import { http } from '@/data'
 import { useForm } from '@/hooks'
-import { InvoiceDto } from '@/models'
+import { InvoicesApi, VendorsApi } from '@/api'
+import { VendorTag } from '@/components/ui'
 import type { Invoice, InvoiceDtoProps, Vendor } from '@/types'
 
 interface Props {
@@ -30,10 +29,14 @@ export const NewInvoiceModal: React.FC<Props> = function ({ isOpen, onOpenChange
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>, close: () => void): Promise<void> => {
     event.preventDefault()
-    if (Object.values(form).includes('')) return
 
-    const { data } = await http.post<Invoice>('/invoices', new InvoiceDto(form))
-    update(data)
+    if (Object.values(form).includes('')) return
+    if (new Date(form.emissionDate) > new Date(form.dueDate)) {
+      alert('La fecha de emisión no puede ser mayor a la de vencimiento ')
+      return
+    }
+
+    update(await InvoicesApi.createInvoice(form))
     close()
   }
 
@@ -44,14 +47,11 @@ export const NewInvoiceModal: React.FC<Props> = function ({ isOpen, onOpenChange
 
   useEffect(() => {
     (async (): Promise<void> => {
-      const { data } = await http.get<Vendor[]>('/vendors')
-      setVendors(data)
+      setVendors(await VendorsApi.getVendors())
     })().catch(console.error)
   }, [])
 
-  useEffect(() => {
-    if (!isOpen) reset()
-  }, [isOpen])
+  useEffect(() => { if (!isOpen) reset() }, [isOpen])
 
   return (
     <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
