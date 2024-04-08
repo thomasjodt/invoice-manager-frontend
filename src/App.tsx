@@ -13,7 +13,7 @@ export const App: React.FC = () => {
         <Routes>
           <Route path='invoices' element={<Invoices />} />
           <Route path='vendors'>
-            <Route index element={<Vendors />}/>
+            <Route index element={<Vendors />} />
             <Route path='new' element={<NewVendor />} />
             <Route path=':id' element={<VendorForm />} />
             <Route path='0' element={<Navigate to='/vendors/new' />} />
