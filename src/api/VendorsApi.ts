@@ -2,8 +2,6 @@ import { http } from '@/data'
 import type { Vendor } from '@/types'
 
 export class VendorsApi {
-  static http = http
-
   static async getVendors (): Promise<Vendor[]> {
     const { data } = await http.get<Vendor[]>('/vendors')
     return data
