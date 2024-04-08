@@ -34,4 +34,12 @@ export interface UseForm<T> {
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
+export interface InvoiceDtoProps {
+  vendor: string
+  invoiceNumber: string
+  amount: string
+  dueDate: string
+  emissionDate: string
+}
+
 export type Status = keyof typeof statuses
