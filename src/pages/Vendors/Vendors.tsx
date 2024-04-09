@@ -22,6 +22,10 @@ export const Vendors: React.FC = function () {
     setVendors(updatedVendors)
   }
 
+  const handleRemove = (vendor: Vendor): void => {
+    setVendors(vendors.filter(v => vendor.id !== v.id))
+  }
+
   useEffect(() => {
     (async () => {
       setVendors(await VendorsApi.getVendors())
@@ -54,6 +58,7 @@ export const Vendors: React.FC = function () {
               <VendorCard
                 key={vendor.id}
                 vendor={vendor}
+                removeVendor={handleRemove}
                 updateVendors={handleUpdate}
               />
             )
