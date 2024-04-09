@@ -10,23 +10,20 @@ import {
 } from '@nextui-org/react'
 
 import { useForm } from '@/hooks'
-import { VendorsApi } from '@/api'
-import type { Vendor } from '@/types'
+import { useVendorContext } from '../context/VendorContext'
 
 interface Props {
   isOpen: boolean
   onOpenChange: () => void
-  update: (vendor: Vendor) => void
 }
 
-export const NewVendorModal: React.FC<Props> = function ({ isOpen, onOpenChange, update }) {
+export const NewVendorModal: React.FC<Props> = function ({ isOpen, onOpenChange }) {
+  const { create } = useVendorContext()
   const { form, handleChange, reset } = useForm({ name: '', fullName: '' })
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>, close: () => void): Promise<void> => {
     event.preventDefault()
-
-    const vendor = await VendorsApi.createVendor(form)
-    update(vendor)
+    create(form)
     close()
   }
 

@@ -1,42 +1,18 @@
-import { useEffect, useState } from 'react'
 import { Button, useDisclosure } from '@nextui-org/react'
 
-import { VendorsApi } from '@/api'
-import type { Vendor } from '@/types'
 import { Header } from '@/components/ui'
 import { PlusIcon } from '@/components/icons'
 import { NewVendorModal, VendorCard } from './components'
+import { useVendorContext } from './context/VendorContext'
 
 export const Vendors: React.FC = function () {
-  const [vendors, setVendors] = useState<Vendor[]>([])
+  const { vendors } = useVendorContext()
   const { isOpen, onOpenChange, onOpen } = useDisclosure()
-
-  const updateVendors = (vendor: Vendor): void => {
-    setVendors([...vendors, vendor])
-  }
-
-  const handleUpdate = (vendor: Vendor): void => {
-    const updatedVendors = vendors.map(v => {
-      return (v.id === vendor.id) ? { ...v, ...vendor } : v
-    })
-    setVendors(updatedVendors)
-  }
-
-  const handleRemove = (vendor: Vendor): void => {
-    setVendors(vendors.filter(v => vendor.id !== v.id))
-  }
-
-  useEffect(() => {
-    (async () => {
-      setVendors(await VendorsApi.getVendors())
-    })().catch(console.error)
-  }, [])
 
   return (
     <>
       <NewVendorModal
         isOpen={isOpen}
-        update={updateVendors}
         onOpenChange={onOpenChange}
       />
 
@@ -58,8 +34,6 @@ export const Vendors: React.FC = function () {
               <VendorCard
                 key={vendor.id}
                 vendor={vendor}
-                removeVendor={handleRemove}
-                updateVendors={handleUpdate}
               />
             )
             : <p className='mt-32 font-semibold text-neutral-400'>No se encuentran Proveedores</p>

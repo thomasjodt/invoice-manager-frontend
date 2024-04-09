@@ -6,11 +6,9 @@ import { EditVendorModal } from './EditVendorModal'
 
 interface Props {
   vendor: Vendor
-  updateVendors: (vendor: Vendor) => void
-  removeVendor: (vendor: Vendor) => void
 }
 
-export const VendorCard: React.FC<Props> = function ({ vendor, updateVendors, removeVendor }) {
+export const VendorCard: React.FC<Props> = function ({ vendor }) {
   const { onOpen, isOpen, onOpenChange } = useDisclosure()
 
   return (
@@ -18,8 +16,6 @@ export const VendorCard: React.FC<Props> = function ({ vendor, updateVendors, re
       <EditVendorModal
         vendor={vendor}
         isOpen={isOpen}
-        update={updateVendors}
-        remove={removeVendor}
         onOpenChange={onOpenChange}
       />
 
