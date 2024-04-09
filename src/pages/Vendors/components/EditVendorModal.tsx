@@ -1,12 +1,19 @@
 import { useEffect, useState } from 'react'
 import {
   Button,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
   Input,
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
-  ModalHeader
+  ModalHeader,
+  Popover,
+  PopoverContent,
+  PopoverTrigger
 } from '@nextui-org/react'
 
 import { useForm } from '@/hooks'
@@ -19,10 +26,12 @@ interface Props {
   isOpen: boolean
   onOpenChange: () => void
   update: (vendor: Vendor) => void
+  remove: (vendor: Vendor) => void
 }
 
-export const EditVendorModal: React.FC<Props> = function ({ isOpen, onOpenChange, update, vendor }) {
+export const EditVendorModal: React.FC<Props> = function ({ isOpen, onOpenChange, update, vendor, remove }) {
   const [isEditable, setIsEditable] = useState(false)
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false)
 
   const { form, handleChange, reset } = useForm({
     name: vendor.name,
@@ -40,6 +49,11 @@ export const EditVendorModal: React.FC<Props> = function ({ isOpen, onOpenChange
   const resetForm = (): void => {
     setIsEditable(false)
     reset()
+  }
+
+  const handleDelete = async (id: number): Promise<void> => {
+    await VendorsApi.deleteVendor(id)
+    remove(vendor)
   }
 
   useEffect(() => {
@@ -107,7 +121,28 @@ export const EditVendorModal: React.FC<Props> = function ({ isOpen, onOpenChange
                         <Button color='primary' variant='solid' type='submit'>Save Vendor</Button>
                       </div>
                     )
-                    : <Button color='primary' variant='solid' onClick={() => { setIsEditable(true) }}>Edit Vendor</Button>
+                    : (
+                      <div className='flex justify-between w-full'>
+                        <Popover backdrop='opaque' isOpen={isPopoverOpen} onOpenChange={open => setIsPopoverOpen(open)}>
+                          <PopoverTrigger>
+                            <Button color='danger' variant='light' >Delete</Button>
+                          </PopoverTrigger>
+                          <PopoverContent>
+                            <Card shadow='none'>
+                              <CardHeader>Are you sure to delete this item?</CardHeader>
+                              <CardBody>
+                                <VendorTag vendor={vendor} />
+                              </CardBody>
+                              <CardFooter className='flex justify-between gap-5'>
+                                <Button variant='light' color='default' onClick={() => { setIsPopoverOpen(false) }}>Cancel</Button>
+                                <Button color='danger' variant='solid' onClick={() => { handleDelete(vendor.id) }}>Delete vendor</Button>
+                              </CardFooter>
+                            </Card>
+                          </PopoverContent>
+                        </Popover>
+                        <Button color='primary' variant='solid' onClick={() => { setIsEditable(true) }}>Edit Vendor</Button>
+                      </div>
+                    )
                 }
               </ModalFooter>
             </form>
