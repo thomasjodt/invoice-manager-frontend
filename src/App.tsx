@@ -3,6 +3,7 @@ import { Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 
 import { Layout } from './layout/Layout'
 import { Invoices, Vendors, Payments } from '@/pages'
+import { VendorContextProvider } from './pages/Vendors/context/VendorContext'
 
 export const App: React.FC = () => {
   const navigate = useNavigate()
@@ -12,7 +13,11 @@ export const App: React.FC = () => {
       <Layout>
         <Routes>
           <Route path='invoices' element={<Invoices />} />
-          <Route path='vendors' element={<Vendors />} />
+          <Route path='vendors' element={
+            <VendorContextProvider>
+              <Vendors />
+            </VendorContextProvider>
+          } />
           <Route path='payments' element={<Payments />} />
           <Route path='*' element={<Navigate to='invoices' />} />
         </Routes>
