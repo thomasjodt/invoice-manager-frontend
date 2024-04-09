@@ -43,3 +43,13 @@ export interface InvoiceDtoProps {
 }
 
 export type Status = keyof typeof statuses
+
+export interface VendorContextType {
+  currentVendor: Vendor | null
+  vendors: Vendor[]
+  remove: (id: number) => Promise<void>
+  getOne: (id: number) => Promise<void>
+  create: (vendor: Omit<Vendor, 'id' | 'balance'>) => Promise<void>
+  getAll: (vendor: Vendor) => Promise<void>
+  update: (id: number, vendor: Omit<Vendor, 'id' | 'balance'>) => Promise<void>
+}
