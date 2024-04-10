@@ -4,6 +4,7 @@ import { Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 import { Layout } from './layout/Layout'
 import { Invoices, Vendors, Payments } from '@/pages'
 import { VendorContextProvider } from './pages/Vendors/context/VendorContext'
+import { PaymentsContextProvider } from './pages/Payments/context'
 
 export const App: React.FC = () => {
   const navigate = useNavigate()
@@ -18,7 +19,11 @@ export const App: React.FC = () => {
               <Vendors />
             </VendorContextProvider>
           } />
-          <Route path='payments' element={<Payments />} />
+          <Route path='payments' element={
+            <PaymentsContextProvider>
+              <Payments />
+            </PaymentsContextProvider>
+          } />
           <Route path='*' element={<Navigate to='invoices' />} />
         </Routes>
       </Layout>
