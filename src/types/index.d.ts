@@ -53,3 +53,12 @@ export interface VendorContextType {
   getAll: (vendor: Vendor) => Promise<void>
   update: (id: number, vendor: Omit<Vendor, 'id' | 'balance'>) => Promise<void>
 }
+
+export interface PaymentsContextType {
+  payments: FullPayment[]
+  remove: (id: number) => Promise<void>
+  getOne: (id: number) => Promise<void>
+  create: (payment: Payment) => Promise<void>
+  getAll: (payment: Payment) => Promise<void>
+  update: (id: number, payment: Payment) => Promise<void>
+}
