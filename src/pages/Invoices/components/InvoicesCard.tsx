@@ -24,13 +24,13 @@ export const InvoicesCard: React.FC<Props> = function ({ invoice }) {
   const days: number = getDays(invoice.emissionDate, invoice.dueDate)
 
   return (
-    <Card shadow='none' className='border px-5 pt-2'>
-      <CardHeader className='flex items-center justify-between'>
+    <Card shadow='none' className='border'>
+      <CardHeader className='flex items-center justify-between pb-0'>
         <VendorTag vendor={invoice.vendor}/>
         <StatusChip status={status} />
       </CardHeader>
 
-      <CardBody>
+      <CardBody className='py-1'>
         <div className='grid grid-cols-2'>
           <div>
             <p className='text-sm text-primary-500 font-bold'>
@@ -40,14 +40,14 @@ export const InvoicesCard: React.FC<Props> = function ({ invoice }) {
             <p className='text-lg font-semibold text-neutral-600'>{currencyFormat(invoice.amount)}</p>
           </div>
 
-          <div className='flex text-neutral-500 flex-col place-self-end'>
+          <div className='flex text-neutral-500 flex-col place-self-end pr-5'>
             <p>{dateFormat(invoice.emissionDate)}</p>
             <p>{dateFormat(invoice.dueDate)}</p>
           </div>
         </div>
       </CardBody>
 
-      <CardFooter>
+      <CardFooter className='py-0'>
         <Accordion isCompact className='mt-3'>
           <AccordionItem subtitle={'Balance: ' + currencyFormat(balance)} textValue='List of payments'>
             <div>
