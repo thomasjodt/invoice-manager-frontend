@@ -20,8 +20,8 @@ export class InvoicesApi {
     return data
   }
 
-  static async updateInvoice (id: number): Promise<Invoice> {
-    const { data } = await http.put(`/invoices/${id}`)
+  static async updateInvoice (id: number, invoice: Invoice): Promise<Invoice> {
+    const { data } = await http.put(`/invoices/${id}`, invoice)
     return data
   }
 
