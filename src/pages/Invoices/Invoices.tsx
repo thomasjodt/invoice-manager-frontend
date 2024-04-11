@@ -1,32 +1,18 @@
-import { useEffect, useState } from 'react'
 import { Button, useDisclosure } from '@nextui-org/react'
 
-import { InvoicesApi } from '@/api'
-import type { Invoice } from '@/types'
 import { PlusIcon } from '@/components/icons'
 import { Header } from '@/components/ui'
 import { InvoicesCard, NewInvoiceModal } from './components'
+import { useInvoicesContext } from './context'
 
 export const Invoices: React.FC = function () {
-  const [invoices, setInvoices] = useState<Invoice[]>([])
-
+  const { invoices } = useInvoicesContext()
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
-
-  const updateInvoices = (invoice: Invoice): void => {
-    setInvoices([...invoices, invoice])
-  }
-
-  useEffect(() => {
-    (async () => {
-      setInvoices(await InvoicesApi.getInvoices())
-    })().catch(console.log)
-  }, [])
 
   return (
     <>
     <NewInvoiceModal
       isOpen={isOpen}
-      update={updateInvoices}
       onOpenChange={onOpenChange}
     />
 
