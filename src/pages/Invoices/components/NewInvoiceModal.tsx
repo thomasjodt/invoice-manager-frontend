@@ -1,31 +1,48 @@
 import { useEffect, useState } from 'react'
 import {
+  Autocomplete,
+  AutocompleteItem,
   Button,
   Input,
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
-  ModalHeader,
-  Select,
-  SelectItem
+  ModalHeader
 } from '@nextui-org/react'
 
 import { useForm } from '@/hooks'
-import { InvoicesApi, VendorsApi } from '@/api'
 import { VendorTag } from '@/components/ui'
-import type { Invoice, InvoiceDtoProps, Vendor } from '@/types'
+import type { InvoiceDtoProps } from '@/types'
+import { useInvoicesContext } from '../context'
+import { useVendorContext } from '@/pages/Vendors/context'
 
 interface Props {
   isOpen: boolean
   onOpenChange: () => void
-  update: (invoice: Invoice) => void
 }
 
-export const NewInvoiceModal: React.FC<Props> = function ({ isOpen, onOpenChange, update }) {
-  const [vendors, setVendors] = useState<Vendor[]>([])
-  const [isVendorsOpen, setIsVendorsOpen] = useState(false)
-  const { form, handleChange, reset } = useForm<InvoiceDtoProps>({ vendor: '', invoiceNumber: '', amount: '', dueDate: '', emissionDate: '' })
+export const NewInvoiceModal: React.FC<Props> = function ({ isOpen, onOpenChange }) {
+  const { vendors } = useVendorContext()
+  const { create } = useInvoicesContext()
+
+  const [vendor, setVendor] = useState('')
+
+  const onchange = (value: string) => {
+    const vendor = vendors.find(v => v.name === value)
+    if (vendor !== undefined) form.vendor = vendor.id.toString()
+    setVendor(value)
+  }
+
+
+  const { form, handleChange, reset } = useForm<InvoiceDtoProps>({
+    vendor: '',
+    invoiceNumber: '',
+    amount: '',
+    dueDate: '',
+    emissionDate: ''
+  })
+
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>, close: () => void): Promise<void> => {
     event.preventDefault()
@@ -36,20 +53,10 @@ export const NewInvoiceModal: React.FC<Props> = function ({ isOpen, onOpenChange
       return
     }
 
-    update(await InvoicesApi.createInvoice(form))
+    create(form)
     close()
   }
 
-  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
-    if (event.target.value.length === 0) return
-    handleChange((event as unknown) as React.ChangeEvent<HTMLInputElement>)
-  }
-
-  useEffect(() => {
-    (async (): Promise<void> => {
-      setVendors(await VendorsApi.getVendors())
-    })().catch(console.error)
-  }, [])
 
   useEffect(() => { if (!isOpen) reset() }, [isOpen])
 
@@ -60,32 +67,26 @@ export const NewInvoiceModal: React.FC<Props> = function ({ isOpen, onOpenChange
           <>
             <ModalHeader>Create New Invoice</ModalHeader>
 
+            <code>
+              <pre className='bg-primary-100 text-primary-700 rounded-lg m-3 p-3'>{JSON.stringify(form, null, 2)}</pre>
+            </code>
+
             <form onSubmit={(e) => { handleSubmit(e, close) }}>
               <ModalBody>
-                <Select
+                <Autocomplete
                   name='vendor'
                   label='Vendor'
-                  className='mb-3'
                   placeholder='Select a vendor'
-                  items={vendors}
-                  isOpen={isVendorsOpen}
-                  selectedKeys={form.vendor}
-                  onOpenChange={() => { setIsVendorsOpen(!isVendorsOpen) }}
-                  onChange={handleSelectChange}
+                  defaultItems={vendors}
+                  inputValue={vendor}
+                  onInputChange={onchange}
                 >
-                  {
-                    (vendor) => (
-                      <SelectItem
-                        key={vendor.id}
-                        value={vendor.id}
-                        textValue={vendor.name}
-                        onPress={() => { setIsVendorsOpen(false) }}
-                      >
-                        <VendorTag vendor={vendor} />
-                      </SelectItem>
-                    )
-                  }
-                </Select>
+                  {(vendor) => (
+                    <AutocompleteItem key={vendor.id} textValue={vendor.name}>
+                      <VendorTag vendor={vendor} />
+                    </AutocompleteItem>
+                  )}
+                </Autocomplete>
 
                 <Input
                   maxLength={13}
