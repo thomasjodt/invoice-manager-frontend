@@ -62,3 +62,12 @@ export interface PaymentsContextType {
   getAll: (payment: Payment) => Promise<void>
   update: (id: number, payment: Payment) => Promise<void>
 }
+
+export interface InvoicesContextType {
+  invoices: Invoice[]
+  remove: (id: number) => Promise<void>
+  getOne: (id: number) => Promise<void>
+  create: (invoice: InvoiceDtoProps) => Promise<void>
+  getAll: (invoice: Invoice) => Promise<void>
+  update: (id: number, invoice: Invoice) => Promise<void>
+}
