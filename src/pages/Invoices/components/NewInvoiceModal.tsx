@@ -67,10 +67,6 @@ export const NewInvoiceModal: React.FC<Props> = function ({ isOpen, onOpenChange
           <>
             <ModalHeader>Create New Invoice</ModalHeader>
 
-            <code>
-              <pre className='bg-primary-100 text-primary-700 rounded-lg m-3 p-3'>{JSON.stringify(form, null, 2)}</pre>
-            </code>
-
             <form onSubmit={(e) => { handleSubmit(e, close) }}>
               <ModalBody>
                 <Autocomplete
@@ -80,6 +76,7 @@ export const NewInvoiceModal: React.FC<Props> = function ({ isOpen, onOpenChange
                   defaultItems={vendors}
                   inputValue={vendor}
                   onInputChange={onchange}
+                  allowsCustomValue
                 >
                   {(vendor) => (
                     <AutocompleteItem key={vendor.id} textValue={vendor.name}>
