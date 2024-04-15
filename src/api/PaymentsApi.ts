@@ -24,7 +24,7 @@ export class PaymentsApi {
     return { id, amount, paymentDate, invoice }
   }
 
-  static async createPayment(payment: Payment): Promise<FullPayment> {
+  static async createPayment(payment: Omit<Payment, 'id'>): Promise<FullPayment> {
     const { data } = await http.post<Payment>('/payments', payment)
     const { id, amount, invoiceId, paymentDate } = data
 
