@@ -3,10 +3,13 @@ import { InvoiceDto } from '@/models'
 import { Invoice, InvoiceDtoProps } from '@/types'
 
 export class InvoicesApi {
-  static http = http
-
   static async getInvoices (): Promise<Invoice[]> {
     const { data } = await http.get('/invoices')
+    return data
+  }
+
+  static async getInvoiceByVendor (vendorId: number): Promise<Invoice[]> {
+    const { data } = await http.get<Invoice[]>(`/invoices/vendor/${vendorId}`)
     return data
   }
 
