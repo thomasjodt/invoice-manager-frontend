@@ -6,7 +6,7 @@ import type { FullPayment, Payment, PaymentsContextType } from '@/types'
 export const usePayments = (): PaymentsContextType => {
   const [payments, setPayments] = useState<FullPayment[]>([])
 
-  const create = async (payment: Payment): Promise<void> => {
+  const create = async (payment: Omit<Payment, 'id'>): Promise<void> => {
     const newPayment = await PaymentsApi.createPayment(payment)
     setPayments([...payments, newPayment])
   }
