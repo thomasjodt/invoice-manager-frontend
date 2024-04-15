@@ -58,7 +58,7 @@ export interface PaymentsContextType {
   payments: FullPayment[]
   remove: (id: number) => Promise<void>
   getOne: (id: number) => Promise<void>
-  create: (payment: Payment) => Promise<void>
+  create: (payment: Omit<Payment, 'id'>) => Promise<void>
   getAll: (payment: Payment) => Promise<void>
   update: (id: number, payment: Payment) => Promise<void>
 }
@@ -68,6 +68,7 @@ export interface InvoicesContextType {
   remove: (id: number) => Promise<void>
   getOne: (id: number) => Promise<void>
   create: (invoice: InvoiceDtoProps) => Promise<void>
-  getAll: (invoice: Invoice) => Promise<void>
+  getAll: () => Promise<void>
   update: (id: number, invoice: Invoice) => Promise<void>
+  getByVendor: (vendorId: number) => Promise<Invoice[]>
 }
