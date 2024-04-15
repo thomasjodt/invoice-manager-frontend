@@ -8,10 +8,10 @@ interface Props {
   children: ReactNode
 }
 export const InvoicesContextProvider: React.FC<Props> = ({ children }) => {
-  const { invoices, create, getAll, getOne, remove, update } = useInvoices()
+  const { invoices, create, getAll, getOne, remove, update, getByVendor } = useInvoices()
 
   return (
-    <InvoicesContext.Provider value={{ invoices, create, getAll, getOne, remove, update }}>
+    <InvoicesContext.Provider value={{ invoices, create, getAll, getOne, remove, update, getByVendor }}>
       {children}
     </InvoicesContext.Provider>
   )
