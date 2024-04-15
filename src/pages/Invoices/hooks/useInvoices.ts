@@ -28,6 +28,10 @@ export const useInvoices = (): InvoicesContextType => {
     invoices.map(i => (i.id === invoiceId) ? { ...updated } : i)
   }
 
+  const getByVendor = async (vendorId: number): Promise<Invoice[]> => {
+    return InvoicesApi.getInvoiceByVendor(vendorId)
+  }
+
   useEffect(() => { getAll().catch(console.log) }, [])
 
   return {
@@ -36,6 +40,7 @@ export const useInvoices = (): InvoicesContextType => {
     getAll,
     getOne,
     remove,
-    update
+    update,
+    getByVendor
   }
 }
