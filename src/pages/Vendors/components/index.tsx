@@ -1,3 +1,3 @@
-export { ContextActions } from './ContextActions'
+export { ContextActions } from '../../Invoices/components/ContextActions'
 export { VendorCard } from './VendorCard'
 export { NewVendorModal } from './NewVendorModal'
