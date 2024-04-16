@@ -14,18 +14,20 @@ export const useInvoices = (): InvoicesContextType => {
     setInvoices(await InvoicesApi.getInvoices())
   }
 
-  const getOne = async (invoiceId: number): Promise<void> => {
-    const invoice = await InvoicesApi.getInvoiceById(invoiceId)
-    console.log(invoice)
+  const getOne = async (invoiceId: number): Promise<Invoice> => {
+    return await InvoicesApi.getInvoiceById(invoiceId)
   }
 
   const remove = async (id: number): Promise<void> => {
     await InvoicesApi.deleteInvoice(id)
+    setInvoices(invoices.filter(i => i.id !== id))
   }
 
-  const update = async (invoiceId: number, invoice: Invoice): Promise<void> => {
-    const updated = await InvoicesApi.updateInvoice(invoiceId, invoice)
-    invoices.map(i => (i.id === invoiceId) ? { ...updated } : i)
+  const update = async (invoice: Invoice): Promise<void> => {
+    const updated = await InvoicesApi.updateInvoice(invoice)
+    setInvoices(invoices.map(i =>
+      (i.id === invoice.id) ? { ...invoice, ...updated } : i
+    ))
   }
 
   const getByVendor = async (vendorId: number): Promise<Invoice[]> => {
