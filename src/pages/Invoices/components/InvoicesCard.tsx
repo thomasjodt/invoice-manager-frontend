@@ -24,10 +24,13 @@ export const InvoicesCard: React.FC<Props> = function ({ invoice }) {
   const days: number = getDays(invoice.emissionDate, invoice.dueDate)
 
   return (
-    <Card shadow='none' className='border'>
+    <Card>
       <CardHeader className='flex items-center justify-between pb-0'>
         <VendorTag vendor={invoice.vendor}/>
-        <StatusChip status={status} />
+        <StatusChip
+          status={status}
+          invoice={invoice}
+        />
       </CardHeader>
 
       <CardBody className='py-1'>
