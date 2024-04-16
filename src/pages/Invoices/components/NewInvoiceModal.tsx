@@ -58,7 +58,12 @@ export const NewInvoiceModal: React.FC<Props> = function ({ isOpen, onOpenChange
   }
 
 
-  useEffect(() => { if (!isOpen) reset() }, [isOpen])
+  useEffect(() => {
+    if (!isOpen) {
+      reset()
+      setVendor('')
+    }
+  }, [isOpen])
 
   return (
     <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
