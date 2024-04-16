@@ -42,3 +42,5 @@ export const Vendors: React.FC = function () {
     </>
   )
 }
+
+export default Vendors

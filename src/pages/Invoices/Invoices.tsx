@@ -37,3 +37,5 @@ export const Invoices: React.FC = function () {
     </>
   )
 }
+
+export default Invoices

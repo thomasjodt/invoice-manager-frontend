@@ -34,3 +34,5 @@ export const Payments: React.FC = function () {
     </>
   )
 }
+
+export default Payments

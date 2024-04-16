@@ -6,7 +6,7 @@ import type { Invoice, Status } from '@/types'
 
 interface Props {
   status: Status
-  invoice: Invoice
+  invoice?: Invoice
 }
 
 export const StatusChip: React.FC<Props> = function ({ status, invoice }) {

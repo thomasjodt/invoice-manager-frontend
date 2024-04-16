@@ -6,7 +6,7 @@ import { useInvoicesContext } from '../context'
 import { EditInvoiceModal } from './EditInvoiceModal'
 
 interface Props {
-  invoice: Invoice
+  invoice?: Invoice
 }
 
 export const ContextActions: React.FC<Props> = function ({ invoice }) {
@@ -15,13 +15,13 @@ export const ContextActions: React.FC<Props> = function ({ invoice }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
   const handleDelete = (): void => {
+    if (invoice === undefined) return
     const confirmed = confirm('¿Estás seguro de eliminar esta factura?')
-
     if (confirmed) remove(invoice.id)
   }
   return (
     <>
-      <EditInvoiceModal isOpen={isOpen} onOpenChange={onOpenChange} invoice={invoice} />
+      <EditInvoiceModal isOpen={isOpen} onOpenChange={onOpenChange} invoice={invoice as Invoice} />
       <div className='relative flex justify-end items-center gap-2'>
         <Dropdown>
           <DropdownTrigger>
