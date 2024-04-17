@@ -2,9 +2,15 @@ import { http } from '@/data'
 import type { Vendor } from '@/types'
 
 export class VendorsApi {
-  static async getVendors (): Promise<Vendor[]> {
-    const { data } = await http.get<Vendor[]>('/vendors')
-    return data
+  static async getVendors (page: number = 0, offset: number = 5): Promise<Vendor[]> {
+    let res
+
+    if (page > 0) {
+      res = await http.get<Vendor[]>(`/vendors?page=${page}&offset=${offset}`)
+    } else {
+      res = await http.get<Vendor[]>('/vendors')
+    }
+    return res.data
   }
 
   static async getVendorById (id: number): Promise<Vendor> {
