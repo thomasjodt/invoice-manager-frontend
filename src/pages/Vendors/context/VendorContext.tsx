@@ -11,7 +11,7 @@ interface Props {
   children: ReactNode
 }
 
-export const VendorContext = createContext((null as unknown) as VendorContextType)
+const VendorContext = createContext((null as unknown) as VendorContextType)
 
 export const VendorContextProvider: React.FC<Props> = function ({ children }) {
   const vendorsValue = useVendors()

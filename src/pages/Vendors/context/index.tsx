@@ -1,1 +1,1 @@
-export { VendorContext, useVendorContext, VendorContextProvider } from './VendorContext'
+export { useVendorContext, VendorContextProvider } from './VendorContext'

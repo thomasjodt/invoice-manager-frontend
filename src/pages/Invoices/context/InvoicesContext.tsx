@@ -2,7 +2,7 @@ import { InvoicesContextType } from '@/types'
 import React, { ReactNode, createContext, useContext } from 'react'
 import { useInvoices } from '../hooks'
 
-export const InvoicesContext = createContext((null as unknown) as InvoicesContextType)
+const InvoicesContext = createContext((null as unknown) as InvoicesContextType)
 
 interface Props {
   children: ReactNode
