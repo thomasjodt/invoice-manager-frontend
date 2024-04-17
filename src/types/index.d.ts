@@ -50,7 +50,7 @@ export interface VendorContextType {
   remove: (id: number) => Promise<void>
   getOne: (id: number) => Promise<void>
   create: (vendor: Omit<Vendor, 'id' | 'balance'>) => Promise<void>
-  getAll: (vendor: Vendor) => Promise<void>
+  getAll: (page?: number, offset?: number) => Promise<void>
   update: (id: number, vendor: Omit<Vendor, 'id' | 'balance'>) => Promise<void>
 }
 

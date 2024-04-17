@@ -12,8 +12,8 @@ export const useVendors = (): VendorContextType => {
     setVendors(v => [...v, newVendor])
   }
 
-  const getAll = async (): Promise<void> => {
-    const vendors = await VendorsApi.getVendors()
+  const getAll = async (page: number = 0, offset: number = 5): Promise<void> => {
+    const vendors = await VendorsApi.getVendors(page, offset)
     setVendors(vendors)
   }
 
