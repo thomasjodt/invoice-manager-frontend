@@ -11,8 +11,18 @@ const svc = new Service({
   script: path.join(__dirname, './app.js')
 })
 
-svc.on('install', () => {
-  svc.start()
-})
+if (process.argv[2] === 'install') {
+  svc.on('install', () => {
+    svc.start()
+  })
 
-svc.install()
+  svc.install()
+}
+
+if (process.argv[2] === 'uninstall') {
+  svc.on('uninstall', () => {
+    console.log('Service uninstalled')
+  })
+
+  svc.uninstall()
+}
