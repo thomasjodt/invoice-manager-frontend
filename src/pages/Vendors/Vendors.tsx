@@ -55,7 +55,7 @@ export const Vendors: React.FC = function () {
           }
         </section>
         {
-          (pages > 1) && (
+          (pages > 1 && page !== 0) && (
             <Pagination
               page={page}
               showControls

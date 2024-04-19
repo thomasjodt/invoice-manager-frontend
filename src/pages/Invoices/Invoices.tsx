@@ -40,7 +40,7 @@ export const Invoices: React.FC = function () {
       </Header>
 
       {
-        (pages > 1) && (
+        (pages > 1 && page !== 0) && (
           <Pagination
             page={page}
             showControls
