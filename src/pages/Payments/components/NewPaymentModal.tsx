@@ -86,7 +86,8 @@ export const NewPaymentModal: React.FC<Props> = function ({ isOpen, onOpenChange
   useEffect(() => {
     (async () => {
       if (vendorKey !== null) {
-        const invoices = await getByVendor(Number(form.vendor))
+        const response = await getByVendor(Number(form.vendor))
+        const invoices = response.data
         const filtered = invoices.filter(i => {
           const paid = i.payments.reduce((paid, current) => paid  + current.amount, 0)
           const balance = i.amount - paid

@@ -11,8 +11,8 @@ export const usePayments = (): PaymentsContextType => {
     setPayments([...payments, newPayment])
   }
 
-  const getAll = async (): Promise<ApiResponse<FullPayment[]>> => {
-    const response = await PaymentsApi.getPayments()
+  const getAll = async (page?: number, offset?: number): Promise<ApiResponse<FullPayment[]>> => {
+    const response = await PaymentsApi.getPayments(page, offset)
     setPayments(response.data)
     return response
   }
