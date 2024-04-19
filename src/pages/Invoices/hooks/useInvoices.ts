@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import type { Invoice, InvoiceDtoProps, InvoicesContextType } from '@/types'
+import type { ApiResponse, Invoice, InvoiceDtoProps, InvoicesContextType } from '@/types'
 import { InvoicesApi } from '@/api'
 
 export const useInvoices = (): InvoicesContextType => {
@@ -10,8 +10,10 @@ export const useInvoices = (): InvoicesContextType => {
     setInvoices([...invoices, newInvoice])
   }
 
-  const getAll = async (): Promise<void> => {
-    setInvoices(await InvoicesApi.getInvoices())
+  const getAll = async (page?: number, offset?: number): Promise<ApiResponse<Invoice[]>> => {
+    const response = await InvoicesApi.getInvoices(page, offset)
+    setInvoices((response.data))
+    return response
   }
 
   const getOne = async (invoiceId: number): Promise<Invoice> => {
@@ -30,8 +32,8 @@ export const useInvoices = (): InvoicesContextType => {
     ))
   }
 
-  const getByVendor = async (vendorId: number): Promise<Invoice[]> => {
-    return InvoicesApi.getInvoiceByVendor(vendorId)
+  const getByVendor = async (vendorId: number): Promise<ApiResponse<Invoice[]>> => {
+    return await InvoicesApi.getInvoiceByVendor(vendorId)
   }
 
   useEffect(() => { getAll().catch(console.log) }, [])

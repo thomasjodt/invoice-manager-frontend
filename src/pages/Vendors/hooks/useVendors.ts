@@ -1,25 +1,25 @@
 import { useEffect, useState } from 'react'
 
 import { VendorsApi } from '@/api'
-import type { Vendor, VendorContextType } from '@/types'
+import type { ApiResponse, Vendor, VendorContextType } from '@/types'
 
 export const useVendors = (): VendorContextType => {
   const [vendors, setVendors] = useState<Vendor[]>([])
-  const [currentVendor, setCurrentVendor] = useState<Vendor | null>(null)
 
   const create = async (vendor: Omit<Vendor, 'balance' | 'id'>): Promise<void> => {
     const newVendor = await VendorsApi.createVendor(vendor)
     setVendors(v => [...v, newVendor])
   }
 
-  const getAll = async (page: number = 0, offset: number = 5): Promise<void> => {
-    const vendors = await VendorsApi.getVendors(page, offset)
-    setVendors(vendors)
+  const getAll = async (page: number = 0, offset: number = 5): Promise<ApiResponse<Vendor[]>> => {
+    const response = await VendorsApi.getVendors(page, offset)
+    setVendors(response.data)
+
+    return response
   }
 
-  const getOne = async (id: number): Promise<void> => {
-    const vendor = await VendorsApi.getVendorById(id)
-    setCurrentVendor(vendor)
+  const getOne = async (id: number): Promise<Vendor> => {
+    return await VendorsApi.getVendorById(id)
   }
 
   const update = async (id: number, vendor: Omit<Vendor, 'id' | 'balance'>): Promise<void> => {
@@ -40,7 +40,6 @@ export const useVendors = (): VendorContextType => {
 
   return {
     vendors,
-    currentVendor,
     create,
     getAll,
     getOne,

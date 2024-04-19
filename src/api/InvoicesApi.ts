@@ -1,15 +1,20 @@
 import { http } from '@/data'
 import { InvoiceDto } from '@/models'
-import { Invoice, InvoiceDtoProps } from '@/types'
+import  type { ApiResponse, Invoice, InvoiceDtoProps } from '@/types'
 
 export class InvoicesApi {
-  static async getInvoices (): Promise<Invoice[]> {
-    const { data } = await http.get('/invoices')
-    return data
+  static async getInvoices (page: number = 0, offset: number = 5): Promise<ApiResponse<Invoice[]>> {
+    let res
+    if (page > 0) {
+      res = await http.get<ApiResponse<Invoice[]>>(`/invoices?page=${page}&offset=${offset}`)
+    } else {
+      res = await http.get<ApiResponse<Invoice[]>>('/invoices')
+    }
+    return res.data
   }
 
-  static async getInvoiceByVendor (vendorId: number): Promise<Invoice[]> {
-    const { data } = await http.get<Invoice[]>(`/invoices/vendor/${vendorId}`)
+  static async getInvoiceByVendor (vendorId: number): Promise<ApiResponse<Invoice[]>> {
+    const { data } = await http.get<ApiResponse<Invoice[]>>(`/invoices/vendor/${vendorId}`)
     return data
   }
 

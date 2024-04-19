@@ -1,19 +1,19 @@
 import { http } from '@/data'
-import type { FullPayment, Invoice, Payment } from '@/types'
+import type { ApiResponse, FullPayment, Invoice, Payment } from '@/types'
 
 export class PaymentsApi {
-  static async getPayments(): Promise<FullPayment[]> {
+  static async getPayments(): Promise<ApiResponse<FullPayment[]>> {
 
-    const { data } = await http.get<Payment[]>('/payments')
+    const { data } = await http.get<ApiResponse<Payment[]>>('/payments')
     const fullPayments: FullPayment[] = []
 
-    for (const { amount, id, invoiceId, paymentDate } of data) {
+    for (const { amount, id, invoiceId, paymentDate } of data.data) {
       const { data: invoice } = await http.get<Invoice>(`/invoices/${invoiceId}`)
       const fullPayment: FullPayment = { id, amount, invoice, paymentDate }
       fullPayments.push(fullPayment)
     }
 
-    return fullPayments
+    return { count: data.count, data: fullPayments, next: '', previous: '' }
   }
 
   static async getPaymentById(paymentId: number): Promise<FullPayment> {

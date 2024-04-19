@@ -44,13 +44,19 @@ export interface InvoiceDtoProps {
 
 export type Status = keyof typeof statuses
 
+export interface ApiResponse<T> {
+  count: number
+  data: T
+  next: string
+  previous: string
+}
+
 export interface VendorContextType {
-  currentVendor: Vendor | null
   vendors: Vendor[]
   remove: (id: number) => Promise<void>
-  getOne: (id: number) => Promise<void>
+  getOne: (id: number) => Promise<Vendor>
   create: (vendor: Omit<Vendor, 'id' | 'balance'>) => Promise<void>
-  getAll: (page?: number, offset?: number) => Promise<void>
+  getAll: (page?: number, offset?: number) => Promise<ApiResponse<Vendor[]>>
   update: (id: number, vendor: Omit<Vendor, 'id' | 'balance'>) => Promise<void>
 }
 
@@ -59,7 +65,7 @@ export interface PaymentsContextType {
   remove: (id: number) => Promise<void>
   getOne: (id: number) => Promise<void>
   create: (payment: Omit<Payment, 'id'>) => Promise<void>
-  getAll: (payment: Payment) => Promise<void>
+  getAll: (page?: number, offset?: number) => Promise<ApiResponse<FullPayment[]>>
   update: (id: number, payment: Payment) => Promise<void>
 }
 
@@ -68,7 +74,7 @@ export interface InvoicesContextType {
   remove: (id: number) => Promise<void>
   getOne: (id: number) => Promise<Invoice>
   create: (invoice: InvoiceDtoProps) => Promise<void>
-  getAll: () => Promise<void>
+  getAll: (page?: number, offset?: number) => Promise<ApiResponse<Invoice[]>>
   update: (invoice: Invoice) => Promise<void>
-  getByVendor: (vendorId: number) => Promise<Invoice[]>
+  getByVendor: (vendorId: number) => Promise<ApiResponse<Invoice[]>>
 }

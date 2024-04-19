@@ -1,14 +1,14 @@
 import { http } from '@/data'
-import type { Vendor } from '@/types'
+import type { ApiResponse, Vendor } from '@/types'
 
 export class VendorsApi {
-  static async getVendors (page: number = 0, offset: number = 5): Promise<Vendor[]> {
+  static async getVendors (page: number = 0, offset: number = 5): Promise<ApiResponse<Vendor[]>> {
     let res
 
     if (page > 0) {
-      res = await http.get<Vendor[]>(`/vendors?page=${page}&offset=${offset}`)
+      res = await http.get<ApiResponse<Vendor[]>>(`/vendors?page=${page}&offset=${offset}`)
     } else {
-      res = await http.get<Vendor[]>('/vendors')
+      res = await http.get<ApiResponse<Vendor[]>>('/vendors')
     }
     return res.data
   }

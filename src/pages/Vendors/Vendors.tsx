@@ -1,13 +1,26 @@
-import { Button, useDisclosure } from '@nextui-org/react'
+import { Button, Pagination, useDisclosure } from '@nextui-org/react'
 
 import { Header } from '@/components/ui'
 import { PlusIcon } from '@/components/icons'
 import { NewVendorModal, VendorCard } from './components'
 import { useVendorContext } from './context/VendorContext'
+import { FilterBar } from './components/filter'
+import { useEffect, useState } from 'react'
 
 export const Vendors: React.FC = function () {
-  const { vendors } = useVendorContext()
+  const { vendors, getAll } = useVendorContext()
+  const [page, setPage] = useState(1)
+  const [pages, setPages] = useState(1)
   const { isOpen, onOpenChange, onOpen } = useDisclosure()
+
+  useEffect(() => {
+    const getAllVendors = async () => {
+      const response = await getAll(page)
+      setPages(Math.floor(response.count / 5) + 1)
+    }
+
+    getAllVendors()
+  }, [page])
 
   return (
     <>
@@ -23,22 +36,36 @@ export const Vendors: React.FC = function () {
         </Button>
       </Header>
 
-      <section className={
-        (vendors.length > 0)
-          ? 'grid gap-3 p-5 lg:p-8 2xl:p-15 lg:grid-cols-2 2xl:grid-cols-3'
-          : ' flex justify-center items-center'
-      }>
-        {
+      <div className='grid h-fit'>
+        <FilterBar />
+        <section className={
           (vendors.length > 0)
-            ? vendors.map(vendor =>
-              <VendorCard
-                key={vendor.id}
-                vendor={vendor}
-              />
-            )
-            : <p className='mt-32 font-semibold text-neutral-400'>No se encuentran Proveedores</p>
+            ? 'grid gap-3 p-5 lg:p-8 2xl:p-15 lg:grid-cols-2 2xl:grid-cols-3'
+            : ' flex justify-center items-center'
+        }>
+          {
+            (vendors.length > 0)
+              ? vendors.map(vendor =>
+                <VendorCard
+                  key={vendor.id}
+                  vendor={vendor}
+                />
+              )
+              : <p className='mt-32 font-semibold text-neutral-400'>No se encuentran Proveedores</p>
+          }
+        </section>
+        {
+          (pages > 1) && (
+            <Pagination
+              page={page}
+              showControls
+              total={pages}
+              onChange={setPage}
+              className='max-w-fit mx-auto'
+            />
+          )
         }
-      </section>
+      </div>
     </>
   )
 }

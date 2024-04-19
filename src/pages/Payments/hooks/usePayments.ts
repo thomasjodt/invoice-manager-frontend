@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import { PaymentsApi } from '@/api'
-import type { FullPayment, Payment, PaymentsContextType } from '@/types'
+import type { ApiResponse, FullPayment, Payment, PaymentsContextType } from '@/types'
 
 export const usePayments = (): PaymentsContextType => {
   const [payments, setPayments] = useState<FullPayment[]>([])
@@ -11,8 +11,10 @@ export const usePayments = (): PaymentsContextType => {
     setPayments([...payments, newPayment])
   }
 
-  const getAll = async (): Promise<void> => {
-    setPayments(await PaymentsApi.getPayments())
+  const getAll = async (): Promise<ApiResponse<FullPayment[]>> => {
+    const response = await PaymentsApi.getPayments()
+    setPayments(response.data)
+    return response
   }
 
   const getOne = async (id: number): Promise<void> => {

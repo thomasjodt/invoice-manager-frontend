@@ -1,14 +1,25 @@
-import { Button, useDisclosure } from '@nextui-org/react'
+import { Button, Pagination, useDisclosure } from '@nextui-org/react'
 
 import { Header } from '@/components/ui'
 import { PlusIcon } from '@/components/icons'
 import { usePaymentsContext } from './context'
 import { NewPaymentModal, PaymentCard } from './components'
+import { useEffect, useState } from 'react'
 
 export const Payments: React.FC = function () {
-  const { payments } = usePaymentsContext()
+  const { payments, getAll } = usePaymentsContext()
+  const [page, setPage] = useState(1)
+  const [pages, setPages] = useState(1)
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
+
+  useEffect(() => {
+    const getAllPayments = async () => {
+      const response = await getAll(page)
+      setPages(Math.floor(response.count / 5) + 1)
+    }
+    getAllPayments()
+  }, [page])
 
   return (
     <>
@@ -31,6 +42,18 @@ export const Payments: React.FC = function () {
           ))
         }
       </section>
+
+      {
+        (pages > 1) && (
+          <Pagination
+            page={page}
+            showControls
+            total={pages}
+            onChange={setPage}
+            className='max-w-fit mx-auto'
+          />
+        )
+      }
     </>
   )
 }
