@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { VendorsApi } from '@/api'
 import type { ApiResponse, Vendor, VendorContextType } from '@/types'
@@ -33,10 +33,6 @@ export const useVendors = (): VendorContextType => {
     await VendorsApi.deleteVendor(id)
     setVendors(vendors.filter(vendor => vendor.id !== id))
   }
-
-  useEffect(() => {
-    getAll().catch(console.log)
-  }, [])
 
   return {
     vendors,

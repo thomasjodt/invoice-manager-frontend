@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import type { ApiResponse, Invoice, InvoiceDtoProps, InvoicesContextType } from '@/types'
 import { InvoicesApi } from '@/api'
 
@@ -35,8 +35,6 @@ export const useInvoices = (): InvoicesContextType => {
   const getByVendor = async (vendorId: number): Promise<ApiResponse<Invoice[]>> => {
     return await InvoicesApi.getInvoiceByVendor(vendorId)
   }
-
-  useEffect(() => { getAll().catch(console.log) }, [])
 
   return {
     invoices,

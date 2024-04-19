@@ -25,7 +25,7 @@ interface Props {
 }
 
 export const NewPaymentModal: React.FC<Props> = function ({ isOpen, onOpenChange }) {
-  const { vendors } = useVendorContext()
+  const { vendors, getAll: getVendors } = useVendorContext()
   const { getByVendor, getAll } = useInvoicesContext()
   const { create } = usePaymentsContext()
 
@@ -98,6 +98,10 @@ export const NewPaymentModal: React.FC<Props> = function ({ isOpen, onOpenChange
       }
     })()
   }, [form.vendor])
+
+  useEffect(() => {
+    getVendors(0)
+  }, [])
 
   return (
     <Modal isOpen={isOpen} onOpenChange={onOpenChange} className='pb-3'>

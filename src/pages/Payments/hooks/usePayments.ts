@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { PaymentsApi } from '@/api'
 import type { ApiResponse, FullPayment, Payment, PaymentsContextType } from '@/types'
@@ -33,8 +33,6 @@ export const usePayments = (): PaymentsContextType => {
       p => (p.id === id) ? { ...p, ...updatedPayment } : p
     ))
   }
-
-  useEffect(() => { getAll().catch(console.log) }, [])
 
   return {
     payments,

@@ -16,7 +16,10 @@ export const Payments: React.FC = function () {
   useEffect(() => {
     const getAllPayments = async () => {
       const response = await getAll(page)
-      setPages(Math.floor(response.count / 5) + 1)
+      const div = response.count / 5
+      const extraPage = Number.isInteger(div) ? 0 : 1
+      setPages(Math.floor(div) + extraPage)
+
     }
     getAllPayments()
   }, [page])

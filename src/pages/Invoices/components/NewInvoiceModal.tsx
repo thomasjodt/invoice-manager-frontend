@@ -23,7 +23,7 @@ interface Props {
 }
 
 export const NewInvoiceModal: React.FC<Props> = function ({ isOpen, onOpenChange }) {
-  const { vendors } = useVendorContext()
+  const { vendors, getAll } = useVendorContext()
   const { create } = useInvoicesContext()
 
   const [vendor, setVendor] = useState('')
@@ -64,6 +64,10 @@ export const NewInvoiceModal: React.FC<Props> = function ({ isOpen, onOpenChange
       setVendor('')
     }
   }, [isOpen])
+
+  useEffect(() => {
+    getAll(0)
+  }, [])
 
   return (
     <Modal isOpen={isOpen} onOpenChange={onOpenChange}>

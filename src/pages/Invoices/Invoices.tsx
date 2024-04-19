@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react'
 
 export const Invoices: React.FC = function () {
   const [page, setPage] = useState(1)
-  const [pages, setPages] = useState(5)
+  const [pages, setPages] = useState(1)
   const { invoices, getAll } = useInvoicesContext()
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
@@ -16,7 +16,9 @@ export const Invoices: React.FC = function () {
   useEffect(() => {
     const getAllInvoices = async () => {
       const response = await getAll(page)
-      setPages(Math.floor(response.count / 5) + 1)
+      const div = response.count / 5
+      const extraPage = Number.isInteger(div) ? 0 : 1
+      setPages(Math.floor(div) + extraPage)
     }
 
     getAllInvoices()
