@@ -21,9 +21,9 @@ export const NewVendorModal: React.FC<Props> = function ({ isOpen, onOpenChange 
   const { create } = useVendorContext()
   const { form, handleChange, reset } = useForm({ name: '', fullName: '' })
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>, close: () => void): Promise<void> => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>, close: () => void): void => {
     event.preventDefault()
-    create(form)
+    create(form).catch(console.error)
     close()
   }
 

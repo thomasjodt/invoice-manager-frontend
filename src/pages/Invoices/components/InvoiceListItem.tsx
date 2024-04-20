@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { Card, CardHeader, Checkbox } from '@nextui-org/react'
 
-import { Invoice } from '@/types'
+import { type Invoice } from '@/types'
 import { currencyFormat, dateFormat } from '@/utils'
 import { getDays, getStatus } from '../utils'
 import { StatusChip } from './StatusChip'

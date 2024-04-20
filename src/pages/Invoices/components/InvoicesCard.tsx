@@ -4,10 +4,10 @@ import {
   Card,
   CardBody,
   CardFooter,
-  CardHeader,
+  CardHeader
 } from '@nextui-org/react'
 
-import { Invoice } from '@/types'
+import { type Invoice } from '@/types'
 import { getDays, getStatus } from '../utils'
 import { currencyFormat, dateFormat } from '@/utils'
 import { StatusChip } from './StatusChip'
@@ -59,7 +59,7 @@ export const InvoicesCard: React.FC<Props> = function ({ invoice }) {
                   <div
                     key={payment.id}
                     className={
-                      `flex items-center justify-between px-8 py-1 ${index === invoice.payments.length - 1 ? '' :  'border-b'}`
+                      `flex items-center justify-between px-8 py-1 ${index === invoice.payments.length - 1 ? '' : 'border-b'}`
                     }
                   >
                     <h4 className='font-semibold'>{currencyFormat(payment.amount)}</h4>

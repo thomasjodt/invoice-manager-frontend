@@ -25,7 +25,7 @@ export const useVendors = (): VendorContextType => {
   const update = async (id: number, vendor: Omit<Vendor, 'id' | 'balance'>): Promise<void> => {
     const updatedVendor = await VendorsApi.updateVendor(id, vendor)
     setVendors(v => v.map(
-      vendor => (vendor.id === updatedVendor.id) ? updatedVendor: vendor)
+      vendor => (vendor.id === updatedVendor.id) ? updatedVendor : vendor)
     )
   }
 

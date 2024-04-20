@@ -1,8 +1,8 @@
 import { http } from '@/data'
 import type { ApiResponse, Vendor } from '@/types'
 
-export class VendorsApi {
-  static async getVendors (page: number = 0, offset: number = 5): Promise<ApiResponse<Vendor[]>> {
+export const VendorsApi = {
+  getVendors: async (page: number = 0, offset: number = 5): Promise<ApiResponse<Vendor[]>> => {
     let res
 
     if (page > 0) {
@@ -11,24 +11,20 @@ export class VendorsApi {
       res = await http.get<ApiResponse<Vendor[]>>('/vendors')
     }
     return res.data
-  }
-
-  static async getVendorById (id: number): Promise<Vendor> {
+  },
+  getVendorById: async (id: number): Promise<Vendor> => {
     const { data } = await http.get<Vendor>(`/vendors/${id}`)
     return data
-  }
-
-  static async createVendor (vendor: Pick<Vendor, 'name' | 'fullName'>): Promise<Vendor> {
+  },
+  createVendor: async (vendor: Pick<Vendor, 'name' | 'fullName'>): Promise<Vendor> => {
     const { data } = await http.post<Vendor>('/vendors', vendor)
     return data
-  }
-
-  static async updateVendor (id: number, vendor: Pick<Vendor, 'name' | 'fullName'>): Promise<Vendor> {
+  },
+  updateVendor: async (id: number, vendor: Pick<Vendor, 'name' | 'fullName'>): Promise<Vendor> => {
     const { data } = await http.put<Vendor>(`/vendors/${id}`, vendor)
     return data
-  }
-
-  static async deleteVendor (id: number): Promise<void> {
+  },
+  deleteVendor: async (id: number): Promise<void> => {
     await http.delete(`/vendors/${id}`)
   }
 }

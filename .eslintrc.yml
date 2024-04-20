@@ -1,32 +1,17 @@
-root: true
 env:
   browser: true
-  es2021: true
+  node: true
 extends:
   - love
   - eslint:recommended
-  - standard
-  - standard-jsx
-  - standard-react
-  - plugin:react/recommended
   - plugin:@typescript-eslint/recommended
-  - plugin:react-hooks/recommended
-parserOptions:
-  ecmaVersion: latest
-  sourceType: module
-plugins:
-  - react
-  - react-refresh
-rules:
-  react-refresh/only-export-components:
-    - warn
-    - allowConstantExport: true
-  react/react-in-jsx-scope: off
-  react/prop-types: off
-  import/no-absolute-path: off
-  '@typescript-eslint/non-nullable-type-assertion-style': off
-ignorePatterns:
-  - dist
-  - postcss.config.js
-  - tailwind.config.js
 parser: '@typescript-eslint/parser'
+plugins:
+  - '@typescript-eslint'
+root: true
+ignorePatterns:
+  - app.js
+  - service.js
+  - '*.config.js'
+rules:
+  '@typescript-eslint/non-nullable-type-assertion-style': off

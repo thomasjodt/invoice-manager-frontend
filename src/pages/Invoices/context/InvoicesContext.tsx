@@ -1,5 +1,5 @@
-import { InvoicesContextType } from '@/types'
-import React, { ReactNode, createContext, useContext } from 'react'
+import { type InvoicesContextType } from '@/types'
+import React, { type ReactNode, createContext, useContext } from 'react'
 import { useInvoices } from '../hooks'
 
 const InvoicesContext = createContext((null as unknown) as InvoicesContextType)

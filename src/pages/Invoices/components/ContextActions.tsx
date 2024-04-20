@@ -17,7 +17,7 @@ export const ContextActions: React.FC<Props> = function ({ invoice }) {
   const handleDelete = (): void => {
     if (invoice === undefined) return
     const confirmed = confirm('¿Estás seguro de eliminar esta factura?')
-    if (confirmed) remove(invoice.id)
+    if (confirmed) remove(invoice.id).catch(console.error)
   }
   return (
     <>

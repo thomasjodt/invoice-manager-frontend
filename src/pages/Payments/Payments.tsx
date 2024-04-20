@@ -14,14 +14,13 @@ export const Payments: React.FC = function () {
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
   useEffect(() => {
-    const getAllPayments = async () => {
+    const getAllPayments = async (): Promise<void> => {
       const response = await getAll(page)
       const div = response.count / 5
       const extraPage = Number.isInteger(div) ? 0 : 1
       setPages(Math.floor(div) + extraPage)
-
     }
-    getAllPayments()
+    getAllPayments().catch(console.error)
   }, [page])
 
   return (

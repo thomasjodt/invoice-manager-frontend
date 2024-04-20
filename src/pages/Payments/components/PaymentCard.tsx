@@ -1,6 +1,6 @@
 import { Card, CardHeader } from '@nextui-org/react'
 
-import { FullPayment } from '@/types'
+import type { FullPayment } from '@/types'
 import { currencyFormat, dateFormat } from '@/utils'
 
 interface Props {

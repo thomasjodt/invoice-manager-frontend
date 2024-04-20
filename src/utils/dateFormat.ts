@@ -9,5 +9,5 @@ export const dateFormat = (date: Date | string): string => {
     (typeof date === 'string')
       ? new Date(date + 'T00:00')
       : date
-    )
+  )
 }

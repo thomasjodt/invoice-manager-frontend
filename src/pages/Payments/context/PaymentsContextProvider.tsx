@@ -1,9 +1,9 @@
-import { ReactNode, createContext, useContext } from 'react'
+import { type ReactNode, createContext, useContext } from 'react'
 
 import type { PaymentsContextType } from '@/types'
 import { usePayments } from '../hooks'
 
-const PaymentsContext = createContext((null as unknown )as PaymentsContextType)
+const PaymentsContext = createContext((null as unknown) as PaymentsContextType)
 
 interface Props {
   children: ReactNode

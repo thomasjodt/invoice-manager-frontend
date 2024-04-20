@@ -40,7 +40,7 @@ export const EditInvoiceModal: React.FC<Props> = function ({ isOpen, onOpenChang
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault()
-    update(form)
+    update(form).catch(console.error)
   }
 
   useEffect(() => { if (!isOpen) reset() }, [isOpen])
@@ -53,9 +53,9 @@ export const EditInvoiceModal: React.FC<Props> = function ({ isOpen, onOpenChang
             <ModalHeader>Edit Invoice</ModalHeader>
 
             <form onSubmit={(e) => {
-                handleSubmit(e)
-                close()
-              }}
+              handleSubmit(e)
+              close()
+            }}
             >
               <ModalBody>
                 <div className='mb-3'>

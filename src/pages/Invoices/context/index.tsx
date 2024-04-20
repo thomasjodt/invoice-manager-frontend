@@ -1,1 +1,1 @@
-export { InvoicesContextProvider, useInvoicesContext} from './InvoicesContext'
+export { InvoicesContextProvider, useInvoicesContext } from './InvoicesContext'

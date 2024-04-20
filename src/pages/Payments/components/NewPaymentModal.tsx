@@ -12,7 +12,7 @@ import {
 } from '@nextui-org/react'
 
 import { useForm } from '@/hooks'
-import { Invoice } from '@/types'
+import { type Invoice } from '@/types'
 import { currencyFormat } from '@/utils'
 import { VendorTag } from '@/components/ui'
 import { useVendorContext } from '@/pages/Vendors/context'
@@ -39,7 +39,7 @@ export const NewPaymentModal: React.FC<Props> = function ({ isOpen, onOpenChange
       const invoice = invoices.find(i => i.id === Number(invoiceKey.toString()))
 
       if (invoice !== undefined) {
-        const paid = invoice.payments.reduce((paid, current) => paid  + current.amount, 0)
+        const paid = invoice.payments.reduce((paid, current) => paid + current.amount, 0)
         return `Balance: ${currencyFormat(invoice.amount - paid)}`
       }
     }
@@ -52,30 +52,30 @@ export const NewPaymentModal: React.FC<Props> = function ({ isOpen, onOpenChange
     paymentDate: new Date().toISOString().split('T')[0]
   })
 
-  const onVendorChange = (key: React.Key) => {
+  const onVendorChange = (key: React.Key): void => {
     form.vendor = key?.toString()
     setVendorKey(key)
   }
 
-  const onInvoiceChange = (key: React.Key) => {
+  const onInvoiceChange = (key: React.Key): void => {
     form.invoiceId = key?.toString()
     setInvoiceKey(key)
   }
 
-  const handlePayment =  (): void => {
+  const handlePayment = (): void => {
     if (Object.values(form).includes('')) return
 
     create({
       amount: Number(form.amount),
       invoiceId: Number(form.invoiceId),
       paymentDate: form.paymentDate
-    })
+    }).catch(console.error)
 
     setVendorKey(null)
     setInvoiceKey(null)
 
     reset()
-    getAll()
+    getAll().catch(console.error)
   }
 
   const getBalance = (invoice: Invoice): number => {
@@ -89,18 +89,18 @@ export const NewPaymentModal: React.FC<Props> = function ({ isOpen, onOpenChange
         const response = await getByVendor(Number(form.vendor))
         const invoices = response.data
         const filtered = invoices.filter(i => {
-          const paid = i.payments.reduce((paid, current) => paid  + current.amount, 0)
+          const paid = i.payments.reduce((paid, current) => paid + current.amount, 0)
           const balance = i.amount - paid
 
           return balance !== 0
         })
         setInvoices(filtered)
       }
-    })()
+    })().catch(console.error)
   }, [form.vendor])
 
   useEffect(() => {
-    getVendors(0)
+    getVendors(0).catch(console.error)
   }, [])
 
   return (

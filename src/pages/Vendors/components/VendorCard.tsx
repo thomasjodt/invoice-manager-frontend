@@ -1,5 +1,5 @@
 import { VendorTag } from '@/components/ui'
-import { Vendor } from '@/types'
+import type { Vendor } from '@/types'
 import { currencyFormat } from '@/utils'
 import { Card, CardHeader, Chip, useDisclosure } from '@nextui-org/react'
 import { EditVendorModal } from './EditVendorModal'

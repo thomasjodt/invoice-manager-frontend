@@ -7,7 +7,7 @@ export class InvoiceDto {
   dueDate: string
   emissionDate: string
 
-  constructor({ vendor, invoiceNumber, amount, dueDate, emissionDate}: InvoiceDtoProps) {
+  constructor ({ vendor, invoiceNumber, amount, dueDate, emissionDate }: InvoiceDtoProps) {
     this.amount = amount
     this.invoiceNumber = invoiceNumber
     this.dueDate = dueDate

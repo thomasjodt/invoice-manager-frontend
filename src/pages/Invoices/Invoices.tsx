@@ -12,16 +12,15 @@ export const Invoices: React.FC = function () {
   const { invoices, getAll } = useInvoicesContext()
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
-
   useEffect(() => {
-    const getAllInvoices = async () => {
+    const getAllInvoices = async (): Promise<void> => {
       const response = await getAll(page)
       const div = response.count / 5
       const extraPage = Number.isInteger(div) ? 0 : 1
       setPages(Math.floor(div) + extraPage)
     }
 
-    getAllInvoices()
+    getAllInvoices().catch(console.error)
   }, [page])
 
   return (

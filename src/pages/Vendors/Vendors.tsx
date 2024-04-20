@@ -14,14 +14,14 @@ export const Vendors: React.FC = function () {
   const { isOpen, onOpenChange, onOpen } = useDisclosure()
 
   useEffect(() => {
-    const getAllVendors = async () => {
+    const getAllVendors = async (): Promise<void> => {
       const response = await getAll(page)
       const div = response.count / 5
       const extraPage = Number.isInteger(div) ? 0 : 1
       setPages(Math.floor(div) + extraPage)
     }
 
-    getAllVendors()
+    getAllVendors().catch(console.error)
   }, [page])
 
   return (

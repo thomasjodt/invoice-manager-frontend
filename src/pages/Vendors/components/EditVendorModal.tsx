@@ -6,7 +6,7 @@ import {
   ModalBody,
   ModalContent,
   ModalFooter,
-  ModalHeader,
+  ModalHeader
 } from '@nextui-org/react'
 
 import { useForm } from '@/hooks'
@@ -32,9 +32,9 @@ export const EditVendorModal: React.FC<Props> = function ({ isOpen, vendor, onOp
     fullName: vendor.fullName
   })
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault()
-    await update(vendor.id, form)
+    update(vendor.id, form).catch(console.error)
     onOpenChange()
   }
 
@@ -67,7 +67,7 @@ export const EditVendorModal: React.FC<Props> = function ({ isOpen, vendor, onOp
                           value={form.name}
                           onChange={handleChange}
                         />
-                      )
+                        )
                       : <p className='font-normal text-start md:text-end text-neutral-500'>{vendor.name}</p>
                   }
                 </div>
@@ -83,7 +83,7 @@ export const EditVendorModal: React.FC<Props> = function ({ isOpen, vendor, onOp
                           value={form.fullName}
                           onChange={handleChange}
                         />
-                      )
+                        )
                       : <p className='font-normal text-start md:text-end text-neutral-500'>{vendor.fullName}</p>
                   }
                 </div>
@@ -91,8 +91,8 @@ export const EditVendorModal: React.FC<Props> = function ({ isOpen, vendor, onOp
 
               <ModalFooter>
                 {
-                  (isEditable)
-                  && (
+                  (isEditable) &&
+                  (
                     <div className='flex justify-between w-full'>
                       <Button
                         color='danger'

@@ -9,8 +9,8 @@ import {
   PopoverTrigger
 } from '@nextui-org/react'
 
+import type { Vendor } from '@/types'
 import { VendorTag } from '@/components/ui'
-import { Vendor } from '@/types'
 import { useVendorContext } from '../context'
 
 interface Props {
@@ -26,7 +26,7 @@ export const DeletePopover: React.FC<Props> = function ({ isPopoverOpen, toggleP
     <Popover
       backdrop='blur'
       isOpen={isPopoverOpen}
-      onOpenChange={() => togglePopover(true)}
+      onOpenChange={() => { togglePopover(true) }}
     >
       <PopoverTrigger>
         <Button color='danger' variant='light' >Delete vendor</Button>
@@ -53,7 +53,7 @@ export const DeletePopover: React.FC<Props> = function ({ isPopoverOpen, toggleP
             <Button
               color='danger'
               variant='solid'
-              onClick={() => { remove(vendor.id) }}
+              onClick={() => { remove(vendor.id).catch(console.error) }}
             >
               Delete vendor
             </Button>

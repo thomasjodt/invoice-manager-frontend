@@ -1,5 +1,5 @@
-import { UseForm } from '@/types'
-import React, { useState } from 'react'
+import { type UseForm } from '@/types'
+import { useState } from 'react'
 
 export const useForm = <T>(initialForm: T): UseForm<T> => {
   const [form, setForm] = useState(initialForm)

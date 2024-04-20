@@ -23,4 +23,4 @@ export const VendorContextProvider: React.FC<Props> = function ({ children }) {
   )
 }
 
-export const useVendorContext = ():VendorContextType => useContext(VendorContext)
+export const useVendorContext = (): VendorContextType => useContext(VendorContext)
