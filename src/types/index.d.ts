@@ -52,16 +52,14 @@ export interface ApiResponse<T> {
 }
 
 export interface VendorContextType {
-  vendors: Vendor[]
   remove: (id: number) => Promise<void>
   getOne: (id: number) => Promise<Vendor>
-  create: (vendor: Omit<Vendor, 'id' | 'balance'>) => Promise<void>
+  create: (vendor: Omit<Vendor, 'id' | 'balance'>) => Promise<Vendor>
   getAll: (page?: number, offset?: number) => Promise<ApiResponse<Vendor[]>>
-  update: (id: number, vendor: Omit<Vendor, 'id' | 'balance'>) => Promise<void>
+  update: (id: number, vendor: Omit<Vendor, 'id' | 'balance'>) => Promise<Vendor>
 }
 
 export interface PaymentsContextType {
-  payments: FullPayment[]
   remove: (id: number) => Promise<void>
   getOne: (id: number) => Promise<void>
   create: (payment: Omit<Payment, 'id'>) => Promise<void>
