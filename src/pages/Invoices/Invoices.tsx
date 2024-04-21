@@ -1,27 +1,35 @@
+import { useEffect, useState } from 'react'
 import { Button, Pagination, useDisclosure } from '@nextui-org/react'
 
-import { PlusIcon } from '@/components/icons'
+import type { Invoice } from '@/types'
 import { Header } from '@/components/ui'
-import { InvoicesCard, NewInvoiceModal } from './components'
+import { PlusIcon } from '@/components/icons'
 import { useInvoicesContext } from './context'
-import { useEffect, useState } from 'react'
+import { InvoicesCard, NewInvoiceModal } from './components'
 
 export const Invoices: React.FC = function () {
   const [page, setPage] = useState(1)
   const [pages, setPages] = useState(1)
-  const { invoices, getAll } = useInvoicesContext()
+  // TODO: Implement a select to indicate the items to show per page
+  const [itemsPerPage/* , setItemsPerPage */] = useState(5)
+  const [invoices, setInvoices] = useState<Invoice[]>([])
+
+  const { getAll } = useInvoicesContext()
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
   useEffect(() => {
     const getAllInvoices = async (): Promise<void> => {
-      const response = await getAll(page)
-      const div = response.count / 5
+      const { count, data } = await getAll(page, itemsPerPage)
+
+      const div = count / itemsPerPage
       const extraPage = Number.isInteger(div) ? 0 : 1
+
+      setInvoices(data)
       setPages(Math.floor(div) + extraPage)
     }
 
     getAllInvoices().catch(console.error)
-  }, [page])
+  }, [page, getAll, itemsPerPage])
 
   return (
     <>
