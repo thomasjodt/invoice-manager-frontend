@@ -1,4 +1,4 @@
-import { http } from '@/data'
+import { config } from '.'
 import type { ApiResponse, Vendor } from '@/types'
 
 export const VendorsApi = {
@@ -6,25 +6,25 @@ export const VendorsApi = {
     let res
 
     if (page > 0) {
-      res = await http.get<ApiResponse<Vendor[]>>(`/vendors?page=${page}&offset=${offset}`)
+      res = await config.get<ApiResponse<Vendor[]>>(`/vendors?page=${page}&offset=${offset}`)
     } else {
-      res = await http.get<ApiResponse<Vendor[]>>('/vendors')
+      res = await config.get<ApiResponse<Vendor[]>>('/vendors')
     }
     return res.data
   },
   getVendorById: async (id: number): Promise<Vendor> => {
-    const { data } = await http.get<Vendor>(`/vendors/${id}`)
+    const { data } = await config.get<Vendor>(`/vendors/${id}`)
     return data
   },
   createVendor: async (vendor: Pick<Vendor, 'name' | 'fullName'>): Promise<Vendor> => {
-    const { data } = await http.post<Vendor>('/vendors', vendor)
+    const { data } = await config.post<Vendor>('/vendors', vendor)
     return data
   },
   updateVendor: async (id: number, vendor: Pick<Vendor, 'name' | 'fullName'>): Promise<Vendor> => {
-    const { data } = await http.put<Vendor>(`/vendors/${id}`, vendor)
+    const { data } = await config.put<Vendor>(`/vendors/${id}`, vendor)
     return data
   },
   deleteVendor: async (id: number): Promise<void> => {
-    await http.delete(`/vendors/${id}`)
+    await config.delete(`/vendors/${id}`)
   }
 }
