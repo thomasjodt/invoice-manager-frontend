@@ -1,28 +1,34 @@
+import { useEffect, useState } from 'react'
 import { Button, Pagination, useDisclosure } from '@nextui-org/react'
 
+import type { Vendor } from '@/types'
 import { Header } from '@/components/ui'
 import { PlusIcon } from '@/components/icons'
+import { FilterBar } from './components/filter'
 import { NewVendorModal, VendorCard } from './components'
 import { useVendorContext } from './context/VendorContext'
-import { FilterBar } from './components/filter'
-import { useEffect, useState } from 'react'
 
 export const Vendors: React.FC = function () {
-  const { vendors, getAll } = useVendorContext()
+  const { getAll } = useVendorContext()
   const [page, setPage] = useState(1)
   const [pages, setPages] = useState(1)
+  const [itemsPerPage/* , setItemsPerPage */] = useState(5)
+  const [vendors, setVendors] = useState<Vendor[]>([])
   const { isOpen, onOpenChange, onOpen } = useDisclosure()
 
   useEffect(() => {
     const getAllVendors = async (): Promise<void> => {
-      const response = await getAll(page)
-      const div = response.count / 5
+      const { data, count } = await getAll(page, itemsPerPage)
+
+      const div = count / itemsPerPage
       const extraPage = Number.isInteger(div) ? 0 : 1
+
+      setVendors(data)
       setPages(Math.floor(div) + extraPage)
     }
 
     getAllVendors().catch(console.error)
-  }, [page])
+  }, [page, getAll, itemsPerPage])
 
   return (
     <>
