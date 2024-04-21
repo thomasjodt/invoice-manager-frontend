@@ -12,7 +12,7 @@ import {
 } from '@nextui-org/react'
 
 import { useForm } from '@/hooks'
-import { type Invoice } from '@/types'
+import type { Vendor, Invoice } from '@/types'
 import { currencyFormat } from '@/utils'
 import { VendorTag } from '@/components/ui'
 import { useVendorContext } from '@/pages/Vendors/context'
@@ -25,10 +25,11 @@ interface Props {
 }
 
 export const NewPaymentModal: React.FC<Props> = function ({ isOpen, onOpenChange }) {
-  const { vendors, getAll: getVendors } = useVendorContext()
-  const { getByVendor, getAll } = useInvoicesContext()
   const { create } = usePaymentsContext()
+  const { getAll: getVendors } = useVendorContext()
+  const { getByVendor, getAll } = useInvoicesContext()
 
+  const [vendors, setVendors] = useState<Vendor[]>([])
   const [invoices, setInvoices] = useState<Invoice[]>([])
 
   const [vendorKey, setVendorKey] = useState<React.Key | null>(null)
@@ -97,11 +98,16 @@ export const NewPaymentModal: React.FC<Props> = function ({ isOpen, onOpenChange
         setInvoices(filtered)
       }
     })().catch(console.error)
-  }, [form.vendor])
+  }, [form.vendor, getByVendor, vendorKey])
 
   useEffect(() => {
-    getVendors(0).catch(console.error)
-  }, [])
+    const getAllVendors = async (): Promise<void> => {
+      const { data } = await getVendors(0)
+      setVendors(data)
+    }
+
+    getAllVendors().catch(console.error)
+  }, [getVendors])
 
   return (
     <Modal isOpen={isOpen} onOpenChange={onOpenChange} className='pb-3'>

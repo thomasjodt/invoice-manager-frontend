@@ -13,7 +13,7 @@ import {
 
 import { useForm } from '@/hooks'
 import { VendorTag } from '@/components/ui'
-import type { InvoiceDtoProps } from '@/types'
+import type { InvoiceDtoProps, Vendor } from '@/types'
 import { useInvoicesContext } from '../context'
 import { useVendorContext } from '@/pages/Vendors/context'
 
@@ -23,10 +23,11 @@ interface Props {
 }
 
 export const NewInvoiceModal: React.FC<Props> = function ({ isOpen, onOpenChange }) {
-  const { vendors, getAll } = useVendorContext()
+  const { getAll } = useVendorContext()
   const { create } = useInvoicesContext()
 
   const [vendor, setVendor] = useState('')
+  const [vendors, setVendors] = useState<Vendor[]>([])
 
   const onchange = (value: string): void => {
     const vendor = vendors.find(v => v.name === value)
@@ -65,11 +66,16 @@ export const NewInvoiceModal: React.FC<Props> = function ({ isOpen, onOpenChange
       reset()
       setVendor('')
     }
-  }, [isOpen])
+  }, [isOpen, reset])
 
   useEffect(() => {
-    getAll(0).catch(console.error)
-  }, [])
+    const getAllVendors = async (): Promise<void> => {
+      const { data } = await getAll(0)
+      setVendors(data)
+    }
+
+    getAllVendors().catch(console.error)
+  }, [getAll])
 
   return (
     <Modal isOpen={isOpen} onOpenChange={onOpenChange}>

@@ -43,7 +43,7 @@ export const EditInvoiceModal: React.FC<Props> = function ({ isOpen, onOpenChang
     update(form).catch(console.error)
   }
 
-  useEffect(() => { if (!isOpen) reset() }, [isOpen])
+  useEffect(() => { if (!isOpen) reset() }, [isOpen, reset])
 
   return (
     <Modal isOpen={isOpen} onOpenChange={onOpenChange}>

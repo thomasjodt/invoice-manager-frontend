@@ -1,7 +1,7 @@
 import { type ReactNode, createContext, useContext } from 'react'
 
-import type { PaymentsContextType } from '@/types'
 import { usePayments } from '../hooks'
+import type { PaymentsContextType } from '@/types'
 
 const PaymentsContext = createContext((null as unknown) as PaymentsContextType)
 
@@ -10,9 +10,9 @@ interface Props {
 }
 
 export const PaymentsContextProvider: React.FC<Props> = function ({ children }) {
-  const { payments, create, getAll, getOne, update, remove } = usePayments()
+  const value = usePayments()
   return (
-    <PaymentsContext.Provider value={{ create, getAll, getOne, payments, remove, update }}>
+    <PaymentsContext.Provider value={value}>
       {children}
     </PaymentsContext.Provider>
   )

@@ -27,7 +27,7 @@ export const NewVendorModal: React.FC<Props> = function ({ isOpen, onOpenChange 
     close()
   }
 
-  useEffect(() => { if (!isOpen) reset() }, [isOpen])
+  useEffect(() => { if (!isOpen) reset() }, [isOpen, reset])
 
   return (
     <Modal onOpenChange={onOpenChange} isOpen={isOpen}>
