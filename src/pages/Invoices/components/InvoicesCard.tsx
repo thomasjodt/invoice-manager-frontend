@@ -26,7 +26,7 @@ export const InvoicesCard: React.FC<Props> = function ({ invoice }) {
   return (
     <Card>
       <CardHeader className='flex items-center justify-between pb-0'>
-        <VendorTag vendor={invoice.vendor}/>
+        <VendorTag vendor={invoice.vendor} />
         <StatusChip
           status={status}
           invoice={invoice}

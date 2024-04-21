@@ -12,7 +12,7 @@ interface Props {
 export const StatusChip: React.FC<Props> = function ({ status, invoice }) {
   return (
     <div className='flex gap-1'>
-      <Chip radius='sm' variant='flat' color={statuses[status]} className={'min-w-[80px] text-center'}>
+      <Chip radius='sm' variant='flat' color={statuses[status]} className='min-w-[80px] text-center'>
         {status}
       </Chip>
 

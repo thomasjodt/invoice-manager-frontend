@@ -29,7 +29,7 @@ export const DeletePopover: React.FC<Props> = function ({ isPopoverOpen, toggleP
       onOpenChange={() => { togglePopover(true) }}
     >
       <PopoverTrigger>
-        <Button color='danger' variant='light' >Delete vendor</Button>
+        <Button color='danger' variant='light'>Delete vendor</Button>
       </PopoverTrigger>
 
       <PopoverContent>

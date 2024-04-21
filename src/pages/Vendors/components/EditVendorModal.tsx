@@ -52,7 +52,7 @@ export const EditVendorModal: React.FC<Props> = function ({ isOpen, vendor, onOp
         {() => (
           <>
             <ModalHeader>
-              {<VendorTag vendor={vendor} />}
+              <VendorTag vendor={vendor} />
             </ModalHeader>
             <form onSubmit={handleSubmit}>
               <ModalBody>

@@ -4,14 +4,20 @@ env:
 extends:
   - love
   - eslint:recommended
+  - standard-jsx
+  - standard-react
   - plugin:@typescript-eslint/recommended
 parser: '@typescript-eslint/parser'
 plugins:
+  - react
   - '@typescript-eslint'
 root: true
 ignorePatterns:
+  - dist
   - app.js
   - service.js
   - '*.config.js'
 rules:
+  react/prop-types: off
+  react/react-in-jsx-scope: off
   '@typescript-eslint/non-nullable-type-assertion-style': off

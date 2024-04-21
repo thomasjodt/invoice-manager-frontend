@@ -159,15 +159,18 @@ export const NewPaymentModal: React.FC<Props> = function ({ isOpen, onOpenChange
                 placeholder='Amount of the payment'
                 value={form.amount}
                 onChange={handleChange}
-                startContent={'S/'}
+                startContent='S/'
               />
             </ModalBody>
 
             <ModalFooter>
-              <Button color='primary' onClick={() => {
-                handlePayment()
-                close()
-              }}>Make the payment</Button>
+              <Button
+                color='primary' onClick={() => {
+                  handlePayment()
+                  close()
+                }}
+              >Make the payment
+              </Button>
             </ModalFooter>
           </>
         )}

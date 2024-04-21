@@ -35,8 +35,8 @@ export const ContextActions: React.FC<Props> = function ({ invoice }) {
               onPress={onOpen}
               startContent={<EditIcon size={18} />}
             >
-                Edit invoice
-              </DropdownItem>
+              Edit invoice
+            </DropdownItem>
 
             <DropdownItem
               color='danger'

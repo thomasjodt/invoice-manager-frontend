@@ -44,7 +44,8 @@ export const Vendors: React.FC = function () {
           (vendors.length > 0)
             ? 'grid gap-3 p-5 lg:p-8 2xl:p-15 lg:grid-cols-2 2xl:grid-cols-3'
             : ' flex justify-center items-center'
-        }>
+        }
+        >
           {
             (vendors.length > 0)
               ? vendors.map(vendor =>

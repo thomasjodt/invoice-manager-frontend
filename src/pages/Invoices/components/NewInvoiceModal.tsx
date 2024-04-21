@@ -135,7 +135,7 @@ export const NewInvoiceModal: React.FC<Props> = function ({ isOpen, onOpenChange
               </ModalBody>
 
               <ModalFooter>
-                <Button color="primary" type='submit'>
+                <Button color='primary' type='submit'>
                   Create Invoice
                 </Button>
               </ModalFooter>

@@ -20,25 +20,25 @@ export const VendorCard: React.FC<Props> = function ({ vendor }) {
       />
 
       <Card
-      isPressable
-      shadow='none'
-      className='border'
-      onPress={onOpen}
-    >
-      <CardHeader className='flex justify-between items-center'>
-        <VendorTag vendor={vendor} />
+        isPressable
+        shadow='none'
+        className='border'
+        onPress={onOpen}
+      >
+        <CardHeader className='flex justify-between items-center'>
+          <VendorTag vendor={vendor} />
 
-        <div className='flex items-center gap-2'>
-          <Chip
-          className='text-center'
-          variant='flat'
-          color={vendor.balance > 0 ? 'warning' : 'success'}
-        >
-          Saldo: {currencyFormat(vendor.balance)}
-        </Chip>
-        </div>
-      </CardHeader>
-    </Card>
+          <div className='flex items-center gap-2'>
+            <Chip
+              className='text-center'
+              variant='flat'
+              color={vendor.balance > 0 ? 'warning' : 'success'}
+            >
+              Saldo: {currencyFormat(vendor.balance)}
+            </Chip>
+          </div>
+        </CardHeader>
+      </Card>
     </>
   )
 }

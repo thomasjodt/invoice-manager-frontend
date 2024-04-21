@@ -40,6 +40,15 @@ export const Invoices: React.FC = function () {
         </Button>
       </Header>
 
+      <section className='mt-20 px-5 grid gap-3 lg:grid-cols-2 xl:grid-cols-3 pb-10'>
+        {invoices.map((invoice) => (
+          <InvoicesCard
+            key={invoice.id}
+            invoice={invoice}
+          />
+        ))}
+      </section>
+
       {
         (pages > 1 && page !== 0) && (
           <Pagination
@@ -51,15 +60,6 @@ export const Invoices: React.FC = function () {
           />
         )
       }
-
-      <section className='mt-20 px-5 grid gap-3 lg:grid-cols-2 xl:grid-cols-3 pb-10'>
-        {invoices.map((invoice) => (
-          <InvoicesCard
-            key={invoice.id}
-            invoice={invoice}
-          />
-        ))}
-      </section>
     </>
   )
 }

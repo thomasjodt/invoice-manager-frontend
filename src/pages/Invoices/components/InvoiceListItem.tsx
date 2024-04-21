@@ -17,7 +17,7 @@ export const InvoiceListItem: React.FC<Props> = function ({ invoice }) {
   const paid = useMemo(() => payments.reduce(
     (paid, payment) => paid + payment.amount,
     0
-  ), payments)
+  ), [payments])
 
   const days = getDays(emissionDate, dueDate)
   const balance = amount - paid
