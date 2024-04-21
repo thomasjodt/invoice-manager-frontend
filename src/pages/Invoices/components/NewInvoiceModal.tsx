@@ -13,16 +13,18 @@ import {
 
 import { useForm } from '@/hooks'
 import { VendorTag } from '@/components/ui'
-import type { InvoiceDtoProps, Vendor } from '@/types'
+import type { Invoice, InvoiceDtoProps, Vendor } from '@/types'
 import { useInvoicesContext } from '../context'
 import { useVendorContext } from '@/pages/Vendors/context'
 
 interface Props {
   isOpen: boolean
   onOpenChange: () => void
+  onClose: () => void
+  onCreate: (invoice: Invoice) => void
 }
 
-export const NewInvoiceModal: React.FC<Props> = function ({ isOpen, onOpenChange }) {
+export const NewInvoiceModal: React.FC<Props> = function ({ isOpen, onOpenChange, onCreate, onClose }) {
   const { getAll } = useVendorContext()
   const { create } = useInvoicesContext()
 
@@ -48,7 +50,7 @@ export const NewInvoiceModal: React.FC<Props> = function ({ isOpen, onOpenChange
     handleChange(e)
   }
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>, close: () => void): void => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
 
     if (Object.values(form).includes('')) return
@@ -57,8 +59,9 @@ export const NewInvoiceModal: React.FC<Props> = function ({ isOpen, onOpenChange
       return
     }
 
-    create(form).catch(console.error)
-    close()
+    const newInvoice = await create(form)
+    onCreate(newInvoice)
+    onClose()
   }
 
   useEffect(() => {
@@ -73,11 +76,11 @@ export const NewInvoiceModal: React.FC<Props> = function ({ isOpen, onOpenChange
   return (
     <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
       <ModalContent>
-        {(close) => (
+        {() => (
           <>
             <ModalHeader>Create New Invoice</ModalHeader>
 
-            <form onSubmit={(e) => { handleSubmit(e, close) }}>
+            <form onSubmit={(e) => { handleSubmit(e).catch(console.error) }}>
               <ModalBody>
                 <Autocomplete
                   name='vendor'

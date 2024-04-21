@@ -1,27 +1,32 @@
-import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, useDisclosure } from '@nextui-org/react'
+import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@nextui-org/react'
 
 import type { Invoice } from '@/types'
 import { DeleteIcon, EditIcon, VerticalDotsIcon, FileIcon } from '@/components/icons'
-import { useInvoicesContext } from '../context'
-import { EditInvoiceModal } from './EditInvoiceModal'
+import { useInvoicesContext } from '@/context'
 
 interface Props {
-  invoice?: Invoice
+  invoice: Invoice
+  onDelete: (invoiceId: number) => void
 }
 
-export const ContextActions: React.FC<Props> = function ({ invoice }) {
-  const { remove } = useInvoicesContext()
-
-  const { isOpen, onOpen, onOpenChange } = useDisclosure()
+export const ContextActions: React.FC<Props> = function ({ invoice, onDelete }) {
+  const { remove, populateEditing } = useInvoicesContext()
 
   const handleDelete = (): void => {
     if (invoice === undefined) return
     const confirmed = confirm('¿Estás seguro de eliminar esta factura?')
-    if (confirmed) remove(invoice.id).catch(console.error)
+    if (confirmed) {
+      remove(invoice.id).catch(console.error)
+      onDelete(invoice.id)
+    }
   }
+
+  const handleEdit = (): void => {
+    populateEditing(invoice)
+  }
+
   return (
     <>
-      <EditInvoiceModal isOpen={isOpen} onOpenChange={onOpenChange} invoice={invoice as Invoice} />
       <div className='relative flex justify-end items-center gap-2'>
         <Dropdown>
           <DropdownTrigger>
@@ -32,7 +37,7 @@ export const ContextActions: React.FC<Props> = function ({ invoice }) {
           <DropdownMenu aria-label='Invoice actions'>
             <DropdownItem startContent={<FileIcon size={18} />}>View details</DropdownItem>
             <DropdownItem
-              onPress={onOpen}
+              onPress={handleEdit}
               startContent={<EditIcon size={18} />}
             >
               Edit invoice

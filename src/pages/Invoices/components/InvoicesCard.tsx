@@ -15,9 +15,11 @@ import { VendorTag } from '@/components/ui'
 
 interface Props {
   invoice: Invoice
+  onDelete: (invoiceId: number) => void
 }
 
-export const InvoicesCard: React.FC<Props> = function ({ invoice }) {
+export const InvoicesCard: React.FC<Props> = function ({ invoice, onDelete }) {
+  if (invoice.payments === undefined) invoice.payments = []
   const paid = invoice.payments.reduce((amount, current) => amount + current.amount, 0)
   const balance = invoice.amount - paid
   const status = getStatus(new Date(invoice.dueDate + 'T00:00'), balance)
@@ -30,6 +32,7 @@ export const InvoicesCard: React.FC<Props> = function ({ invoice }) {
         <StatusChip
           status={status}
           invoice={invoice}
+          onDelete={onDelete}
         />
       </CardHeader>
 

@@ -33,7 +33,7 @@ export const InvoiceListItem: React.FC<Props> = function ({ invoice }) {
         <p className='text-neutral-600'>{dateFormat(emissionDate)}</p>
         <p className='text-neutral-600'>{dateFormat(dueDate)}</p>
         <p>{days}</p>
-        <StatusChip status={status} />
+        <StatusChip status={status} invoice={invoice} />
         <p>{currencyFormat(amount)}</p>
         <p>{currencyFormat(paid)}</p>
         <p>{currencyFormat(balance)}</p>

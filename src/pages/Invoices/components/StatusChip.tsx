@@ -6,10 +6,11 @@ import type { Invoice, Status } from '@/types'
 
 interface Props {
   status: Status
-  invoice?: Invoice
+  invoice: Invoice
+  onDelete: (invoiceId: number) => void
 }
 
-export const StatusChip: React.FC<Props> = function ({ status, invoice }) {
+export const StatusChip: React.FC<Props> = function ({ status, invoice, onDelete }) {
   return (
     <div className='flex gap-1'>
       <Chip radius='sm' variant='flat' color={statuses[status]} className='min-w-[80px] text-center'>
@@ -18,6 +19,7 @@ export const StatusChip: React.FC<Props> = function ({ status, invoice }) {
 
       <ContextActions
         invoice={invoice}
+        onDelete={onDelete}
       />
     </div>
   )

@@ -2,11 +2,7 @@ import type { Vendor } from '@/types'
 
 interface Props {
   vendor: Omit<Vendor, 'balance'>
-  classNames?: {
-    name?: string
-    fullName?: string
-    container?: string
-  }
+  classNames?: Partial<Record<'name' | 'fullName' | 'container', string>>
 }
 
 export const VendorTag: React.FC<Props> = function ({ vendor, classNames }) {

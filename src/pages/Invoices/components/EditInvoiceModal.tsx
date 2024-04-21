@@ -10,59 +10,67 @@ import {
 } from '@nextui-org/react'
 
 import { useForm } from '@/hooks'
-import type { Invoice } from '@/types'
+import type { Invoice, Vendor } from '@/types'
 import { VendorTag } from '@/components/ui'
-import { useInvoicesContext } from '../context'
+import { useInvoicesContext } from '@/context'
+import { useEffect } from 'react'
 
 interface Props {
-  isOpen: boolean
-  invoice: Invoice
-  onOpenChange: () => void
+  handleUpdate: (updated: Invoice) => void
 }
 
-export const EditInvoiceModal: React.FC<Props> = function ({ isOpen, onOpenChange, invoice }) {
-  const { update } = useInvoicesContext()
+export const EditInvoiceModal: React.FC<Props> = function ({ handleUpdate }) {
+  const { update, current, resetEditing, isOpen, onOpenChange } = useInvoicesContext()
 
   const { form, handleChange } = useForm<Invoice>({
-    id: invoice.id,
+    id: 0,
+    amount: 0,
+    dueDate: '',
+    emissionDate: '',
+    invoiceNumber: '',
+    payments: [],
     vendor: {
-      id: invoice.vendor.id,
-      name: invoice.vendor.name,
-      fullName: invoice.vendor.fullName
-    },
-    invoiceNumber: invoice.invoiceNumber,
-    amount: invoice.amount,
-    emissionDate: invoice.emissionDate,
-    dueDate: invoice.dueDate,
-    payments: invoice.payments
+      id: 0,
+      name: '',
+      fullName: ''
+    }
   })
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault()
-    update(form).catch(console.error)
+    const updated = await update(form)
+    handleUpdate(updated)
+    resetEditing()
   }
 
+  useEffect(() => {
+    if (current !== null) {
+      form.id = current.id
+      form.amount = current.amount
+      form.vendor = current.vendor
+      form.dueDate = current.dueDate
+      form.emissionDate = current.emissionDate
+      form.invoiceNumber = current.invoiceNumber
+      form.payments = current.payments
+    }
+  }, [current])
+
   return (
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+    <Modal isOpen={isOpen} onOpenChange={onOpenChange} onClose={resetEditing}>
       <ModalContent>
-        {(close) => (
+        {() => (
           <>
             <ModalHeader>Edit Invoice</ModalHeader>
 
-            <form onSubmit={(e) => {
-              handleSubmit(e)
-              close()
-            }}
-            >
+            <form onSubmit={(e) => { handleSubmit(e).catch(console.error) }}>
               <ModalBody>
                 <div className='mb-3'>
                   <p className='text-sm pl-2 mb-1 font-semibold'>Vendor</p>
                   <VendorTag
-                    vendor={invoice.vendor}
+                    vendor={current?.vendor as Vendor}
                     classNames={{
                       container: 'p-3 border w-full rounded-xl',
-                      name: 'font-semibold text-primary-600 text-[1em]',
-                      fullName: ''
+                      name: 'font-semibold text-primary-600 text-[1em]'
                     }}
                   />
                 </div>

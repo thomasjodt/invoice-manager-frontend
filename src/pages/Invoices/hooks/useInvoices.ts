@@ -1,7 +1,22 @@
 import { InvoicesApi } from '@/api'
 import type { ApiResponse, Invoice, InvoiceDtoProps, InvoicesContextType } from '@/types'
+import { useDisclosure } from '@nextui-org/react'
+import { useState } from 'react'
 
 export const useInvoices = (): InvoicesContextType => {
+  const [current, setCurrent] = useState<Invoice | null>(null)
+  const { onOpen, onClose, isOpen, onOpenChange } = useDisclosure()
+
+  const resetEditing = (): void => {
+    onClose()
+    setCurrent(null)
+  }
+
+  const populateEditing = (invoice: Invoice): void => {
+    setCurrent(invoice)
+    onOpen()
+  }
+
   const create = async (invoice: InvoiceDtoProps): Promise<Invoice> => {
     return await InvoicesApi.createInvoice(invoice)
   }
@@ -32,6 +47,11 @@ export const useInvoices = (): InvoicesContextType => {
     getOne,
     remove,
     update,
-    getByVendor
+    current,
+    getByVendor,
+    resetEditing,
+    populateEditing,
+    isOpen,
+    onOpenChange
   }
 }

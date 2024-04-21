@@ -68,10 +68,15 @@ export interface PaymentsContextType {
 }
 
 export interface InvoicesContextType {
+  current: Invoice | null
+  resetEditing: () => void
+  populateEditing: (invoice: Invoice) => void
   remove: (id: number) => Promise<void>
   getOne: (id: number) => Promise<Invoice>
   create: (invoice: InvoiceDtoProps) => Promise<Invoice>
   getAll: (page?: number, offset?: number) => Promise<ApiResponse<Invoice[]>>
   update: (invoice: Invoice) => Promise<Invoice>
   getByVendor: (vendorId: number) => Promise<ApiResponse<Invoice[]>>
+  isOpen: boolean
+  onOpenChange: () => void
 }
