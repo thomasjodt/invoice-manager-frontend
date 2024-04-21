@@ -61,10 +61,10 @@ export interface VendorContextType {
 
 export interface PaymentsContextType {
   remove: (id: number) => Promise<void>
-  getOne: (id: number) => Promise<void>
-  create: (payment: Omit<Payment, 'id'>) => Promise<void>
+  getOne: (id: number) => Promise<FullPayment>
+  create: (payment: Omit<Payment, 'id'>) => Promise<FullPayment>
   getAll: (page?: number, offset?: number) => Promise<ApiResponse<FullPayment[]>>
-  update: (id: number, payment: Payment) => Promise<void>
+  update: (id: number, payment: Payment) => Promise<FullPayment>
 }
 
 export interface InvoicesContextType {
