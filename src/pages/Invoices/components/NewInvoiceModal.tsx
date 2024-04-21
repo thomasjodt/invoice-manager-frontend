@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Autocomplete,
   AutocompleteItem,
@@ -42,6 +42,11 @@ export const NewInvoiceModal: React.FC<Props> = function ({ isOpen, onOpenChange
     emissionDate: ''
   })
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    e.target.value = e.target.value.toUpperCase()
+    handleChange(e)
+  }
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>, close: () => void): void => {
     event.preventDefault()
 
@@ -83,6 +88,7 @@ export const NewInvoiceModal: React.FC<Props> = function ({ isOpen, onOpenChange
                   inputValue={vendor}
                   onInputChange={onchange}
                   allowsCustomValue
+                  autoFocus
                 >
                   {(vendor) => (
                     <AutocompleteItem key={vendor.id} textValue={vendor.name}>
@@ -97,7 +103,7 @@ export const NewInvoiceModal: React.FC<Props> = function ({ isOpen, onOpenChange
                   placeholder='FF01-12345678'
                   className='mb-3'
                   value={form.invoiceNumber}
-                  onChange={handleChange}
+                  onChange={handleInputChange}
                   name='invoiceNumber'
                 />
 
