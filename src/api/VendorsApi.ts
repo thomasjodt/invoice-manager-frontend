@@ -26,5 +26,9 @@ export const VendorsApi = {
   },
   deleteVendor: async (id: number): Promise<void> => {
     await config.delete(`/vendors/${id}`)
+  },
+  getByName: async (name: string): Promise<ApiResponse<Vendor[]>> => {
+    const { data } = await config.get(`/vendors?name=${name}`)
+    return data
   }
 }

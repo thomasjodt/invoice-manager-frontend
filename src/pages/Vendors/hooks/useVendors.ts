@@ -10,6 +10,10 @@ export const useVendors = (): VendorContextType => {
     return await VendorsApi.getVendors(page, offset)
   }
 
+  const getByName = async (name: string): Promise<ApiResponse<Vendor[]>> => {
+    return await VendorsApi.getByName(name)
+  }
+
   const getOne = async (id: number): Promise<Vendor> => {
     return await VendorsApi.getVendorById(id)
   }
@@ -27,6 +31,7 @@ export const useVendors = (): VendorContextType => {
     getAll,
     getOne,
     remove,
-    update
+    update,
+    getByName
   }
 }
