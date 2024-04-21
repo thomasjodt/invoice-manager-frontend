@@ -21,8 +21,7 @@ export const VendorCard: React.FC<Props> = function ({ vendor }) {
 
       <Card
         isPressable
-        shadow='none'
-        className='border'
+        shadow='sm'
         onPress={onOpen}
       >
         <CardHeader className='flex justify-between items-center'>
