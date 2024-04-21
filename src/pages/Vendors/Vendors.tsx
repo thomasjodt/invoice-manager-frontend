@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
 import { Button, Pagination, useDisclosure } from '@nextui-org/react'
 
-import type { ApiResponse, Vendor } from '@/types'
 import { Header } from '@/components/ui'
+import { useVendorContext } from '@/context'
 import { PlusIcon } from '@/components/icons'
 import { FilterBar } from './components/filter'
+import type { ApiResponse, Vendor } from '@/types'
 import { NewVendorModal, VendorCard } from './components'
-import { useVendorContext } from './context/VendorContext'
 
 export const Vendors: React.FC = function () {
   const { getAll } = useVendorContext()

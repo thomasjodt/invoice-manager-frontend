@@ -1,11 +1,9 @@
+import { Suspense, lazy } from 'react'
 import { NextUIProvider } from '@nextui-org/react'
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 
-import { Layout } from './layout/Layout'
-import { VendorContextProvider } from './pages/Vendors/context/VendorContext'
-import { PaymentsContextProvider } from './pages/Payments/context'
-import { InvoicesContextProvider } from './pages/Invoices/context'
-import { Suspense, lazy } from 'react'
+import { Layout } from '@/layout'
+import { InvoicesContextProvider, PaymentsContextProvider, VendorContextProvider } from '@/context'
 
 const Invoices = lazy(async () => await import('@/pages/Invoices/Invoices'))
 const Vendors = lazy(async () => await import('@/pages/Vendors/Vendors'))

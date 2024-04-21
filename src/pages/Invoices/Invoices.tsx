@@ -4,7 +4,7 @@ import { Button, Pagination, useDisclosure } from '@nextui-org/react'
 import type { Invoice } from '@/types'
 import { Header } from '@/components/ui'
 import { PlusIcon } from '@/components/icons'
-import { useInvoicesContext } from './context'
+import { useInvoicesContext } from '@/context'
 import { InvoicesCard, NewInvoiceModal } from './components'
 
 export const Invoices: React.FC = function () {

@@ -4,7 +4,7 @@ import { Button, Pagination, useDisclosure } from '@nextui-org/react'
 import { Header } from '@/components/ui'
 import type { FullPayment } from '@/types'
 import { PlusIcon } from '@/components/icons'
-import { usePaymentsContext } from './context'
+import { usePaymentsContext } from '@/context'
 import { NewPaymentModal, PaymentCard } from './components'
 
 export const Payments: React.FC = function () {
