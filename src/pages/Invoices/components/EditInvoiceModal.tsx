@@ -53,6 +53,7 @@ export const EditInvoiceModal: React.FC<Props> = function ({ handleUpdate }) {
       form.invoiceNumber = current.invoiceNumber
       form.payments = current.payments
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [current])
 
   return (
@@ -91,6 +92,7 @@ export const EditInvoiceModal: React.FC<Props> = function ({ handleUpdate }) {
                     type='number'
                     name='amount'
                     className='mb-3'
+                    autoFocus
                     value={form.amount.toString()}
                     onChange={handleChange}
                   />
