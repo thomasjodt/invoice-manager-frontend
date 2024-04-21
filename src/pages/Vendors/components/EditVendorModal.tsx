@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import {
   Button,
   Input,
@@ -42,8 +42,6 @@ export const EditVendorModal: React.FC<Props> = function ({ isOpen, vendor, onOp
     setIsEditable(false)
     reset()
   }, [reset])
-
-  useEffect(() => { if (!isOpen) resetForm() }, [isOpen, resetForm])
 
   return (
     <Modal onOpenChange={onOpenChange} isOpen={isOpen}>

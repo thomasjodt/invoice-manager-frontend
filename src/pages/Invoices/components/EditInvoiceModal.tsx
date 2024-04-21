@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import {
   Button,
   Input,
@@ -24,7 +23,7 @@ interface Props {
 export const EditInvoiceModal: React.FC<Props> = function ({ isOpen, onOpenChange, invoice }) {
   const { update } = useInvoicesContext()
 
-  const { form, handleChange, reset } = useForm<Invoice>({
+  const { form, handleChange } = useForm<Invoice>({
     id: invoice.id,
     vendor: {
       id: invoice.vendor.id,
@@ -42,8 +41,6 @@ export const EditInvoiceModal: React.FC<Props> = function ({ isOpen, onOpenChang
     e.preventDefault()
     update(form).catch(console.error)
   }
-
-  useEffect(() => { if (!isOpen) reset() }, [isOpen, reset])
 
   return (
     <Modal isOpen={isOpen} onOpenChange={onOpenChange}>

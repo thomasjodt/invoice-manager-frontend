@@ -35,7 +35,7 @@ export const NewInvoiceModal: React.FC<Props> = function ({ isOpen, onOpenChange
     setVendor(value)
   }
 
-  const { form, handleChange, reset } = useForm<InvoiceDtoProps>({
+  const { form, handleChange } = useForm<InvoiceDtoProps>({
     vendor: '',
     invoiceNumber: '',
     amount: '',
@@ -60,13 +60,6 @@ export const NewInvoiceModal: React.FC<Props> = function ({ isOpen, onOpenChange
     create(form).catch(console.error)
     close()
   }
-
-  useEffect(() => {
-    if (!isOpen) {
-      reset()
-      setVendor('')
-    }
-  }, [isOpen, reset])
 
   useEffect(() => {
     const getAllVendors = async (): Promise<void> => {

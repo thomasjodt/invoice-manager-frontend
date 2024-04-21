@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import {
   Button,
   Input,
@@ -19,15 +18,13 @@ interface Props {
 
 export const NewVendorModal: React.FC<Props> = function ({ isOpen, onOpenChange }) {
   const { create } = useVendorContext()
-  const { form, handleChange, reset } = useForm({ name: '', fullName: '' })
+  const { form, handleChange } = useForm({ name: '', fullName: '' })
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>, close: () => void): void => {
     event.preventDefault()
     create(form).catch(console.error)
     close()
   }
-
-  useEffect(() => { if (!isOpen) reset() }, [isOpen, reset])
 
   return (
     <Modal onOpenChange={onOpenChange} isOpen={isOpen}>
