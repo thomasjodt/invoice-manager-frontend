@@ -38,7 +38,7 @@ export const useInvoices = (): InvoicesContextType => {
   }
 
   const getByVendor = async (vendorId: number): Promise<ApiResponse<Invoice[]>> => {
-    return await InvoicesApi.getInvoiceByVendor(vendorId)
+    return await InvoicesApi.getInvoicesByVendor(vendorId)
   }
 
   return {

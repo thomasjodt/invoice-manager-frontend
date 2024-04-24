@@ -12,8 +12,8 @@ export const InvoicesApi = {
     }
     return res.data
   },
-  getInvoiceByVendor: async (vendorId: number): Promise<ApiResponse<Invoice[]>> => {
-    const { data } = await config.get<ApiResponse<Invoice[]>>(`/invoices/vendor/${vendorId}`)
+  getInvoicesByVendor: async (vendorId: number): Promise<ApiResponse<Invoice[]>> => {
+    const { data } = await config.get<ApiResponse<Invoice[]>>(`/invoices?vendorId=${vendorId}`)
     return data
   },
   getInvoiceById: async (id: number): Promise<Invoice> => {
