@@ -8,11 +8,13 @@
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "service:install": "pnpm install && pnpm build && node ./service.js install",
-    "service:uninstall": "pnpm install && node ./service.js uninstall"
+    "service:install": "pnpm build && node ./service.js install",
+    "service:update": "pnpm service:uninstall && pnpm service:install",
+    "service:uninstall": "node ./service.js uninstall"
   },
   "dependencies": {
-    "@nextui-org/react": "^2.2.10",
+    "@internationalized/date": "^3.5.2",
+    "@nextui-org/react": "^2.3.5",
     "axios": "^1.6.8",
     "express": "4.19.2",
     "framer-motion": "^11.0.22",
