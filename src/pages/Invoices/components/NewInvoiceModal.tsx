@@ -8,8 +8,10 @@ import {
   ModalBody,
   ModalContent,
   ModalFooter,
-  ModalHeader
+  ModalHeader,
+  DatePicker
 } from '@nextui-org/react'
+import { type CalendarDate, parseDate } from '@internationalized/date'
 
 import { useForm } from '@/hooks'
 import { VendorTag } from '@/components/ui'
@@ -45,6 +47,9 @@ export const NewInvoiceModal: React.FC<Props> = function ({ isOpen, onOpenChange
     emissionDate: ''
   })
 
+  const [emissionDate, setEmissionDate] = useState<CalendarDate>()
+  const [dueDate, setDueDate] = useState<CalendarDate>()
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     e.target.value = e.target.value.toUpperCase()
     handleChange(e)
@@ -73,6 +78,20 @@ export const NewInvoiceModal: React.FC<Props> = function ({ isOpen, onOpenChange
     getAllVendors().catch(console.error)
   }, [getAll])
 
+  useEffect(() => {
+    if (emissionDate !== undefined && emissionDate !== null) {
+      form.emissionDate = emissionDate.toString()
+    } else {
+      setEmissionDate(parseDate(new Date().toISOString().split('T')[0]))
+    }
+
+    if (dueDate !== undefined && dueDate !== null) {
+      form.dueDate = dueDate.toString()
+    } else {
+      setDueDate(parseDate(new Date().toISOString().split('T')[0]))
+    }
+  }, [emissionDate, dueDate, form])
+
   return (
     <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
       <ModalContent>
@@ -90,9 +109,8 @@ export const NewInvoiceModal: React.FC<Props> = function ({ isOpen, onOpenChange
                   inputValue={vendor}
                   onInputChange={onchange}
                   allowsCustomValue
-                  autoFocus
                 >
-                  {(vendor) => (
+                  {(vendor: Vendor) => (
                     <AutocompleteItem key={vendor.id} textValue={vendor.name}>
                       <VendorTag vendor={vendor} />
                     </AutocompleteItem>
@@ -120,24 +138,20 @@ export const NewInvoiceModal: React.FC<Props> = function ({ isOpen, onOpenChange
                 />
 
                 <div className='flex gap-2'>
-                  <Input
-                    type='date'
-                    label='Emission Date'
-                    placeholder='2024-10-23'
-                    className='mb-3'
-                    onChange={handleChange}
+                  <DatePicker
                     name='emissionDate'
-                    value={form.emissionDate}
+                    label='Emission Date'
+                    className='mb-3'
+                    value={emissionDate}
+                    onChange={setEmissionDate}
                   />
 
-                  <Input
-                    type='date'
-                    label='Due Date'
-                    placeholder='2024-10-23'
-                    className='mb-3'
-                    onChange={handleChange}
+                  <DatePicker
                     name='dueDate'
-                    value={form.dueDate}
+                    label='Due Date'
+                    className='mb-3'
+                    value={dueDate}
+                    onChange={setDueDate}
                   />
                 </div>
               </ModalBody>
