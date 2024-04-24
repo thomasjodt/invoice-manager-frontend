@@ -17,32 +17,47 @@ export const Vendors: React.FC = function () {
 
   const [vendors, setVendors] = useState<Vendor[]>([])
   const [count, setCount] = useState(0)
+  const [isFiltered, setIsFiltered] = useState(false)
+
+  const getAllVendors = useCallback(async (): Promise<void> => {
+    const { data, count } = await getAll(page, itemsPerPage)
+
+    const div = count / itemsPerPage
+    const extraPage = Number.isInteger(div) ? 0 : 1
+
+    setPages(Math.floor(div) + extraPage)
+    setVendors(data)
+    setCount(count)
+  }, [getAll, itemsPerPage, page])
 
   const handleSearch = useCallback((name: string): void => {
+    if (name === '') {
+      setIsFiltered(false)
+      getAllVendors().catch(console.error)
+      return
+    }
     if (name.trim() === '') return
 
-    getByName(name)
+    getByName(name, page, itemsPerPage)
       .then((res) => {
+        setIsFiltered(true)
+        const div = res.count / itemsPerPage
+        const extraPage = Number.isInteger(div) ? 0 : 1
+
         setVendors(res.data)
         setCount(res.count)
+        setPages(Math.floor(div) + extraPage)
       })
       .catch(console.error)
-  }, [getByName])
+
+    console.log('Typing')
+  }, [page, itemsPerPage, getByName, getAllVendors])
 
   useEffect(() => {
-    const getAllVendors = async (): Promise<void> => {
-      const { data, count } = await getAll(page, itemsPerPage)
-
-      const div = count / itemsPerPage
-      const extraPage = Number.isInteger(div) ? 0 : 1
-
-      setPages(Math.floor(div) + extraPage)
-      setVendors(data)
-      setCount(count)
+    if (!isFiltered) {
+      getAllVendors().catch(console.error)
     }
-
-    getAllVendors().catch(console.error)
-  }, [page, getAll, itemsPerPage])
+  }, [getAllVendors, isFiltered])
 
   return (
     <>

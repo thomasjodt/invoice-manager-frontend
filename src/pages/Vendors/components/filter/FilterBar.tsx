@@ -1,12 +1,12 @@
 import { SearchIcon } from '@/components/icons'
 import { Card, Input } from '@nextui-org/react'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, memo } from 'react'
 
 interface Props {
   onSearch: (name: string) => void
 }
 
-export const FilterBar: React.FC<Props> = function ({ onSearch }) {
+export const FilterBar: React.FC<Props> = memo(function FilterBar ({ onSearch }) {
   const [input, setInput] = useState('')
 
   useEffect(() => {
@@ -33,4 +33,4 @@ export const FilterBar: React.FC<Props> = function ({ onSearch }) {
       />
     </Card>
   )
-}
+})
