@@ -5,7 +5,8 @@ import type { Invoice } from '@/types'
 import { Header } from '@/components/ui'
 import { PlusIcon } from '@/components/icons'
 import { useInvoicesContext } from '@/context'
-import { EditInvoiceModal, InvoicesCard, NewInvoiceModal } from './components'
+import { EditInvoiceModal, FilterBar, InvoicesCard, NewInvoiceModal } from './components'
+import { InvoicesApi } from '@/api'
 
 export const Invoices: React.FC = function () {
   const [page, setPage] = useState(1)
@@ -36,6 +37,16 @@ export const Invoices: React.FC = function () {
     setCount(count - 1)
   }
 
+  const handleSearch = useCallback((vendorId: number) => {
+    InvoicesApi.getInvoicesByVendor(vendorId)
+      .then(({ data, count }) => {
+        setCount(count)
+        setInvoices(data)
+        setPages(1)
+      })
+      .catch(console.error)
+  }, [])
+
   const getAllInvoices = useCallback(async (): Promise<void> => {
     const { count: newCount, data } = await getAll(page, itemsPerPage)
 
@@ -49,7 +60,7 @@ export const Invoices: React.FC = function () {
 
   useEffect(() => {
     getAllInvoices().catch(console.error)
-  }, [page, getAll, itemsPerPage, getAllInvoices, count])
+  }, [page, getAll, itemsPerPage, getAllInvoices])
 
   return (
     <>
@@ -71,6 +82,8 @@ export const Invoices: React.FC = function () {
           Create Invoice
         </Button>
       </Header>
+
+      <FilterBar onSearch={handleSearch} />
 
       <section className='text-neutral-500 text-sm font-semibold flex justify-between mt-3 mx-5'>
         <p>Total {count} invoices</p>
@@ -94,7 +107,7 @@ export const Invoices: React.FC = function () {
         ))}
 
         {
-        (pages > 1 && page !== 0) && (
+        (pages > itemsPerPage && page !== 0) && (
           <Pagination
             page={page}
             showControls
