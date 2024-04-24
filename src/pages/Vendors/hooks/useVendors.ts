@@ -10,8 +10,8 @@ export const useVendors = (): VendorContextType => {
     return await VendorsApi.getVendors(page, offset)
   }
 
-  const getByName = async (name: string): Promise<ApiResponse<Vendor[]>> => {
-    return await VendorsApi.getByName(name)
+  const getByName = async (name: string, page?: number, offset?: number): Promise<ApiResponse<Vendor[]>> => {
+    return await VendorsApi.getByName(name, page, offset)
   }
 
   const getOne = async (id: number): Promise<Vendor> => {

@@ -57,7 +57,7 @@ export interface VendorContextType {
   create: (vendor: Omit<Vendor, 'id' | 'balance'>) => Promise<Vendor>
   getAll: (page?: number, offset?: number) => Promise<ApiResponse<Vendor[]>>
   update: (id: number, vendor: Omit<Vendor, 'id' | 'balance'>) => Promise<Vendor>
-  getByName: (name: string) => Promise<ApiResponse<Vendor[]>>
+  getByName: (name: string, page?: number, offset?: number) => Promise<ApiResponse<Vendor[]>>
 }
 
 export interface PaymentsContextType {
