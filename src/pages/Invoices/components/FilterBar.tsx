@@ -7,7 +7,7 @@ import { SearchIcon } from '@/components/icons'
 import { VendorTag } from '@/components/ui'
 
 interface Props {
-  onSearch: (vendorId: number) => void
+  onSearch: (vendorId?: number) => void
 }
 
 export const FilterBar: React.FC<Props> = function ({ onSearch }) {
@@ -26,9 +26,8 @@ export const FilterBar: React.FC<Props> = function ({ onSearch }) {
   }, [getAll])
 
   useEffect(() => {
-    if (vendorKey !== undefined) {
-      onSearch(Number(vendorKey))
-    }
+    const key = (vendorKey === undefined) ? undefined : Number(vendorKey)
+    onSearch(key)
   }, [vendorKey, onSearch])
 
   return (

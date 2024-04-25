@@ -6,7 +6,6 @@ import { Header } from '@/components/ui'
 import { PlusIcon } from '@/components/icons'
 import { useInvoicesContext } from '@/context'
 import { EditInvoiceModal, FilterBar, InvoicesCard, NewInvoiceModal } from './components'
-import { InvoicesApi } from '@/api'
 
 export const Invoices: React.FC = function () {
   const [page, setPage] = useState(1)
@@ -14,8 +13,9 @@ export const Invoices: React.FC = function () {
   const [count, setCount] = useState(0)
   const [itemsPerPage, setItemsPerPage] = useState(5)
   const [invoices, setInvoices] = useState<Invoice[]>([])
+  const [isFiltered, setIsFiltered] = useState(false)
 
-  const { getAll } = useInvoicesContext()
+  const { getAll, getByVendor } = useInvoicesContext()
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure()
 
   const handleCreate = (invoice: Invoice): void => {
@@ -33,20 +33,10 @@ export const Invoices: React.FC = function () {
     setItemsPerPage(Number(e.target.value))
   }
 
-  const handleDelete = (): void => {
+  const handleDelete = (invoiceId: number): void => {
     setCount(count - 1)
+    setInvoices(i => i.filter(invoice => invoice.id !== invoiceId))
   }
-
-  const handleSearch = useCallback((vendorId: number) => {
-    InvoicesApi.getInvoicesByVendor(vendorId)
-      .then(({ data, count }) => {
-        setCount(count)
-        setInvoices(data)
-        setPages(1)
-      })
-      .catch(console.error)
-  }, [])
-
   const getAllInvoices = useCallback(async (): Promise<void> => {
     const { count: newCount, data } = await getAll(page, itemsPerPage)
 
@@ -58,9 +48,31 @@ export const Invoices: React.FC = function () {
     setPages(Math.floor(div) + extraPage)
   }, [getAll, itemsPerPage, page])
 
+  const handleSearch = useCallback((vendorId?: number) => {
+    if (vendorId === undefined || vendorId <= 0) {
+      setIsFiltered(false)
+      getAllInvoices().catch(console.error)
+      return
+    }
+
+    getByVendor(vendorId, page, itemsPerPage)
+      .then((res) => {
+        setIsFiltered(true)
+        const div = res.count / itemsPerPage
+        const extraPage = Number.isInteger(div) ? 0 : 1
+
+        setInvoices(res.data)
+        setCount(res.count)
+        setPages(Math.floor(div) + extraPage)
+      })
+      .catch(console.error)
+  }, [getByVendor, page, itemsPerPage, getAllInvoices])
+
   useEffect(() => {
-    getAllInvoices().catch(console.error)
-  }, [page, getAll, itemsPerPage, getAllInvoices])
+    if (!isFiltered) {
+      getAllInvoices().catch(console.error)
+    }
+  }, [getAllInvoices, isFiltered])
 
   return (
     <>
@@ -107,7 +119,7 @@ export const Invoices: React.FC = function () {
         ))}
 
         {
-        (pages > itemsPerPage && page !== 0) && (
+        (pages > 1 && page !== 0 && count > itemsPerPage) && (
           <Pagination
             page={page}
             showControls

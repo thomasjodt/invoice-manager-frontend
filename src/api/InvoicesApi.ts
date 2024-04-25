@@ -12,9 +12,12 @@ export const InvoicesApi = {
     }
     return res.data
   },
-  getInvoicesByVendor: async (vendorId: number): Promise<ApiResponse<Invoice[]>> => {
-    const { data } = await config.get<ApiResponse<Invoice[]>>(`/invoices?vendorId=${vendorId}`)
-    return data
+  getInvoicesByVendor: async (vendorId: number, page: number = 0, offset: number = 5): Promise<ApiResponse<Invoice[]>> => {
+    const res = (page > 0)
+      ? await config.get<ApiResponse<Invoice[]>>(`/invoices?vendorId=${vendorId}&page=${page}&offset=${offset}`)
+      : await config.get<ApiResponse<Invoice[]>>(`/invoices?vendorId=${vendorId}`)
+
+    return res.data
   },
   getInvoiceById: async (id: number): Promise<Invoice> => {
     const { data } = await config.get(`/invoices/${id}`)
