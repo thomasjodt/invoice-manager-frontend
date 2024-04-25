@@ -97,39 +97,41 @@ export const Invoices: React.FC = function () {
 
       <FilterBar onSearch={handleSearch} />
 
-      <section className='text-neutral-500 text-sm font-semibold flex justify-between mt-3 mx-5'>
-        <p>Total {count} invoices</p>
-        <div className='flex gap-3 items-center'>
-          <p>Invoices per page:</p>
-          <select className='border rounded-md p-1' onChange={handleItems}>
-            <option value='5'>5</option>
-            <option value='10'>10</option>
-            <option value='15'>15</option>
-          </select>
-        </div>
-      </section>
+      <div className='max-w-xl lg:max-w-4xl mx-auto'>
+        <section className='text-neutral-500 text-sm font-semibold flex justify-between mt-3 mx-5'>
+          <p>Total {count} invoices</p>
+          <div className='flex gap-3 items-center'>
+            <p>Invoices per page:</p>
+            <select className='border rounded-md p-1' onChange={handleItems}>
+              <option value='5'>5</option>
+              <option value='10'>10</option>
+              <option value='15'>15</option>
+            </select>
+          </div>
+        </section>
 
-      <Card shadow='none' className='m-5 p-8 gap-3 max-w-xl lg:max-w-4xl mx-auto min-h-[800px] border'>
-        {invoices.map((invoice) => (
-          <InvoicesCard
-            key={invoice.id}
-            invoice={invoice}
-            onDelete={handleDelete}
-          />
-        ))}
+        <Card shadow='none' className='m-5 p-8 gap-3 max-w-xl lg:max-w-4xl mx-auto min-h-[800px] border'>
+          {invoices.map((invoice) => (
+            <InvoicesCard
+              key={invoice.id}
+              invoice={invoice}
+              onDelete={handleDelete}
+            />
+          ))}
 
-        {
-        (pages > 1 && page !== 0 && count > itemsPerPage) && (
-          <Pagination
-            page={page}
-            showControls
-            total={pages}
-            onChange={setPage}
-            className='max-w-fit mx-auto mt-5'
-          />
-        )
-      }
-      </Card>
+          {
+            (pages > 1 && page !== 0 && count > itemsPerPage) && (
+              <Pagination
+                page={page}
+                showControls
+                total={pages}
+                onChange={setPage}
+                className='max-w-fit mx-auto mt-5'
+              />
+            )
+          }
+        </Card>
+      </div>
     </>
   )
 }

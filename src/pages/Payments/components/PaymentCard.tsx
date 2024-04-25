@@ -11,7 +11,7 @@ export const PaymentCard: React.FC<Props> = function ({ payment }) {
   const { amount, id, invoice, paymentDate } = payment
 
   return (
-    <Card key={id} shadow='none' className='border py-1'>
+    <Card key={id} shadow='sm' className='py-1'>
       <CardHeader className='grid grid-cols-3 place-items-center text-neutral-700'>
         <div className='place-self-start pl-5'>
           <p className='font-semibold'>{invoice.vendor.name}</p>
