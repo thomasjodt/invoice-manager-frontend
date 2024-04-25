@@ -49,8 +49,6 @@ export const Vendors: React.FC = function () {
         setPages(Math.floor(div) + extraPage)
       })
       .catch(console.error)
-
-    console.log('Typing')
   }, [page, itemsPerPage, getByName, getAllVendors])
 
   useEffect(() => {
