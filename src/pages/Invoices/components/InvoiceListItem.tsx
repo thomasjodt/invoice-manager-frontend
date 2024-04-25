@@ -9,9 +9,10 @@ import { VendorTag } from '@/components/ui'
 
 interface Props {
   invoice: Invoice
+  onDelete: () => void
 }
 
-export const InvoiceListItem: React.FC<Props> = function ({ invoice }) {
+export const InvoiceListItem: React.FC<Props> = function ({ invoice, onDelete }) {
   const { vendor, invoiceNumber, emissionDate, dueDate, payments, amount } = invoice
 
   const paid = useMemo(() => payments.reduce(
@@ -33,7 +34,7 @@ export const InvoiceListItem: React.FC<Props> = function ({ invoice }) {
         <p className='text-neutral-600'>{dateFormat(emissionDate)}</p>
         <p className='text-neutral-600'>{dateFormat(dueDate)}</p>
         <p>{days}</p>
-        <StatusChip status={status} invoice={invoice} />
+        <StatusChip status={status} invoice={invoice} onDelete={onDelete} />
         <p>{currencyFormat(amount)}</p>
         <p>{currencyFormat(paid)}</p>
         <p>{currencyFormat(balance)}</p>
