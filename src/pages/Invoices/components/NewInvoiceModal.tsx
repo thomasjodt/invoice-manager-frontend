@@ -39,7 +39,7 @@ export const NewInvoiceModal: React.FC<Props> = function ({ isOpen, onOpenChange
     setVendor(value)
   }
 
-  const { form, handleChange } = useForm<InvoiceDtoProps>({
+  const { form, handleChange, reset } = useForm<InvoiceDtoProps>({
     vendor: '',
     invoiceNumber: '',
     amount: '',
@@ -55,6 +55,12 @@ export const NewInvoiceModal: React.FC<Props> = function ({ isOpen, onOpenChange
     handleChange(e)
   }
 
+  const handleClose = (): void => {
+    setVendor('')
+    reset()
+    onClose()
+  }
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
 
@@ -66,7 +72,7 @@ export const NewInvoiceModal: React.FC<Props> = function ({ isOpen, onOpenChange
 
     const newInvoice = await create(form)
     onCreate(newInvoice)
-    onClose()
+    handleClose()
   }
 
   useEffect(() => {
@@ -93,7 +99,7 @@ export const NewInvoiceModal: React.FC<Props> = function ({ isOpen, onOpenChange
   }, [emissionDate, dueDate, form])
 
   return (
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+    <Modal isOpen={isOpen} onOpenChange={onOpenChange} onClose={handleClose}>
       <ModalContent>
         {() => (
           <>
