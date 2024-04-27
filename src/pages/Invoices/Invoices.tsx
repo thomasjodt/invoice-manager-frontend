@@ -15,7 +15,7 @@ export const Invoices: React.FC = function () {
   const [invoices, setInvoices] = useState<Invoice[]>([])
   const [isFiltered, setIsFiltered] = useState(false)
 
-  const { getAll, getByVendor } = useInvoicesContext()
+  const { getAll, getByVendor, remove } = useInvoicesContext()
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure()
 
   const handleCreate = (invoice: Invoice): void => {
@@ -33,10 +33,20 @@ export const Invoices: React.FC = function () {
     setItemsPerPage(Number(e.target.value))
   }
 
-  const handleDelete = (invoiceId: number): void => {
-    setCount(count - 1)
-    setInvoices(i => i.filter(invoice => invoice.id !== invoiceId))
+  const handleDelete = (invoiceId: number) => {
+    return () => {
+      // TODO: Implement action to delete all payments and then delete the invoice.
+      const isConfirmed = confirm('Are you sure to delete this invoice?\n\nEsta acción eliminará esta factura junto a todos sus pagos correspondientes.')
+
+      if (isConfirmed) {
+        remove(invoiceId)
+          .then(() => {
+            getAllInvoices().catch(console.error)
+          }).catch(console.error)
+      }
+    }
   }
+
   const getAllInvoices = useCallback(async (): Promise<void> => {
     const { count: newCount, data } = await getAll(page, itemsPerPage)
 
@@ -115,7 +125,7 @@ export const Invoices: React.FC = function () {
             <InvoicesCard
               key={invoice.id}
               invoice={invoice}
-              onDelete={handleDelete}
+              onDelete={handleDelete(invoice.id)}
             />
           ))}
 
