@@ -36,9 +36,13 @@ export const InvoicesCard: React.FC<Props> = function ({ invoice, onDelete, onEd
     setIsModalOpen(true)
   }
 
+  const closeModal = (): void => {
+    setIsModalOpen(false)
+  }
+
   return (
     <>
-      <DeleteModal isModalOpen={isModalOpen} onDelete={onDelete} />
+      <DeleteModal onCloseModal={closeModal} isModalOpen={isModalOpen} onDelete={onDelete} />
       <Card>
         <CardHeader className='flex items-center justify-between pb-0'>
           <VendorTag vendor={invoice.vendor} />
