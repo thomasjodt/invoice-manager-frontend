@@ -10,9 +10,10 @@ interface Props {
   onDelete?: () => void
   onEdit?: () => void
   onViewDetails?: () => void
+  item?: string
 }
 
-export const StatusChip: React.FC<Props> = function ({ status, onDelete, onViewDetails, onEdit }) {
+export const StatusChip: React.FC<Props> = function ({ status, onDelete, onViewDetails, onEdit, item }) {
   return (
     <div className='flex gap-1'>
       <Chip radius='sm' variant='flat' color={statuses[status]} className='min-w-[80px] text-center'>
@@ -20,6 +21,7 @@ export const StatusChip: React.FC<Props> = function ({ status, onDelete, onViewD
       </Chip>
 
       <ContextActions
+        item={item}
         onEdit={onEdit}
         onViewDetails={onViewDetails}
         onDelete={onDelete}
