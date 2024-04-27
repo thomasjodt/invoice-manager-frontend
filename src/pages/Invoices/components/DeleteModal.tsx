@@ -4,9 +4,10 @@ import { useEffect } from 'react'
 interface Props {
   isModalOpen: boolean
   onDelete?: () => void
+  onCloseModal?: () => void
 }
 
-export const DeleteModal: React.FC<Props> = function ({ isModalOpen, onDelete }) {
+export const DeleteModal: React.FC<Props> = function ({ isModalOpen, onDelete, onCloseModal }) {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure()
 
   const handleDelete = (): void => {
@@ -18,7 +19,12 @@ export const DeleteModal: React.FC<Props> = function ({ isModalOpen, onDelete })
   }, [isModalOpen, onClose, onOpen])
 
   return (
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange} backdrop='opaque'>
+    <Modal
+      isOpen={isOpen}
+      onOpenChange={onOpenChange}
+      backdrop='opaque'
+      onClose={onCloseModal}
+    >
       <ModalContent>
         {
           () => (
@@ -32,7 +38,7 @@ export const DeleteModal: React.FC<Props> = function ({ isModalOpen, onDelete })
               </ModalBody>
 
               <ModalFooter className='flex justify-between'>
-                <Button variant='light' onPress={onClose}>No, cancel</Button>
+                <Button variant='light' onPress={onCloseModal}>No, cancel</Button>
                 <Button color='danger' onPress={handleDelete}>Yes, delete</Button>
               </ModalFooter>
             </>
