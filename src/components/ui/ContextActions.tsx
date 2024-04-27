@@ -20,12 +20,14 @@ export const ContextActions: React.FC<Props> = function ({ onDelete, onEdit, onV
           </DropdownTrigger>
           <DropdownMenu aria-label='Invoice actions'>
             <DropdownItem
+              textValue='View details'
               onPress={onViewDetails}
               startContent={<FileIcon size={18} />}
             >
               View details
             </DropdownItem>
             <DropdownItem
+              textValue='Edit'
               onPress={onEdit}
               startContent={<EditIcon size={18} />}
             >
@@ -34,6 +36,7 @@ export const ContextActions: React.FC<Props> = function ({ onDelete, onEdit, onV
 
             <DropdownItem
               color='danger'
+              textValue='Delete'
               onPress={onDelete}
               startContent={<DeleteIcon size={18} />}
             >
