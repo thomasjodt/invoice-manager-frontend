@@ -1,30 +1,13 @@
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@nextui-org/react'
-
-import type { Invoice } from '@/types'
 import { DeleteIcon, EditIcon, VerticalDotsIcon, FileIcon } from '@/components/icons'
-import { useInvoicesContext } from '@/context'
 
 interface Props {
-  invoice: Invoice
-  onDelete: (invoiceId: number) => void
+  onDelete?: () => void
+  onEdit?: () => void
+  onViewDetails?: () => void
 }
 
-export const ContextActions: React.FC<Props> = function ({ invoice, onDelete }) {
-  const { remove, populateEditing } = useInvoicesContext()
-
-  const handleDelete = (): void => {
-    if (invoice === undefined) return
-    const confirmed = confirm('¿Estás seguro de eliminar esta factura?')
-    if (confirmed) {
-      remove(invoice.id).catch(console.error)
-      onDelete(invoice.id)
-    }
-  }
-
-  const handleEdit = (): void => {
-    populateEditing(invoice)
-  }
-
+export const ContextActions: React.FC<Props> = function ({ onDelete, onEdit, onViewDetails }) {
   return (
     <>
       <div className='relative flex justify-end items-center gap-2'>
@@ -35,9 +18,14 @@ export const ContextActions: React.FC<Props> = function ({ invoice, onDelete }) 
             </Button>
           </DropdownTrigger>
           <DropdownMenu aria-label='Invoice actions'>
-            <DropdownItem startContent={<FileIcon size={18} />}>View details</DropdownItem>
             <DropdownItem
-              onPress={handleEdit}
+              onPress={onViewDetails}
+              startContent={<FileIcon size={18} />}
+            >
+              View details
+            </DropdownItem>
+            <DropdownItem
+              onPress={onEdit}
               startContent={<EditIcon size={18} />}
             >
               Edit invoice
@@ -45,7 +33,7 @@ export const ContextActions: React.FC<Props> = function ({ invoice, onDelete }) 
 
             <DropdownItem
               color='danger'
-              onPress={handleDelete}
+              onPress={onDelete}
               startContent={<DeleteIcon size={18} />}
             >
               Delete invoice
