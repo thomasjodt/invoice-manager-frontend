@@ -34,16 +34,12 @@ export const Invoices: React.FC = function () {
   }
 
   const handleDelete = (invoiceId: number) => {
+    // TODO: Implement action to delete all payments and then delete the invoice.
     return () => {
-      // TODO: Implement action to delete all payments and then delete the invoice.
-      const isConfirmed = confirm('Are you sure to delete this invoice?\n\nEsta acción eliminará esta factura junto a todos sus pagos correspondientes.')
-
-      if (isConfirmed) {
-        remove(invoiceId)
-          .then(() => {
-            getAllInvoices().catch(console.error)
-          }).catch(console.error)
-      }
+      remove(invoiceId)
+        .then(() => {
+          handleSearch()
+        }).catch(console.error)
     }
   }
 
@@ -123,6 +119,7 @@ export const Invoices: React.FC = function () {
         <Card shadow='none' className='m-5 p-8 gap-3 max-w-xl lg:max-w-4xl mx-auto min-h-[800px] border'>
           {invoices.map((invoice) => (
             <InvoicesCard
+              item='invoice'
               key={invoice.id}
               invoice={invoice}
               onDelete={handleDelete(invoice.id)}
