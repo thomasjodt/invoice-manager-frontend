@@ -16,23 +16,16 @@ export const App: React.FC = () => {
     <NextUIProvider navigate={navigate}>
       <InvoicesContextProvider>
         <VendorContextProvider>
-          <Layout>
-            <Routes>
-              <Route path='invoices' element={<Suspense><Invoices /></Suspense>} />
-              <Route path='vendors' element={<Suspense><Vendors /></Suspense>} />
-              <Route
-                path='payments'
-                element={
-                  <PaymentsContextProvider>
-                    <Suspense>
-                      <Payments />
-                    </Suspense>
-                  </PaymentsContextProvider>
-                }
-              />
-              <Route path='*' element={<Navigate to='invoices' />} />
-            </Routes>
-          </Layout>
+          <PaymentsContextProvider>
+            <Layout>
+              <Routes>
+                <Route path='invoices' element={<Suspense><Invoices /></Suspense>} />
+                <Route path='vendors' element={<Suspense><Vendors /></Suspense>} />
+                <Route path='payments' element={<Suspense><Payments /></Suspense>} />
+                <Route path='*' element={<Navigate to='invoices' />} />
+              </Routes>
+            </Layout>
+          </PaymentsContextProvider>
         </VendorContextProvider>
       </InvoicesContextProvider>
     </NextUIProvider>
