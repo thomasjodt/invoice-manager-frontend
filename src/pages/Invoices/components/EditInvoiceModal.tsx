@@ -6,23 +6,27 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
-  Snippet
+  Snippet,
+  useDisclosure
 } from '@nextui-org/react'
 
 import { useForm } from '@/hooks'
 import type { Invoice, Vendor } from '@/types'
-import { VendorTag } from '@/components/ui'
-import { useInvoicesContext } from '@/context'
 import { useEffect } from 'react'
+import { useInvoicesContext } from '../context'
+import { VendorTag } from '@/components/ui'
 
 interface Props {
-  handleUpdate: (updated: Invoice) => void
+  onUpdate?: () => void
+  isModalOpen?: boolean
+  onCloseModal?: () => void
 }
 
-export const EditInvoiceModal: React.FC<Props> = function ({ handleUpdate }) {
-  const { update, current, resetEditing, isOpen, onOpenChange } = useInvoicesContext()
+export const EditInvoiceModal: React.FC<Props> = function ({ isModalOpen = false, onCloseModal, onUpdate }) {
+  const { current } = useInvoicesContext()
+  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure()
 
-  const { form, handleChange } = useForm<Invoice>({
+  const { form, handleChange, populate } = useForm<Invoice>({
     id: 0,
     amount: 0,
     dueDate: '',
@@ -38,26 +42,23 @@ export const EditInvoiceModal: React.FC<Props> = function ({ handleUpdate }) {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault()
-    const updated = await update(form)
-    handleUpdate(updated)
-    resetEditing()
+    if (onUpdate !== undefined) onUpdate()
   }
 
   useEffect(() => {
-    if (current !== null) {
-      form.id = current.id
-      form.amount = current.amount
-      form.vendor = current.vendor
-      form.dueDate = current.dueDate
-      form.emissionDate = current.emissionDate
-      form.invoiceNumber = current.invoiceNumber
-      form.payments = current.payments
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [current])
+    (isModalOpen) ? onOpen() : onClose()
+  }, [isModalOpen, onOpen, onClose])
+
+  useEffect(() => {
+    if (current !== null) populate(current)
+  }, [populate, current])
 
   return (
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange} onClose={resetEditing}>
+    <Modal
+      isOpen={isOpen}
+      onClose={onCloseModal}
+      onOpenChange={onOpenChange}
+    >
       <ModalContent>
         {() => (
           <>
