@@ -25,13 +25,14 @@ export const Invoices: React.FC = function () {
     setCount(count + 1)
   }
 
-  const handleEdit = (): void => {
+  const handleEdit = (invoice: Invoice): void => {
     if (current === null) return
 
-    update(current)
+    update(invoice)
       .then(() => {
+        closeModal()
         setInvoices(invoices.map(
-          (invoice) => (invoice.id === current.id) ? current : invoice)
+          (i) => (i.id === invoice.id) ? invoice : i)
         )
       }).catch(console.error)
   }
@@ -105,7 +106,7 @@ export const Invoices: React.FC = function () {
         onCreate={handleCreate}
       />
 
-      <EditInvoiceModal onUpdate={handleEdit} isModalOpen={isModalOpen} onCloseModal={closeModal} />
+      {(isModalOpen) && <EditInvoiceModal onUpdate={handleEdit} isModalOpen={isModalOpen} onCloseModal={closeModal} />}
 
       <Header title='Invoices'>
         <Button
