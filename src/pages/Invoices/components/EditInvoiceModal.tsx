@@ -11,38 +11,45 @@ import {
 } from '@nextui-org/react'
 
 import { useForm } from '@/hooks'
-import type { Invoice, Vendor } from '@/types'
+import type { Invoice, InvoiceDtoProps } from '@/types'
 import { useEffect } from 'react'
 import { useInvoicesContext } from '../context'
 import { VendorTag } from '@/components/ui'
 
 interface Props {
-  onUpdate?: () => void
+  onUpdate?: (invoice: Invoice) => void
   isModalOpen?: boolean
   onCloseModal?: () => void
 }
 
 export const EditInvoiceModal: React.FC<Props> = function ({ isModalOpen = false, onCloseModal, onUpdate }) {
-  const { current } = useInvoicesContext()
+  const { populateEditing, resetEditing, ...props } = useInvoicesContext()
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure()
 
-  const { form, handleChange, populate } = useForm<Invoice>({
-    id: 0,
-    amount: 0,
+  const current = props.current
+
+  const { form, handleChange, populate } = useForm<InvoiceDtoProps>({
+    amount: '',
     dueDate: '',
     emissionDate: '',
     invoiceNumber: '',
-    payments: [],
-    vendor: {
-      id: 0,
-      name: '',
-      fullName: ''
-    }
+    vendor: ''
   })
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault()
-    if (onUpdate !== undefined) onUpdate()
+    if (current === null) return
+
+    const formToUpdate: Invoice = {
+      ...current,
+      amount: Number(form.amount),
+      dueDate: form.dueDate,
+      emissionDate: form.emissionDate
+    }
+
+    if (onUpdate !== undefined) onUpdate(formToUpdate)
+    resetEditing()
+    onClose()
   }
 
   useEffect(() => {
@@ -50,8 +57,17 @@ export const EditInvoiceModal: React.FC<Props> = function ({ isModalOpen = false
   }, [isModalOpen, onOpen, onClose])
 
   useEffect(() => {
-    if (current !== null) populate(current)
-  }, [populate, current])
+    if (current !== null) {
+      populate({
+        amount: current.amount.toString(),
+        dueDate: current.dueDate,
+        emissionDate: current.emissionDate,
+        invoiceNumber: current.invoiceNumber,
+        vendor: current.vendor.id.toString()
+      })
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <Modal
@@ -68,13 +84,17 @@ export const EditInvoiceModal: React.FC<Props> = function ({ isModalOpen = false
               <ModalBody>
                 <div className='mb-3'>
                   <p className='text-sm pl-2 mb-1 font-semibold'>Vendor</p>
-                  <VendorTag
-                    vendor={current?.vendor as Vendor}
-                    classNames={{
-                      container: 'p-3 border w-full rounded-xl',
-                      name: 'font-semibold text-primary-600 text-[1em]'
-                    }}
-                  />
+                  {
+                    (current !== null) && (
+                      <VendorTag
+                        vendor={current.vendor}
+                        classNames={{
+                          container: 'p-3 border w-full rounded-xl',
+                          name: 'font-semibold text-primary-600 text-[1em]'
+                        }}
+                      />
+                    )
+                  }
                 </div>
 
                 <div className='w-full mb-2'>
@@ -94,7 +114,7 @@ export const EditInvoiceModal: React.FC<Props> = function ({ isModalOpen = false
                     name='amount'
                     className='mb-3'
                     autoFocus
-                    value={form.amount.toString()}
+                    value={form.amount}
                     onChange={handleChange}
                   />
                 </div>
