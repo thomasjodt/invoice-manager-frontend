@@ -17,5 +17,14 @@ export const useForm = <T>(initialForm: T): UseForm<T> => {
     setForm(initialForm)
   }
 
-  return { form, handleChange, reset }
+  const populate = (form: T): void => {
+    for (const key in form) {
+      setForm(f => ({
+        ...f,
+        [key]: form[key]
+      }))
+    }
+  }
+
+  return { form, handleChange, reset, populate }
 }

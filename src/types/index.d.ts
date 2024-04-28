@@ -32,6 +32,7 @@ export interface UseForm<T> {
   form: T
   reset: () => void
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  populate: (form: T) => void
 }
 
 export interface InvoiceDtoProps {
