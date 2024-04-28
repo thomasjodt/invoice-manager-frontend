@@ -14,8 +14,9 @@ export const Invoices: React.FC = function () {
   const [itemsPerPage, setItemsPerPage] = useState(5)
   const [invoices, setInvoices] = useState<Invoice[]>([])
   const [isFiltered, setIsFiltered] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const { getAll, getByVendor, remove } = useInvoicesContext()
+  const { current, getAll, getByVendor, remove, update, populateEditing } = useInvoicesContext()
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure()
 
   const handleCreate = (invoice: Invoice): void => {
@@ -24,9 +25,15 @@ export const Invoices: React.FC = function () {
     setCount(count + 1)
   }
 
-  const handleUpdate = (updated: Invoice): void => {
-    const updatedInvoices = invoices.map((invoice) => (invoice.id === updated.id) ? updated : invoice)
-    setInvoices(updatedInvoices)
+  const handleEdit = (): void => {
+    if (current === null) return
+
+    update(current)
+      .then(() => {
+        setInvoices(invoices.map(
+          (invoice) => (invoice.id === current.id) ? current : invoice)
+        )
+      }).catch(console.error)
   }
 
   const handleItems = (e: React.ChangeEvent<HTMLSelectElement>): void => {
@@ -41,6 +48,15 @@ export const Invoices: React.FC = function () {
           handleSearch()
         }).catch(console.error)
     }
+  }
+
+  const handleEditModal = (invoice: Invoice): void => {
+    populateEditing(invoice)
+    setIsModalOpen(true)
+  }
+
+  const closeModal = (): void => {
+    setIsModalOpen(false)
   }
 
   const getAllInvoices = useCallback(async (): Promise<void> => {
@@ -89,7 +105,7 @@ export const Invoices: React.FC = function () {
         onCreate={handleCreate}
       />
 
-      <EditInvoiceModal handleUpdate={handleUpdate} />
+      <EditInvoiceModal onUpdate={handleEdit} isModalOpen={isModalOpen} onCloseModal={closeModal} />
 
       <Header title='Invoices'>
         <Button
@@ -122,6 +138,7 @@ export const Invoices: React.FC = function () {
               item='invoice'
               key={invoice.id}
               invoice={invoice}
+              onEdit={() => { handleEditModal(invoice) }}
               onDelete={handleDelete(invoice.id)}
             />
           ))}
