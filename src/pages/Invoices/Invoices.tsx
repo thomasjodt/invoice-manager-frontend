@@ -4,7 +4,7 @@ import { Button, Card, Pagination, useDisclosure } from '@nextui-org/react'
 import type { Invoice } from '@/types'
 import { Header } from '@/components/ui'
 import { PlusIcon } from '@/components/icons'
-import { useInvoicesContext } from '@/context'
+import { useInvoicesContext, usePaymentsContext } from '@/context'
 import { EditInvoiceModal, FilterBar, InvoicesCard, NewInvoiceModal } from './components'
 
 export const Invoices: React.FC = function () {
@@ -16,7 +16,8 @@ export const Invoices: React.FC = function () {
   const [isFiltered, setIsFiltered] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const { current, getAll, getByVendor, remove, update, populateEditing } = useInvoicesContext()
+  const { current, getAll, getByVendor, remove, update, populateEditing, getOne } = useInvoicesContext()
+  const { remove: removePayments } = usePaymentsContext()
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure()
 
   const handleCreate = (invoice: Invoice): void => {
@@ -42,12 +43,20 @@ export const Invoices: React.FC = function () {
   }
 
   const handleDelete = (invoiceId: number) => {
-    // TODO: Implement action to delete all payments and then delete the invoice.
     return () => {
-      remove(invoiceId)
+      getOne(invoiceId)
+        .then(i => {
+          i.payments.forEach(payment => {
+            removePayments(payment.id).catch(console.error)
+          })
+        })
         .then(() => {
-          handleSearch()
-        }).catch(console.error)
+          remove(invoiceId)
+            .then(() => {
+              handleSearch()
+            }).catch(console.error)
+        })
+        .catch(console.error)
     }
   }
 
