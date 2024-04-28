@@ -79,6 +79,4 @@ export interface InvoicesContextType {
   getAll: (page?: number, offset?: number) => Promise<ApiResponse<Invoice[]>>
   update: (invoice: Invoice) => Promise<Invoice>
   getByVendor: (vendorId: number, page?: number, offset?: number) => Promise<ApiResponse<Invoice[]>>
-  isOpen: boolean
-  onOpenChange: () => void
 }
