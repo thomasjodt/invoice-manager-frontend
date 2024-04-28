@@ -6,16 +6,38 @@ import type { FullPayment } from '@/types'
 import { PlusIcon } from '@/components/icons'
 import { usePaymentsContext } from '@/context'
 import { NewPaymentModal, PaymentCard } from './components'
+import { DeletePaymentModal } from './components/DeletePaymentModal'
 
 export const Payments: React.FC = function () {
-  const { getAll } = usePaymentsContext()
+  const { getAll, remove } = usePaymentsContext()
   const [page, setPage] = useState(1)
   const [pages, setPages] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(5)
   const [count, setCount] = useState(0)
   const [payments, setPayments] = useState<FullPayment[]>([])
 
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const [deletingPaymentId, setDeletingPaymentId] = useState<number | null>(null)
+
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
+
+  const openDeleteModal = (paymentId: number): void => {
+    setDeletingPaymentId(paymentId)
+    setIsDeleteModalOpen(true)
+  }
+
+  const closeDeleteModal = (): void => {
+    setDeletingPaymentId(null)
+    setIsDeleteModalOpen(false)
+  }
+
+  const handleDeletePayment = (): void => {
+    if (deletingPaymentId === null) return
+    remove(deletingPaymentId)
+      .then(() => { closeDeleteModal() })
+      .then(() => { getAllPayments().catch(console.error) })
+      .catch(console.error)
+  }
 
   const getAllPayments = useCallback(async (): Promise<void> => {
     const res = await getAll(page, itemsPerPage)
@@ -39,6 +61,7 @@ export const Payments: React.FC = function () {
       </Header>
 
       <NewPaymentModal isOpen={isOpen} onOpenChange={onOpenChange} />
+      <DeletePaymentModal isModalOpen={isDeleteModalOpen} onDelete={handleDeletePayment} onCloseModal={closeDeleteModal} />
 
       <div className='max-w-xl lg:max-w-4xl mx-auto'>
         {(count > 0) && (
@@ -60,7 +83,7 @@ export const Payments: React.FC = function () {
           <div className='flex flex-col gap-3'>
             {
               payments.map((payment) => (
-                <PaymentCard key={payment.id} payment={payment} />
+                <PaymentCard key={payment.id} payment={payment} onDelete={() => { openDeleteModal(payment.id) }} />
               ))
             }
           </div>
