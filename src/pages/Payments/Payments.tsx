@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { Button, Card, Pagination, useDisclosure } from '@nextui-org/react'
+import { Button, Card, Pagination } from '@nextui-org/react'
 
 import { Header } from '@/components/ui'
 import type { FullPayment } from '@/types'
@@ -9,7 +9,7 @@ import { NewPaymentModal, PaymentCard } from './components'
 import { DeletePaymentModal } from './components/DeletePaymentModal'
 
 export const Payments: React.FC = function () {
-  const { getAll, remove } = usePaymentsContext()
+  const { create, getAll, remove } = usePaymentsContext()
   const [page, setPage] = useState(1)
   const [pages, setPages] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(5)
@@ -19,11 +19,33 @@ export const Payments: React.FC = function () {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [deletingPaymentId, setDeletingPaymentId] = useState<number | null>(null)
 
-  const { isOpen, onOpen, onOpenChange } = useDisclosure()
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
 
-  const openDeleteModal = (paymentId: number): void => {
-    setDeletingPaymentId(paymentId)
-    setIsDeleteModalOpen(true)
+  const openCreateModal = (): void => {
+    setIsCreateModalOpen(true)
+  }
+
+  const closeCreateModal = (): void => {
+    setIsCreateModalOpen(false)
+  }
+
+  const handleCreate = (form: { amount: string, invoiceId: string, paymentDate: string, vendor: string }): void => {
+    create({
+      amount: Number(form.amount),
+      invoiceId: Number(form.invoiceId),
+      paymentDate: form.paymentDate
+    })
+      .then(() => {
+        getAllPayments().catch(console.error)
+      })
+      .catch(console.error)
+  }
+
+  const openDeleteModal = (paymentId: number) => {
+    return () => {
+      setDeletingPaymentId(paymentId)
+      setIsDeleteModalOpen(true)
+    }
   }
 
   const closeDeleteModal = (): void => {
@@ -57,11 +79,26 @@ export const Payments: React.FC = function () {
   return (
     <>
       <Header title='Payments'>
-        <Button color='primary' endContent={<PlusIcon />} onPress={onOpen}>Add Payment</Button>
+        <Button
+          color='primary'
+          endContent={<PlusIcon />}
+          onPress={openCreateModal}
+        >
+          Add Payment
+        </Button>
       </Header>
 
-      <NewPaymentModal isOpen={isOpen} onOpenChange={onOpenChange} />
-      <DeletePaymentModal isModalOpen={isDeleteModalOpen} onDelete={handleDeletePayment} onCloseModal={closeDeleteModal} />
+      <NewPaymentModal
+        isOpenModal={isCreateModalOpen}
+        onCloseModal={closeCreateModal}
+        onCreate={handleCreate}
+      />
+
+      <DeletePaymentModal
+        isModalOpen={isDeleteModalOpen}
+        onDelete={handleDeletePayment}
+        onCloseModal={closeDeleteModal}
+      />
 
       <div className='max-w-xl lg:max-w-4xl mx-auto'>
         {(count > 0) && (
@@ -83,7 +120,11 @@ export const Payments: React.FC = function () {
           <div className='flex flex-col gap-3'>
             {
               payments.map((payment) => (
-                <PaymentCard key={payment.id} payment={payment} onDelete={() => { openDeleteModal(payment.id) }} />
+                <PaymentCard
+                  key={payment.id}
+                  payment={payment}
+                  onDelete={openDeleteModal(payment.id)}
+                />
               ))
             }
           </div>
