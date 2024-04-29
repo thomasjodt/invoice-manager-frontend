@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { Button, Card, Pagination, useDisclosure } from '@nextui-org/react'
 
 import type { Invoice } from '@/types'
-import { Header } from '@/components/ui'
+import { Header, ShowItems } from '@/components/ui'
 import { PlusIcon } from '@/components/icons'
 import { useInvoicesContext, usePaymentsContext } from '@/context'
 import { EditInvoiceModal, FilterBar, InvoicesCard, NewInvoiceModal } from './components'
@@ -36,10 +36,6 @@ export const Invoices: React.FC = function () {
           (i) => (i.id === invoice.id) ? invoice : i)
         )
       }).catch(console.error)
-  }
-
-  const handleItems = (e: React.ChangeEvent<HTMLSelectElement>): void => {
-    setItemsPerPage(Number(e.target.value))
   }
 
   const handleDelete = (invoiceId: number) => {
@@ -134,11 +130,7 @@ export const Invoices: React.FC = function () {
           <p>Total {count} invoices</p>
           <div className='flex gap-3 items-center'>
             <p>Invoices per page:</p>
-            <select className='border rounded-md p-1' onChange={handleItems}>
-              <option value='5'>5</option>
-              <option value='10'>10</option>
-              <option value='15'>15</option>
-            </select>
+            <ShowItems onChange={setItemsPerPage} />
           </div>
         </section>
 

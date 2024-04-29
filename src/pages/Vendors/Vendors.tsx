@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Button, Card, Pagination, useDisclosure } from '@nextui-org/react'
 
-import { Header } from '@/components/ui'
+import { Header, ShowItems } from '@/components/ui'
 import { useVendorContext } from '@/context'
 import { PlusIcon } from '@/components/icons'
 import { FilterBar } from './components/filter'
@@ -81,11 +81,7 @@ export const Vendors: React.FC = function () {
 
               <div className='flex items-center gap-3'>
                 <p>Vendors per page</p>
-                <select onChange={(e) => { setItemsPerPage(Number(e.target.value)) }} className='border rounded-md p-1'>
-                  <option value='5'>5</option>
-                  <option value='10'>10</option>
-                  <option value='15'>15</option>
-                </select>
+                <ShowItems onChange={setItemsPerPage} />
               </div>
             </div>
           )}
