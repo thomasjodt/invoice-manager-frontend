@@ -8,7 +8,8 @@ import {
   ModalBody,
   ModalContent,
   ModalFooter,
-  ModalHeader
+  ModalHeader,
+  useDisclosure
 } from '@nextui-org/react'
 
 import { useForm } from '@/hooks'
@@ -17,15 +18,16 @@ import { currencyFormat } from '@/utils'
 import { VendorTag } from '@/components/ui'
 import { useVendorContext } from '@/pages/Vendors/context'
 import { useInvoicesContext } from '@/pages/Invoices/context'
-import { usePaymentsContext } from '../context'
 
+interface OnCreate { amount: string, invoiceId: string, paymentDate: string, vendor: string }
 interface Props {
-  isOpen: boolean
-  onOpenChange: () => void
+  isOpenModal?: boolean
+  onCreate?: (form: OnCreate) => void
+  onCloseModal?: () => void
 }
 
-export const NewPaymentModal: React.FC<Props> = function ({ isOpen, onOpenChange }) {
-  const { create } = usePaymentsContext()
+export const NewPaymentModal: React.FC<Props> = function ({ isOpenModal = false, onCloseModal, onCreate }) {
+  const { isOpen, onClose, onOpen, onOpenChange } = useDisclosure()
   const { getAll: getVendors } = useVendorContext()
   const { getByVendor, getAll } = useInvoicesContext()
 
@@ -46,7 +48,7 @@ export const NewPaymentModal: React.FC<Props> = function ({ isOpen, onOpenChange
     }
   }
 
-  const { form, handleChange, reset } = useForm({
+  const { form, handleChange, reset } = useForm<OnCreate>({
     vendor: '',
     amount: '',
     invoiceId: '',
@@ -66,11 +68,7 @@ export const NewPaymentModal: React.FC<Props> = function ({ isOpen, onOpenChange
   const handlePayment = (): void => {
     if (Object.values(form).includes('')) return
 
-    create({
-      amount: Number(form.amount),
-      invoiceId: Number(form.invoiceId),
-      paymentDate: form.paymentDate
-    }).catch(console.error)
+    if (onCreate !== undefined) onCreate(form)
 
     setVendorKey(null)
     setInvoiceKey(null)
@@ -109,8 +107,12 @@ export const NewPaymentModal: React.FC<Props> = function ({ isOpen, onOpenChange
     getAllVendors().catch(console.error)
   }, [getVendors])
 
+  useEffect(() => {
+    (isOpenModal) ? onOpen() : onClose()
+  }, [isOpenModal, onOpen, onClose])
+
   return (
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange} className='pb-3'>
+    <Modal isOpen={isOpen} onOpenChange={onOpenChange} className='pb-3' onClose={onCloseModal}>
       <ModalContent>
         {(close) => (
           <>
