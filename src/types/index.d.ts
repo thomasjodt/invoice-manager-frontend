@@ -1,4 +1,5 @@
 import type { statuses } from '@/data'
+import type React from 'react'
 
 export interface Vendor {
   id: number
@@ -31,7 +32,7 @@ export interface Invoice {
 export interface UseForm<T> {
   form: T
   reset: () => void
-  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  handleChange: HandleChange
   populate: (form: T) => void
 }
 
@@ -79,4 +80,12 @@ export interface InvoicesContextType {
   getAll: (page?: number, offset?: number) => Promise<ApiResponse<Invoice[]>>
   update: (invoice: Invoice) => Promise<Invoice>
   getByVendor: (vendorId: number, page?: number, offset?: number) => Promise<ApiResponse<Invoice[]>>
+}
+
+export type FormElement = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+export interface HandleChange {
+  (event: React.ChangeEvent<HTMLInputElement>): void
+  (event: React.ChangeEvent<HTMLSelectElement>): void
+  (event: React.ChangeEvent<HTMLTextAreaElement>): void
+  (event: React.ChangeEvent<FormElement>): void
 }

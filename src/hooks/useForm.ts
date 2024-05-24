@@ -1,17 +1,18 @@
-import { type UseForm } from '@/types'
 import { useState } from 'react'
+import type { HandleChange, UseForm } from '@/types'
 
 export const useForm = <T>(initialForm: T): UseForm<T> => {
   const [form, setForm] = useState(initialForm)
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const { name, value, checked, type } = e.target
+  const handleChange: HandleChange = ((e) => {
+    const { name, value, type } = e.target
+    const checked = (e.target instanceof HTMLInputElement) ? e.target.checked : null
 
     setForm(f => ({
       ...f,
       [name]: (type === 'checkbox') ? checked : value
     }))
-  }
+  }) as HandleChange
 
   const reset = (): void => {
     setForm(initialForm)
