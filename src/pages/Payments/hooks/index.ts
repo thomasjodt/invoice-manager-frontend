@@ -1,1 +1,0 @@
-export { usePayments } from './usePayments'

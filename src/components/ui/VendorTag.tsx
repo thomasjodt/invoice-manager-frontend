@@ -1,7 +1,7 @@
 import type { Vendor } from '@/types'
 
 interface Props {
-  vendor: Omit<Vendor, 'balance'>
+  vendor: Pick<Vendor, 'name' | 'fullName'>
   classNames?: Partial<Record<'name' | 'fullName' | 'container', string>>
 }
 

@@ -1,5 +1,5 @@
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@nextui-org/react'
-import { DeleteIcon, EditIcon, VerticalDotsIcon, FileIcon } from '@/components/icons'
+import { DeleteIcon, VerticalDotsIcon, FileIcon } from '@/components/icons'
 
 interface Props {
   item?: string
@@ -8,7 +8,7 @@ interface Props {
   onViewDetails?: () => void
 }
 
-export const ContextActions: React.FC<Props> = function ({ onDelete, onEdit, onViewDetails, item }) {
+export const ContextActions: React.FC<Props> = function ({ onDelete, onViewDetails, item }) {
   return (
     <>
       <div className='relative flex justify-end items-center gap-2'>
@@ -18,6 +18,7 @@ export const ContextActions: React.FC<Props> = function ({ onDelete, onEdit, onV
               <VerticalDotsIcon className='text-default-400' />
             </Button>
           </DropdownTrigger>
+
           <DropdownMenu aria-label='Invoice actions'>
             <DropdownItem
               textValue='View details'
@@ -25,13 +26,6 @@ export const ContextActions: React.FC<Props> = function ({ onDelete, onEdit, onV
               startContent={<FileIcon size={18} />}
             >
               View details
-            </DropdownItem>
-            <DropdownItem
-              textValue='Edit'
-              onPress={onEdit}
-              startContent={<EditIcon size={18} />}
-            >
-              Edit {item}
             </DropdownItem>
 
             <DropdownItem

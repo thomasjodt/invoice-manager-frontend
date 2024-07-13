@@ -1,3 +1,3 @@
-export { VendorContextProvider, useVendorContext } from '@/pages/Vendors/context'
-export { PaymentsContextProvider, usePaymentsContext } from '@/pages/Payments/context'
-export { InvoicesContextProvider, useInvoicesContext } from '@/pages/Invoices/context'
+export { VendorContextProvider, useVendorContext } from './VendorContext'
+export { PaymentsContextProvider, usePaymentsContext } from './PaymentsContextProvider'
+export { InvoicesContextProvider, useInvoicesContext } from './InvoicesContext'
