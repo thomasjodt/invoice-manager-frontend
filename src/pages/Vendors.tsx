@@ -26,9 +26,11 @@ export const Vendors: React.FC = function () {
     const extraPage = Number.isInteger(div) ? 0 : 1
 
     setPages(Math.floor(div) + extraPage)
+
+    if (pages < page) setPage(pages)
     setVendors(data)
     setCount(count)
-  }, [getAll, itemsPerPage, page])
+  }, [getAll, itemsPerPage, page, pages])
 
   const handleSearch = useCallback((name: string): void => {
     if (name === '') {
@@ -76,7 +78,7 @@ export const Vendors: React.FC = function () {
 
         <div className='max-w-xl lg:max-w-4xl mx-auto'>
           {(count > 0) && (
-            <div className='text-neutral-500 font-semibold text-sm mx-5 my-4 flex justify-between'>
+            <div className='text-neutral-500 dark:text-white font-semibold text-sm mx-5 my-4 flex justify-between'>
               <p>Total {count} vendors</p>
 
               <div className='flex items-center gap-3'>
@@ -88,11 +90,11 @@ export const Vendors: React.FC = function () {
           <Card
             shadow='none' className={
               (vendors.length > 0)
-                ? 'gap-3 p-5 lg:p-8 2xl:p-15 border min-h-[500px] justify-between mt-5'
-                : ' flex justify-center items-center min-h-[500px] mt-5'
+                ? 'gap-3 p-5 lg:p-8 2xl:p-15 border min-h-[500px] justify-between mt-5 border-divider'
+                : ' flex justify-center items-center min-h-[500px] mt-5 border-divider'
             }
           >
-            <div className='flex flex-col gap-3'>
+            <div className='flex flex-col gap-1'>
               {
                 (vendors.length > 0)
                   ? vendors.map(vendor =>

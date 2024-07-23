@@ -11,7 +11,7 @@ export const ShowItems: React.FC<Props> = function ({ options = [5, 10, 15], onC
   }
 
   return (
-    <select className='border rounded-md p-1' onChange={handleChange}>
+    <select className='border rounded-md p-1 dark:text-neutral-200 border-divider' onChange={handleChange}>
       {
         options.map(option => (
           <option key={option} value={option}>{option}</option>

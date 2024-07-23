@@ -1,5 +1,5 @@
 import { InvoicesApi } from '@/api'
-import type { ApiResponse, Invoice, InvoiceDtoProps, InvoicesContextType } from '@/types'
+import type { ApiResponse, Invoice, createInvoice, InvoicesContextType } from '@/types'
 import { useState } from 'react'
 
 export const useInvoices = (): InvoicesContextType => {
@@ -13,7 +13,7 @@ export const useInvoices = (): InvoicesContextType => {
     setCurrent(invoice)
   }
 
-  const create = async (invoice: InvoiceDtoProps): Promise<Invoice> => {
+  const create = async (invoice: createInvoice): Promise<Invoice> => {
     return await InvoicesApi.createInvoice(invoice)
   }
 

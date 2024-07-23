@@ -5,16 +5,18 @@ import { type Vendor } from '@/types'
 import { useVendorContext } from '@/context'
 import { SearchIcon } from '@/components/icons'
 import { VendorTag } from '@/components/ui'
+import { useSearchParams } from 'react-router-dom'
 
 interface Props {
-  onSearch: (vendorId?: number) => void
+  onSearch?: () => void
 }
 
 export const FilterBar: React.FC<Props> = function ({ onSearch }) {
   const { getAll } = useVendorContext()
+  const [search, setSearParams] = useSearchParams()
 
   const [vendors, setVendors] = useState<Vendor[]>([])
-  const [vendorKey, setVendorKey] = useState<React.Key>()
+  const [vendorKey, setVendorKey] = useState<React.Key | null>(null)
 
   useEffect(() => {
     const getAllVendors = async (): Promise<void> => {
@@ -26,19 +28,24 @@ export const FilterBar: React.FC<Props> = function ({ onSearch }) {
   }, [getAll])
 
   useEffect(() => {
-    const key = (vendorKey === undefined) ? undefined : Number(vendorKey)
-    onSearch(key)
-  }, [vendorKey, onSearch])
+    setSearParams(
+      (vendorKey !== null)
+        ? { vendorId: vendorKey.toString() }
+        : {}
+    )
+
+    if (onSearch !== undefined) onSearch()
+  }, [vendorKey, onSearch, setSearParams, search])
 
   return (
-    <Card shadow='none' radius='none' className='p-5'>
+    <Card shadow='none' radius='none' className='p-5 border-b border-divider'>
       <Autocomplete
         placeholder='Select a vendor'
         label='Search by vendor'
         labelPlacement='outside'
         defaultItems={vendors}
         startContent={<SearchIcon />}
-        className='max-w-[300px]'
+        className='max-w-[300px] [&_[data-slot=main-wrapper]]:border [&_[data-slot=main-wrapper]]:rounded-xl [&_[data-slot=main-wrapper]]:border-divider'
         onSelectionChange={setVendorKey}
         selectedKey={vendorKey?.toString()}
         classNames={{ base: 'font-semibold' }}

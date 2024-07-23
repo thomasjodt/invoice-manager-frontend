@@ -104,7 +104,7 @@ export const Payments: React.FC = function () {
 
       <div className='max-w-xl lg:max-w-4xl mx-auto'>
         {(count > 0) && (
-          <div className='text-neutral-500 font-semibold text-sm mx-5 my-4 flex justify-between'>
+          <div className='text-neutral-500 dark:text-neutral-200 font-semibold text-sm mx-5 my-4 flex justify-between'>
             <p>Total {count} payments</p>
 
             <div className='flex items-center gap-3'>
@@ -114,7 +114,7 @@ export const Payments: React.FC = function () {
           </div>
         )}
 
-        <Card shadow='none' className='m-5 p-5 lg:p-8 2xl:p-15 gap-3 mx-auto min-h-[600px] border mt-5 justify-between'>
+        <Card shadow='none' className='m-5 p-5 lg:p-8 2xl:p-15 gap-3 mx-auto min-h-[600px] border border-divider mt-5 justify-between'>
           <div className='flex flex-col gap-3'>
             {
               payments.map((payment) => (

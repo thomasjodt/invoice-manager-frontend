@@ -25,7 +25,7 @@ export const useForm = <T>(initialForm: T): UseForm<T> => {
     setForm(initialForm)
   }
 
-  const populate = (form: T): void => {
+  const fillForm = (form: T): void => {
     for (const key in form) {
       setForm(f => ({
         ...f,
@@ -34,5 +34,5 @@ export const useForm = <T>(initialForm: T): UseForm<T> => {
     }
   }
 
-  return { form, handleChange, reset, populate }
+  return { form, handleChange, reset, fillForm }
 }

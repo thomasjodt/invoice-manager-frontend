@@ -1,156 +1,106 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { Button, Pagination, useDisclosure } from '@nextui-org/react'
+import { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import { Button, Pagination } from '@nextui-org/react'
 
-import type { Invoice } from '@/types'
-import { Header, ShowItems } from '@/components/ui'
 import { PlusIcon } from '@/components/icons'
-import { useInvoicesContext } from '@/context'
-import { EditInvoiceModal, FilterBar, NewInvoiceModal } from '../app/invoices/components'
+import { Header, ShowItems } from '@/components/ui'
 import { InvoicesTable } from '../app/invoices/components/table/InvoicesTable'
+import { EditInvoiceModal, FilterBar, NewInvoiceModal } from '../app/invoices/components'
+import { useInvoicesActions } from '@/app/invoices/hooks/useInvoicesActions'
+import { type Invoice } from '@/types'
 
 export const Invoices: React.FC = function () {
-  const [page, setPage] = useState(1)
-  const [pages, setPages] = useState(1)
-  const [count, setCount] = useState(0)
-  const [itemsPerPage, setItemsPerPage] = useState(5)
-  const [invoices, setInvoices] = useState<Invoice[]>([])
-  const [isFiltered, setIsFiltered] = useState(false)
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [searchParams] = useSearchParams()
+  const [isVisible, setIsVisible] = useState(false)
+  const [selectedInvoice, setSelectedInvoice] = useState<Invoice | undefined>()
 
-  const { current, getAll, getByVendor, update } = useInvoicesContext()
-  // const { remove: removePayments } = usePaymentsContext()
-  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure()
+  const {
+    page,
+    count,
+    pages,
+    invoices,
+    numberOfItems,
+    changePage,
+    getInvoices,
+    removeInvoice,
+    changeNumberOfItems
+  } = useInvoicesActions()
 
-  const handleCreate = (invoice: Invoice): void => {
-    const updatedInvoices = [invoice, ...invoices].filter((_, index) => index < itemsPerPage)
-    setInvoices(updatedInvoices)
-    setCount(count + 1)
+  const handleView = (invoice: Invoice): void => {
+    setSelectedInvoice(invoice)
   }
 
-  const handleEdit = (invoice: Invoice): void => {
-    if (current === null) return
-
-    update(invoice)
-      .then(() => {
-        closeModal()
-        setInvoices(invoices.map(
-          (i) => (i.id === invoice.id) ? invoice : i)
-        )
-      }).catch(console.error)
+  const handleCreate = (): void => {
+    getInvoices(page, numberOfItems).catch(console.error)
   }
 
-  // const handleDelete = (invoiceId: number) => {
-  //   return () => {
-  //     getOne(invoiceId)
-  //       .then(i => {
-  //         i.payments.forEach(payment => {
-  //           removePayments(payment.id).catch(console.error)
-  //         })
-  //       })
-  //       .then(() => {
-  //         remove(invoiceId)
-  //           .then(() => {
-  //             handleSearch()
-  //           }).catch(console.error)
-  //       })
-  //       .catch(console.error)
-  //   }
-  // }
-
-  // const handleEditModal = (invoice: Invoice): void => {
-  //   populateEditing(invoice)
-  //   setIsModalOpen(true)
-  // }
-
-  const closeModal = (): void => {
-    setIsModalOpen(false)
+  const handleClose = (): void => {
+    setSelectedInvoice(undefined)
   }
 
-  const getAllInvoices = useCallback(async (): Promise<void> => {
-    const { count: newCount, data } = await getAll(page, itemsPerPage)
+  const handleOpenNewInvoiceModal = (): void => {
+    setIsVisible(true)
+  }
 
-    const div = newCount / itemsPerPage
-    const extraPage = Number.isInteger(div) ? 0 : 1
-
-    setCount(newCount)
-    setInvoices(data)
-    setPages(Math.floor(div) + extraPage)
-  }, [getAll, itemsPerPage, page])
-
-  const handleSearch = useCallback((vendorId?: number) => {
-    if (vendorId === undefined || vendorId <= 0) {
-      setIsFiltered(false)
-      getAllInvoices().catch(console.error)
-      return
-    }
-
-    getByVendor(vendorId, page, itemsPerPage)
-      .then((res) => {
-        setIsFiltered(true)
-        const div = res.count / itemsPerPage
-        const extraPage = Number.isInteger(div) ? 0 : 1
-
-        setInvoices(res.data)
-        setCount(res.count)
-        setPages(Math.floor(div) + extraPage)
-      })
-      .catch(console.error)
-  }, [getByVendor, page, itemsPerPage, getAllInvoices])
+  const handleCloseNewInvoiceModal = (): void => {
+    setIsVisible(false)
+  }
 
   useEffect(() => {
-    if (!isFiltered) {
-      getAllInvoices().catch(console.error)
+    const vendorId = searchParams.get('vendorId')
+    if (vendorId === null) {
+      getInvoices(page, numberOfItems).catch(console.error)
     }
-  }, [getAllInvoices, isFiltered])
-
-  console.log(invoices)
+  }, [getInvoices, page, numberOfItems, searchParams])
 
   return (
     <>
-      <NewInvoiceModal
-        isOpen={isOpen}
-        onClose={onClose}
-        onOpenChange={onOpenChange}
-        onCreate={handleCreate}
-      />
-
-      {(isModalOpen) && <EditInvoiceModal onUpdate={handleEdit} isModalOpen={isModalOpen} onCloseModal={closeModal} />}
-
+      <EditInvoiceModal invoice={selectedInvoice} onClose={handleClose} />
+      <NewInvoiceModal isOpen={isVisible} onClose={handleCloseNewInvoiceModal} onCreate={handleCreate} />
       <Header title='Invoices'>
         <Button
           color='primary'
-          onClick={onOpen}
           endContent={<PlusIcon />}
+          onPress={handleOpenNewInvoiceModal}
         >
           Create Invoice
         </Button>
       </Header>
-
-      <FilterBar onSearch={handleSearch} />
+      <FilterBar />
 
       <div className='mx-auto'>
-        <section className='text-neutral-500 text-sm font-semibold flex justify-between mt-3 mx-5'>
+        <section className='text-neutral-500 text-sm font-semibold flex justify-between mt-3 mx-5 dark:text-neutral-200'>
           <p>Total {count} invoices</p>
-          <div className='flex gap-3 items-center'>
-            <p>Invoices per page:</p>
-            <ShowItems onChange={setItemsPerPage} />
-          </div>
+
         </section>
 
         <div className='m-5 p-8 gap-3 mx-auto'>
-          {invoices.length > 0 && <InvoicesTable invoices={invoices} />}
+          <InvoicesTable
+            invoices={invoices}
+            onDelete={removeInvoice}
+            onView={handleView}
+            bottomContent={
+              <div className='flex items-end justify-between p-3 bg-neutral-100 rounded-b-xl border-t border-divider dark:bg-neutral-900'>
+                <div className='flex gap-3 items-center'>
+                  <p>Invoices per page:</p>
+                  <ShowItems onChange={changeNumberOfItems} />
+                </div>
 
-          {
-            (pages > 1 && page !== 0 && count > itemsPerPage) && (
-              <Pagination
-                page={page}
-                showControls
-                total={pages}
-                onChange={setPage}
-                className='max-w-fit mx-auto mt-5'
-              />
-            )
-          }
+                {(invoices.length > 0 && pages > 1) && (
+                  <Pagination
+                    showShadow
+                    showControls
+                    page={page}
+                    total={pages}
+                    initialPage={1}
+                    onChange={changePage}
+                    className=''
+                    classNames={{ item: 'bg-white dark:bg-zinc-800' }}
+                  />
+                )}
+              </div>
+            }
+          />
         </div>
       </div>
     </>

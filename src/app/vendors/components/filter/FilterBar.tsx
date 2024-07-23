@@ -28,7 +28,7 @@ export const FilterBar: React.FC<Props> = memo(function FilterBar ({ onSearch })
         value={input}
         startContent={<SearchIcon />}
         classNames={{
-          inputWrapper: 'border bg-neutral-50 shadow-none'
+          inputWrapper: 'border border-divider bg-neutral-50 dark:bg-neutral-800 shadow-none'
         }}
       />
     </Card>
