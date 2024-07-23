@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-export const DOMAIN = 'http://localhost:8080'
+export const DOMAIN = import.meta.env.VITE_API_URL
 
 export const config = axios.create({
-  baseURL: DOMAIN + '/invoices/api'
+  baseURL: `${DOMAIN}/invoices/api`
 })
