@@ -1,24 +1,31 @@
 import { useState } from 'react'
-import type { HandleChange, UseForm } from '@/types'
+import type { UseForm } from '@/types'
+
+type FormElement = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+interface HandleChange {
+  (event: React.ChangeEvent<HTMLInputElement>): void
+  (event: React.ChangeEvent<HTMLSelectElement>): void
+  (event: React.ChangeEvent<HTMLTextAreaElement>): void
+}
 
 export const useForm = <T>(initialForm: T): UseForm<T> => {
   const [form, setForm] = useState(initialForm)
 
-  const handleChange: HandleChange = ((e) => {
-    const { name, value, type } = e.target
-    const checked = (e.target instanceof HTMLInputElement) ? e.target.checked : null
+  const handleChange: HandleChange = (event: React.ChangeEvent<FormElement>): void => {
+    const { name, value, type } = event.target
+    const { checked } = event.target as HTMLInputElement
 
     setForm(f => ({
       ...f,
       [name]: (type === 'checkbox') ? checked : value
     }))
-  }) as HandleChange
+  }
 
   const reset = (): void => {
     setForm(initialForm)
   }
 
-  const populate = (form: T): void => {
+  const fillForm = (form: T): void => {
     for (const key in form) {
       setForm(f => ({
         ...f,
@@ -27,5 +34,5 @@ export const useForm = <T>(initialForm: T): UseForm<T> => {
     }
   }
 
-  return { form, handleChange, reset, populate }
+  return { form, handleChange, reset, fillForm }
 }

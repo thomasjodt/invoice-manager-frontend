@@ -5,9 +5,9 @@ import { Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 import { Layout } from '@/layout'
 import { InvoicesContextProvider, PaymentsContextProvider, VendorContextProvider } from '@/context'
 
-const Invoices = lazy(async () => await import('@/pages/Invoices/Invoices'))
-const Vendors = lazy(async () => await import('@/pages/Vendors/Vendors'))
-const Payments = lazy(async () => await import('@/pages/Payments/Payments'))
+const Invoices = lazy(async () => await import('@/pages/Invoices'))
+const Vendors = lazy(async () => await import('@/pages/Vendors'))
+const Payments = lazy(async () => await import('@/pages/Payments'))
 
 export const App: React.FC = () => {
   const navigate = useNavigate()

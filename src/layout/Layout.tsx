@@ -1,13 +1,13 @@
 import { Sidebar } from '@/components/ui/Sidebar'
-import type { ReactNode } from 'react'
 
 interface Props {
-  children: ReactNode
+  children: React.ReactNode
 }
+
 export const Layout: React.FC<Props> = function ({ children }) {
   return (
-    <div className='min-h-screen grid grid-cols-[300px_1fr]'>
-      <Sidebar />
+    <div className='min-h-screen grid grid-cols-[300px_1fr] dark:bg-zinc-800'>
+      <Sidebar brand={import.meta.env.VITE_BRAND_NAME} />
       <main>
         {children}
       </main>

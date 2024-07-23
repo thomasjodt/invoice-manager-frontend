@@ -1,7 +1,7 @@
-export const currencyFormat = (amount: number): string => {
+export const currencyFormat = (value: number): string => {
   const formatter = new Intl.NumberFormat('es-PE', {
     style: 'currency',
     currency: 'PEN'
   })
-  return formatter.format(amount)
+  return formatter.format(value)
 }
