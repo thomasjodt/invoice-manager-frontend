@@ -2,7 +2,7 @@ import { VendorsApi } from '@/api'
 import type { ApiResponse, Vendor, VendorContextType } from '@/types'
 
 export const useVendors = (): VendorContextType => {
-  const create = async (vendor: Omit<Vendor, 'balance' | 'id'>): Promise<Vendor> => {
+  const create = async (vendor: Pick<Vendor, 'name' | 'fullName'>): Promise<Vendor> => {
     return await VendorsApi.createVendor(vendor)
   }
 
@@ -18,7 +18,7 @@ export const useVendors = (): VendorContextType => {
     return await VendorsApi.getVendorById(id)
   }
 
-  const update = async (id: number, vendor: Omit<Vendor, 'id' | 'balance'>): Promise<Vendor> => {
+  const update = async (id: number, vendor: Pick<Vendor, 'name' | 'fullName'>): Promise<Vendor> => {
     return await VendorsApi.updateVendor(id, vendor)
   }
 
