@@ -7,10 +7,11 @@ export interface UseForm<T> {
   form: T
   reset: () => void
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-  populate: (form: T) => void
+  fillForm: (form: T) => void
 }
 
-export interface InvoiceDtoProps {
+// TODO: Change interface
+export interface createInvoice {
   vendor: string
   invoiceNumber: string
   amount: string
@@ -52,7 +53,7 @@ export interface InvoicesContextType {
   populateEditing: (invoice: Invoice) => void
   remove: (id: number) => Promise<void>
   getOne: (id: number) => Promise<Invoice>
-  create: (invoice: InvoiceDtoProps) => Promise<Invoice>
+  create: (invoice: createInvoice) => Promise<Invoice>
   getAll: (page?: number, offset?: number) => Promise<ApiResponse<Invoice[]>>
   update: (invoice: Invoice) => Promise<Invoice>
   getByVendor: (vendorId: number, page?: number, offset?: number) => Promise<ApiResponse<Invoice[]>>
