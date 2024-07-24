@@ -66,15 +66,15 @@ export const Invoices: React.FC = function () {
           Create Invoice
         </Button>
       </Header>
-      <FilterBar />
 
-      <div className='mx-auto'>
+      <div className='flex flex-col'>
+        <FilterBar />
         <section className='text-neutral-500 text-sm font-semibold flex justify-between mt-3 mx-5 dark:text-neutral-200'>
           <p>Total {count} invoices</p>
 
         </section>
 
-        <div className='m-5 p-8 gap-3 mx-auto'>
+        <div className='m-5 p-8 gap-3 mx-auto flex flex-grow'>
           <InvoicesTable
             invoices={invoices}
             onDelete={removeInvoice}
