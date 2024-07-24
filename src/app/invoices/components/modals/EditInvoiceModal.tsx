@@ -71,9 +71,10 @@ export const EditInvoiceModal: React.FC<Props> = function ({ invoice, onClose })
                   <h3 className='font-bold dark:text-neutral-300'>Emission Date</h3>
                   {(invoice !== undefined) && (
                     <DateInput
+                      size='lg'
+                      aria-label='emission date'
                       isReadOnly
                       value={parseDate(invoice.emissionDate)}
-                      size='lg'
                       description={dateFormat(invoice.emissionDate)}
                     />
                   )}
@@ -83,9 +84,10 @@ export const EditInvoiceModal: React.FC<Props> = function ({ invoice, onClose })
                   <h3 className='font-bold dark:text-neutral-300'>Due Date</h3>
                   {(invoice !== undefined) && (
                     <DateInput
+                      size='lg'
+                      aria-label='due date'
                       isReadOnly
                       value={parseDate(invoice.dueDate)}
-                      size='lg'
                       description={dateFormat(invoice.dueDate)}
                     />
                   )}
