@@ -102,7 +102,7 @@ export const Payments: React.FC = function () {
         onCloseModal={closeDeleteModal}
       />
 
-      <div className='max-w-xl lg:max-w-4xl mx-auto'>
+      <div>
         {(count > 0) && (
           <div className='text-neutral-500 dark:text-neutral-200 font-semibold text-sm mx-5 my-4 flex justify-between'>
             <p>Total {count} payments</p>
@@ -114,16 +114,25 @@ export const Payments: React.FC = function () {
           </div>
         )}
 
-        <Card shadow='none' className='m-5 p-5 lg:p-8 2xl:p-15 gap-3 mx-auto min-h-[600px] border border-divider mt-5 justify-between'>
-          <div className='flex flex-col gap-3'>
+        <Card
+          shadow='none'
+          className={
+            (payments.length > 0)
+              ? 'max-w-xl  mx-auto gap-3 p-5 lg:p-8 2xl:p-15 min-h-[500px] justify-between mt-5 border-divider border'
+              : 'max-w-xl mx-auto flex justify-center items-center min-h-[500px] mt-5 border-divider border'
+          }
+        >
+          <div>
             {
-              payments.map((payment) => (
-                <PaymentCard
-                  key={payment.id}
-                  payment={payment}
-                  onDelete={openDeleteModal(payment.id)}
-                />
-              ))
+              (payments.length > 0)
+                ? (payments.map((payment) => (
+                  <PaymentCard
+                    key={payment.id}
+                    payment={payment}
+                    onDelete={openDeleteModal(payment.id)}
+                  />
+                  )))
+                : <p className='font-semibold text-default-400'>No se encuentran pagos realizados</p>
             }
           </div>
 

@@ -53,8 +53,8 @@ export const InvoicesTable: React.FC<Props> = function ({ invoices = [], onDelet
         aria-label='Table to show the invoices'
         removeWrapper
         bottomContentPlacement='outside'
-        className='border rounded-xl bg-white dark:bg-zinc-900 mx-auto overflow-hidden dark:border-neutral-700 dark:text-neutral-200'
-        classNames={{ th: 'bg-transparent border-b border-divider dark:text-white text-center first:text-start' }}
+        className='border rounded-xl bg-white dark:bg-zinc-900 mx-auto overflow-hidden dark:border-neutral-700 dark:text-neutral-200 justify-between'
+        classNames={{ th: 'bg-transparent border-b border-divider dark:text-white text-center first:text-start', tbody: 'border-b border-divider' }}
         bottomContent={
           (bottomContent !== undefined) && bottomContent
         }

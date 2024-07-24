@@ -88,10 +88,11 @@ export const Vendors: React.FC = function () {
             </div>
           )}
           <Card
-            shadow='none' className={
+            shadow='none'
+            className={
               (vendors.length > 0)
-                ? 'gap-3 p-5 lg:p-8 2xl:p-15 border min-h-[500px] justify-between mt-5 border-divider'
-                : ' flex justify-center items-center min-h-[500px] mt-5 border-divider'
+                ? 'gap-3 p-5 lg:p-8 2xl:p-15 min-h-[500px] justify-between mt-5 border-divider border'
+                : ' flex justify-center items-center min-h-[500px] mt-5 border-divider border'
             }
           >
             <div className='flex flex-col gap-1'>
@@ -103,7 +104,7 @@ export const Vendors: React.FC = function () {
                       vendor={vendor}
                     />
                   )
-                  : <p className='font-semibold text-neutral-400'>No se encuentran Proveedores</p>
+                  : <p className='font-semibold text-default-400'>No se encuentran Proveedores</p>
               }
             </div>
 
