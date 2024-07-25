@@ -76,24 +76,27 @@ export const InvoicesTable: React.FC<Props> = function ({ invoices = [], onDelet
 
             return (
               <TableRow key={id} className='border-b border-divider last:border-none'>
-                <TableCell>
-                  <VendorTag vendor={vendor} />
+                <TableCell className='w-52 max-w-52 truncate'>
+                  <VendorTag
+                    vendor={vendor}
+                    classNames={{ fullName: 'truncate', container: 'w-full' }}
+                  />
                 </TableCell>
 
-                <TableCell>
-                  <p className='text-primary-700 dark:text-primary-400 font-semibold'>{invoiceNumber}</p>
+                <TableCell className='text-primary-700 dark:text-primary-400 font-semibold'>
+                  {invoiceNumber}
                 </TableCell>
 
-                <TableCell>
-                  <p className='text-neutral-600 dark:text-neutral-400'>{currencyFormat(amount)}</p>
+                <TableCell className='text-neutral-600 dark:text-neutral-400'>
+                  {currencyFormat(amount)}
                 </TableCell>
 
-                <TableCell>
-                  <p className='text-neutral-500 text-xs text-center'>{dateFormat(emissionDate)}</p>
+                <TableCell className='text-neutral-500 text-xs text-center'>
+                  {dateFormat(emissionDate)}
                 </TableCell>
 
-                <TableCell>
-                  <p className='text-neutral-500 text-xs text-center'>{dateFormat(dueDate)}</p>
+                <TableCell className='text-neutral-500 text-xs text-center'>
+                  {dateFormat(dueDate)}
                 </TableCell>
 
                 <TableCell>
@@ -104,8 +107,8 @@ export const InvoicesTable: React.FC<Props> = function ({ invoices = [], onDelet
                   <StatusChip status={status} />
                 </TableCell>
 
-                <TableCell>
-                  <p className='font-semibold text-primary-700 dark:text-primary-400'>{currencyFormat(balance)}</p>
+                <TableCell className='font-semibold text-primary-700 dark:text-primary-400'>
+                  {currencyFormat(balance)}
                 </TableCell>
 
                 <TableCell>
