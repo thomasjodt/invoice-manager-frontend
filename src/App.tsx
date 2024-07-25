@@ -13,7 +13,7 @@ export const App: React.FC = () => {
   const navigate = useNavigate()
 
   return (
-    <NextUIProvider navigate={navigate}>
+    <NextUIProvider navigate={navigate} locale='es-ES'>
       <InvoicesContextProvider>
         <VendorContextProvider>
           <PaymentsContextProvider>
