@@ -2,14 +2,14 @@ import { useCallback, useEffect, useState } from 'react'
 import { Button, Card, Pagination, useDisclosure } from '@nextui-org/react'
 
 import { Header, ShowItems } from '@/components/ui'
-import { useVendorContext } from '@/context'
+import { useAppContext } from '@/context'
 import { PlusIcon } from '@/components/icons'
 import { FilterBar } from '../app/vendors/components/filter'
 import type { Vendor } from '@/types'
 import { NewVendorModal, VendorCard } from '../app/vendors/components'
 
 export const Vendors: React.FC = function () {
-  const { getAll, getByName } = useVendorContext()
+  const { getAllVendors, getVendorByName } = useAppContext()
   const [page, setPage] = useState(1)
   const [pages, setPages] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(5)
@@ -19,8 +19,8 @@ export const Vendors: React.FC = function () {
   const [count, setCount] = useState(0)
   const [isFiltered, setIsFiltered] = useState(false)
 
-  const getAllVendors = useCallback(async (): Promise<void> => {
-    const { data, count } = await getAll(page, itemsPerPage)
+  const getVendors = useCallback(async (): Promise<void> => {
+    const { data, count } = await getAllVendors(page, itemsPerPage)
 
     const div = count / itemsPerPage
     const extraPage = Number.isInteger(div) ? 0 : 1
@@ -30,17 +30,17 @@ export const Vendors: React.FC = function () {
     if (pages < page) setPage(pages)
     setVendors(data)
     setCount(count)
-  }, [getAll, itemsPerPage, page, pages])
+  }, [getAllVendors, itemsPerPage, page, pages])
 
   const handleSearch = useCallback((name: string): void => {
     if (name === '') {
       setIsFiltered(false)
-      getAllVendors().catch(console.error)
+      getVendors().catch(console.error)
       return
     }
     if (name.trim() === '') return
 
-    getByName(name, page, itemsPerPage)
+    getVendorByName(name, page, itemsPerPage)
       .then((res) => {
         setIsFiltered(true)
         const div = res.count / itemsPerPage
@@ -51,13 +51,13 @@ export const Vendors: React.FC = function () {
         setPages(Math.floor(div) + extraPage)
       })
       .catch(console.error)
-  }, [page, itemsPerPage, getByName, getAllVendors])
+  }, [page, itemsPerPage, getVendorByName, getVendors])
 
   useEffect(() => {
     if (!isFiltered) {
-      getAllVendors().catch(console.error)
+      getVendors().catch(console.error)
     }
-  }, [getAllVendors, isFiltered])
+  }, [getVendors, isFiltered])
 
   return (
     <>

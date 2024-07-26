@@ -16,7 +16,7 @@ import { useForm } from '@/hooks'
 import type { Vendor, Invoice } from '@/types'
 import { currencyFormat } from '@/utils'
 import { VendorTag } from '@/components/ui'
-import { useVendorContext, useInvoicesContext } from '@/context'
+import { useAppContext } from '@/context'
 
 interface OnCreate { amount: string, invoiceId: string, paymentDate: string, vendor: string }
 interface Props {
@@ -27,8 +27,7 @@ interface Props {
 
 export const NewPaymentModal: React.FC<Props> = function ({ isOpenModal = false, onCloseModal, onCreate }) {
   const { isOpen, onClose, onOpen, onOpenChange } = useDisclosure()
-  const { getAll: getVendors } = useVendorContext()
-  const { getByVendor, getAll } = useInvoicesContext()
+  const { getAllVendors, getInvoiceByVendor, getAllInvoices } = useAppContext()
 
   const [vendors, setVendors] = useState<Vendor[]>([])
   const [invoices, setInvoices] = useState<Invoice[]>([])
@@ -73,7 +72,7 @@ export const NewPaymentModal: React.FC<Props> = function ({ isOpenModal = false,
     setInvoiceKey(null)
 
     reset()
-    getAll().catch(console.error)
+    getAllInvoices().catch(console.error)
   }
 
   const getBalance = (invoice: Invoice): number => {
@@ -84,7 +83,7 @@ export const NewPaymentModal: React.FC<Props> = function ({ isOpenModal = false,
   useEffect(() => {
     (async () => {
       if (vendorKey !== null) {
-        const response = await getByVendor(Number(form.vendor))
+        const response = await getInvoiceByVendor(Number(form.vendor))
         const invoices = response.data
         const filtered = invoices.filter(i => {
           const paid = i.payments.reduce((paid, current) => paid + current.amount, 0)
@@ -95,16 +94,16 @@ export const NewPaymentModal: React.FC<Props> = function ({ isOpenModal = false,
         setInvoices(filtered)
       }
     })().catch(console.error)
-  }, [form.vendor, getByVendor, vendorKey])
+  }, [form.vendor, getInvoiceByVendor, vendorKey])
 
   useEffect(() => {
-    const getAllVendors = async (): Promise<void> => {
-      const { data } = await getVendors(0)
+    const getAllVendorsUseEffect = async (): Promise<void> => {
+      const { data } = await getAllVendors(0)
       setVendors(data)
     }
 
-    getAllVendors().catch(console.error)
-  }, [getVendors])
+    getAllVendorsUseEffect().catch(console.error)
+  }, [getAllVendors])
 
   useEffect(() => {
     (isOpenModal) ? onOpen() : onClose()

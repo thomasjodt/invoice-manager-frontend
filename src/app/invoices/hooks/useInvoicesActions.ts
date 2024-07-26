@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
 import { type Invoice } from '@/types'
-import { useInvoicesContext, usePaymentsContext } from '@/context'
+import { useAppContext } from '@/context'
 
 interface UseInvoicesActions {
   invoices: Invoice[]
@@ -17,8 +17,8 @@ interface UseInvoicesActions {
 }
 
 export const useInvoicesActions = (): UseInvoicesActions => {
-  const { remove, getAll, getByVendor } = useInvoicesContext()
-  const { remove: deletePayment } = usePaymentsContext()
+  const { deleteInvoice, getAllInvoices, getInvoiceByVendor } = useAppContext()
+  const { deletePayment } = useAppContext()
   const [searchParams] = useSearchParams()
 
   const [invoices, setInvoices] = useState<Invoice[]>([])
@@ -42,7 +42,7 @@ export const useInvoicesActions = (): UseInvoicesActions => {
       for await (const payment of invoice.payments) {
         await deletePayment(payment.id)
       }
-      await remove(invoice.id)
+      await deleteInvoice(invoice.id)
       await getInvoices()
     })().catch(console.log)
   }
@@ -51,8 +51,8 @@ export const useInvoicesActions = (): UseInvoicesActions => {
     const queriedId = searchParams.get('vendorId')
 
     const response = (queriedId === null)
-      ? await getAll(state.page, state.numberOfItems)
-      : await getByVendor(Number(queriedId), state.page, state.numberOfItems)
+      ? await getAllInvoices(state.page, state.numberOfItems)
+      : await getInvoiceByVendor(Number(queriedId), state.page, state.numberOfItems)
 
     const newPage = (response.count % state.numberOfItems === 0) ? 0 : 1
     const pages = Math.floor(response.count / state.numberOfItems) + newPage
@@ -63,7 +63,7 @@ export const useInvoicesActions = (): UseInvoicesActions => {
 
     setInvoices(response.data)
     setState(s => ({ ...s, count: response.count, pages }))
-  }, [getAll, getByVendor, searchParams, state.numberOfItems, state.page])
+  }, [getAllInvoices, getInvoiceByVendor, searchParams, state.numberOfItems, state.page])
 
   useEffect(() => {
     getInvoices().catch(console.error)

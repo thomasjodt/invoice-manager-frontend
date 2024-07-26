@@ -12,7 +12,7 @@ import {
 import { useForm } from '@/hooks'
 import type { Vendor } from '@/types'
 import { VendorTag } from '@/components/ui'
-import { useVendorContext } from '@/context'
+import { useAppContext } from '@/context'
 import { DeletePopover } from './DeletePopover'
 
 interface Props {
@@ -25,7 +25,7 @@ export const EditVendorModal: React.FC<Props> = function ({ isOpen, vendor, onOp
   const [isEditable, setIsEditable] = useState(false)
   const [isPopoverOpen, setIsPopoverOpen] = useState(false)
 
-  const { update } = useVendorContext()
+  const { updateVendor } = useAppContext()
 
   const { form, handleChange, reset } = useForm({
     name: vendor.name,
@@ -34,7 +34,7 @@ export const EditVendorModal: React.FC<Props> = function ({ isOpen, vendor, onOp
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault()
-    update(vendor.id, form).catch(console.error)
+    updateVendor(vendor.id, form).catch(console.error)
     onOpenChange()
   }
 

@@ -4,12 +4,12 @@ import { Button, Card, Pagination } from '@nextui-org/react'
 import { Header, ShowItems } from '@/components/ui'
 import type { Payment } from '@/types'
 import { PlusIcon } from '@/components/icons'
-import { usePaymentsContext } from '@/context'
+import { useAppContext } from '@/context'
 import { NewPaymentModal, PaymentCard } from '../app/payments/components'
 import { DeletePaymentModal } from '../app/payments/components/DeletePaymentModal'
 
 export const Payments: React.FC = function () {
-  const { create, getAll, remove } = usePaymentsContext()
+  const { createPayment, getAllPayments, deletePayment } = useAppContext()
   const [page, setPage] = useState(1)
   const [pages, setPages] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(5)
@@ -30,7 +30,7 @@ export const Payments: React.FC = function () {
   }
 
   const handleCreate = (form: { amount: string, invoiceId: string, paymentDate: string, vendor: string }): void => {
-    create({
+    createPayment({
       amount: Number(form.amount),
       paymentDate: form.paymentDate,
       invoice: {
@@ -38,7 +38,7 @@ export const Payments: React.FC = function () {
       }
     })
       .then(() => {
-        getAllPayments().catch(console.error)
+        getPayments().catch(console.error)
       })
       .catch(console.error)
   }
@@ -57,14 +57,14 @@ export const Payments: React.FC = function () {
 
   const handleDeletePayment = (): void => {
     if (deletingPaymentId === null) return
-    remove(deletingPaymentId)
+    deletePayment(deletingPaymentId)
       .then(() => { closeDeleteModal() })
-      .then(() => { getAllPayments().catch(console.error) })
+      .then(() => { getPayments().catch(console.error) })
       .catch(console.error)
   }
 
-  const getAllPayments = useCallback(async (): Promise<void> => {
-    const res = await getAll(page, itemsPerPage)
+  const getPayments = useCallback(async (): Promise<void> => {
+    const res = await getAllPayments(page, itemsPerPage)
 
     const div = res.count / itemsPerPage
     const extraPage = Number.isInteger(div) ? 0 : 1
@@ -72,11 +72,11 @@ export const Payments: React.FC = function () {
     setPages(Math.floor(div) + extraPage)
     setPayments(res.data)
     setCount(res.count)
-  }, [getAll, itemsPerPage, page])
+  }, [getAllPayments, itemsPerPage, page])
 
   useEffect(() => {
-    getAllPayments().catch(console.error)
-  }, [getAllPayments])
+    getPayments().catch(console.error)
+  }, [getPayments])
 
   return (
     <>

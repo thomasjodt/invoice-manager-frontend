@@ -9,7 +9,7 @@ import {
 } from '@nextui-org/react'
 
 import { useForm } from '@/hooks'
-import { useVendorContext } from '../../../context/VendorContext'
+import { useAppContext } from '@/context'
 
 interface Props {
   isOpen: boolean
@@ -17,12 +17,12 @@ interface Props {
 }
 
 export const NewVendorModal: React.FC<Props> = function ({ isOpen, onOpenChange }) {
-  const { create } = useVendorContext()
+  const { createVendor } = useAppContext()
   const { form, handleChange } = useForm({ name: '', fullName: '' })
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>, close: () => void): void => {
     event.preventDefault()
-    create(form).catch(console.error)
+    createVendor(form).catch(console.error)
     close()
   }
 
