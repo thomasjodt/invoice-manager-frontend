@@ -59,4 +59,11 @@ export interface InvoicesContextType {
   getInvoiceByVendor: (vendorId: number, page?: number, offset?: number) => Promise<ApiResponse<Invoice[]>>
 }
 
-export interface GlobalContextType extends InvoicesContextType, PaymentsContextType, VendorContextType {}
+export interface AppSettingsContextType {
+  isDark: boolean
+  isExpanded: boolean
+  toggleTheme: () => void
+  toggleSidebar: () => void
+}
+
+export interface GlobalContextType extends InvoicesContextType, PaymentsContextType, VendorContextType, AppSettingsContextType {}
