@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Autocomplete, AutocompleteItem, Card } from '@nextui-org/react'
 
 import { type Vendor } from '@/types'
-import { useVendorContext } from '@/context'
+import { useAppContext } from '@/context'
 import { SearchIcon } from '@/components/icons'
 import { VendorTag } from '@/components/ui'
 import { useSearchParams } from 'react-router-dom'
@@ -12,20 +12,20 @@ interface Props {
 }
 
 export const FilterBar: React.FC<Props> = function ({ onSearch }) {
-  const { getAll } = useVendorContext()
+  const { getAllVendors } = useAppContext()
   const [search, setSearParams] = useSearchParams()
 
   const [vendors, setVendors] = useState<Vendor[]>([])
   const [vendorKey, setVendorKey] = useState<React.Key | null>(null)
 
   useEffect(() => {
-    const getAllVendors = async (): Promise<void> => {
-      const { data } = await getAll(0)
+    const getVendors = async (): Promise<void> => {
+      const { data } = await getAllVendors(0)
       setVendors(data)
     }
 
-    getAllVendors().catch(console.error)
-  }, [getAll])
+    getVendors().catch(console.error)
+  }, [getAllVendors])
 
   useEffect(() => {
     setSearParams(

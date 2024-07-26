@@ -16,7 +16,7 @@ import { type CalendarDate, parseDate } from '@internationalized/date'
 import { useForm } from '@/hooks'
 import { VendorTag } from '@/components/ui'
 import type { Invoice, createInvoice, Vendor } from '@/types'
-import { useInvoicesContext, useVendorContext } from '@/context'
+import { useAppContext } from '@/context'
 
 interface Props {
   isOpen?: boolean
@@ -25,8 +25,7 @@ interface Props {
 }
 
 export const NewInvoiceModal: React.FC<Props> = function ({ isOpen, onCreate, onClose }) {
-  const { getAll } = useVendorContext()
-  const { create } = useInvoicesContext()
+  const { getAllVendors, createInvoice } = useAppContext()
 
   const [vendor, setVendor] = useState('')
   const [vendors, setVendors] = useState<Vendor[]>([])
@@ -68,19 +67,20 @@ export const NewInvoiceModal: React.FC<Props> = function ({ isOpen, onCreate, on
       return
     }
 
-    const newInvoice = await create(form)
+    const newInvoice = await createInvoice(form)
     if (onCreate !== undefined) onCreate(newInvoice)
     handleClose()
   }
 
   useEffect(() => {
-    const getAllVendors = async (): Promise<void> => {
-      const { data } = await getAll(0)
+    const getVendors = async (): Promise<void> => {
+      const { data } = await getAllVendors(0)
       setVendors(data)
+      await getAllVendors()
     }
 
-    getAllVendors().catch(console.error)
-  }, [getAll])
+    getVendors().catch(console.error)
+  }, [getAllVendors])
 
   useEffect(() => {
     if (emissionDate !== undefined && emissionDate !== null) {

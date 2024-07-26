@@ -11,7 +11,7 @@ import {
 
 import type { Vendor } from '@/types'
 import { VendorTag } from '@/components/ui'
-import { useVendorContext } from '@/context'
+import { useAppContext } from '@/context'
 
 interface Props {
   isPopoverOpen: boolean
@@ -20,7 +20,19 @@ interface Props {
 }
 
 export const DeletePopover: React.FC<Props> = function ({ isPopoverOpen, togglePopover, vendor }) {
-  const { remove } = useVendorContext()
+  const { deleteVendor } = useAppContext()
+
+  const closePopover = (): void => {
+    togglePopover(false)
+  }
+
+  const handleDelete = (vendorId: number) => {
+    return () => {
+      deleteVendor(vendorId)
+        .then(closePopover)
+        .catch(console.error)
+    }
+  }
 
   return (
     <Popover
@@ -46,14 +58,14 @@ export const DeletePopover: React.FC<Props> = function ({ isPopoverOpen, toggleP
             <Button
               variant='light'
               color='default'
-              onClick={() => { togglePopover(false) }}
+              onClick={closePopover}
             >
               Cancel
             </Button>
             <Button
               color='danger'
               variant='solid'
-              onClick={() => { remove(vendor.id).catch(console.error) }}
+              onClick={handleDelete(vendor.id)}
             >
               Delete vendor
             </Button>
