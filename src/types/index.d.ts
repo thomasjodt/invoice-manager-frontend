@@ -31,30 +31,32 @@ export interface CreatePayment extends Omit<Payment, 'id'> {
 }
 
 export interface VendorContextType {
-  remove: (id: number) => Promise<void>
-  getOne: (id: number) => Promise<Vendor>
-  create: (vendor: Pick<Vendor, 'name' | 'fullName'>) => Promise<Vendor>
-  getAll: (page?: number, offset?: number) => Promise<ApiResponse<Vendor[]>>
-  update: (id: number, vendor: Pick<Vendor, 'name' | 'fullName'>) => Promise<Vendor>
-  getByName: (name: string, page?: number, offset?: number) => Promise<ApiResponse<Vendor[]>>
+  deleteVendor: (id: number) => Promise<void>
+  getVendor: (id: number) => Promise<Vendor>
+  createVendor: (vendor: Pick<Vendor, 'name' | 'fullName'>) => Promise<Vendor>
+  getAllVendors: (page?: number, offset?: number) => Promise<ApiResponse<Vendor[]>>
+  updateVendor: (id: number, vendor: Pick<Vendor, 'name' | 'fullName'>) => Promise<Vendor>
+  getVendorByName: (name: string, page?: number, offset?: number) => Promise<ApiResponse<Vendor[]>>
 }
 
 export interface PaymentsContextType {
-  remove: (id: number) => Promise<void>
-  getOne: (id: number) => Promise<FullPayment>
-  create: (payment: CreatePayment) => Promise<FullPayment>
-  getAll: (page?: number, offset?: number) => Promise<ApiResponse<FullPayment[]>>
-  update: (id: number, payment: Payment) => Promise<FullPayment>
+  deletePayment: (id: number) => Promise<void>
+  getPayment: (id: number) => Promise<FullPayment>
+  createPayment: (payment: CreatePayment) => Promise<FullPayment>
+  getAllPayments: (page?: number, offset?: number) => Promise<ApiResponse<FullPayment[]>>
+  updatePayment: (id: number, payment: Payment) => Promise<FullPayment>
 }
 
 export interface InvoicesContextType {
-  current: Invoice | null
-  resetEditing: () => void
-  populateEditing: (invoice: Invoice) => void
-  remove: (id: number) => Promise<void>
-  getOne: (id: number) => Promise<Invoice>
-  create: (invoice: createInvoice) => Promise<Invoice>
-  getAll: (page?: number, offset?: number) => Promise<ApiResponse<Invoice[]>>
-  update: (invoice: Invoice) => Promise<Invoice>
-  getByVendor: (vendorId: number, page?: number, offset?: number) => Promise<ApiResponse<Invoice[]>>
+  currentInvoice: Invoice | null
+  resetEditingInvoice: () => void
+  populateEditingInvoice: (invoice: Invoice) => void
+  deleteInvoice: (id: number) => Promise<void>
+  getInvoice: (id: number) => Promise<Invoice>
+  createInvoice: (invoice: createInvoice) => Promise<Invoice>
+  getAllInvoices: (page?: number, offset?: number) => Promise<ApiResponse<Invoice[]>>
+  updateInvoice: (invoice: Invoice) => Promise<Invoice>
+  getInvoiceByVendor: (vendorId: number, page?: number, offset?: number) => Promise<ApiResponse<Invoice[]>>
 }
+
+export interface GlobalContextType extends InvoicesContextType, PaymentsContextType, VendorContextType {}

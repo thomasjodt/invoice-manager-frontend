@@ -3,49 +3,49 @@ import type { ApiResponse, Invoice, createInvoice, InvoicesContextType } from '@
 import { useState } from 'react'
 
 export const useInvoices = (): InvoicesContextType => {
-  const [current, setCurrent] = useState<Invoice | null>(null)
+  const [currentInvoice, setCurrentInvoice] = useState<Invoice | null>(null)
 
-  const resetEditing = (): void => {
-    setCurrent(null)
+  const resetEditingInvoice = (): void => {
+    setCurrentInvoice(null)
   }
 
-  const populateEditing = (invoice: Invoice): void => {
-    setCurrent(invoice)
+  const populateEditingInvoice = (invoice: Invoice): void => {
+    setCurrentInvoice(invoice)
   }
 
-  const create = async (invoice: createInvoice): Promise<Invoice> => {
+  const createInvoice = async (invoice: createInvoice): Promise<Invoice> => {
     return await InvoicesApi.createInvoice(invoice)
   }
 
-  const getAll = async (page?: number, offset?: number): Promise<ApiResponse<Invoice[]>> => {
+  const getAllInvoices = async (page?: number, offset?: number): Promise<ApiResponse<Invoice[]>> => {
     return await InvoicesApi.getInvoices(page, offset)
   }
 
-  const getOne = async (invoiceId: number): Promise<Invoice> => {
+  const getInvoice = async (invoiceId: number): Promise<Invoice> => {
     return await InvoicesApi.getInvoiceById(invoiceId)
   }
 
-  const remove = async (id: number): Promise<void> => {
+  const deleteInvoice = async (id: number): Promise<void> => {
     await InvoicesApi.deleteInvoice(id)
   }
 
-  const update = async (invoice: Invoice): Promise<Invoice> => {
+  const updateInvoice = async (invoice: Invoice): Promise<Invoice> => {
     return await InvoicesApi.updateInvoice(invoice)
   }
 
-  const getByVendor = async (vendorId: number, page?: number, offset?: number): Promise<ApiResponse<Invoice[]>> => {
+  const getInvoiceByVendor = async (vendorId: number, page?: number, offset?: number): Promise<ApiResponse<Invoice[]>> => {
     return await InvoicesApi.getInvoicesByVendor(vendorId, page, offset)
   }
 
   return {
-    create,
-    getAll,
-    getOne,
-    remove,
-    update,
-    current,
-    getByVendor,
-    resetEditing,
-    populateEditing
+    createInvoice,
+    getAllInvoices,
+    getInvoice,
+    deleteInvoice,
+    updateInvoice,
+    currentInvoice,
+    getInvoiceByVendor,
+    resetEditingInvoice,
+    populateEditingInvoice
   }
 }
