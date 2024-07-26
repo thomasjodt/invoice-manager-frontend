@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react'
-import { useInvoices, usePayments, useVendors } from '@/hooks'
+import { useAppSettings, useInvoices, usePayments, useVendors } from '@/hooks'
 import { type GlobalContextType } from '@/types'
 
 const GlobalContext = createContext(({} as unknown) as GlobalContextType)
@@ -12,9 +12,10 @@ export const Provider: React.FC<Props> = function ({ children }) {
   const invoices = useInvoices()
   const vendors = useVendors()
   const payments = usePayments()
+  const settings = useAppSettings()
 
   return (
-    <GlobalContext.Provider value={{ ...invoices, ...vendors, ...payments }}>
+    <GlobalContext.Provider value={{ ...invoices, ...vendors, ...payments, ...settings }}>
       {children}
     </GlobalContext.Provider>
   )
