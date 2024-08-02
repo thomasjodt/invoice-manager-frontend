@@ -13,10 +13,9 @@ import {
 } from '@nextui-org/react'
 import { type CalendarDate, parseDate } from '@internationalized/date'
 
-import { useForm } from '@/hooks'
+import { useForm, useInvoices, useVendors } from '@/hooks'
 import { VendorTag } from '@/components/ui'
 import type { Invoice, createInvoice, Vendor } from '@/types'
-import { useAppContext } from '@/context'
 
 interface Props {
   isOpen?: boolean
@@ -25,7 +24,8 @@ interface Props {
 }
 
 export const NewInvoiceModal: React.FC<Props> = function ({ isOpen, onCreate, onClose }) {
-  const { getAllVendors, createInvoice } = useAppContext()
+  const { createInvoice } = useInvoices()
+  const { getAllVendors } = useVendors()
 
   const [vendor, setVendor] = useState('')
   const [vendors, setVendors] = useState<Vendor[]>([])

@@ -10,8 +10,8 @@ import {
 } from '@nextui-org/react'
 
 import type { Vendor } from '@/types'
+import { useVendors } from '@/hooks'
 import { VendorTag } from '@/components/ui'
-import { useAppContext } from '@/context'
 
 interface Props {
   isPopoverOpen: boolean
@@ -20,7 +20,7 @@ interface Props {
 }
 
 export const DeletePopover: React.FC<Props> = function ({ isPopoverOpen, togglePopover, vendor }) {
-  const { deleteVendor } = useAppContext()
+  const { deleteVendor } = useVendors()
 
   const closePopover = (): void => {
     togglePopover(false)

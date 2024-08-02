@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import { Button } from '@nextui-org/react'
 import { BurgerIcon } from '../icons/BurgerIcon'
-import { useAppContext } from '@/context'
+import { useAppSettings } from '@/hooks'
 
 interface Props {
   title: string
@@ -9,7 +9,7 @@ interface Props {
 }
 
 export const Header: React.FC<Props> = function ({ title, children }) {
-  const { toggleSidebar } = useAppContext()
+  const { toggleSidebar } = useAppSettings()
 
   return (
     <>

@@ -2,8 +2,8 @@ import { NavLink } from 'react-router-dom'
 
 import { SideButton } from './SideButton'
 import { UserIcon, ReceiptIcon, SunLowIcon, CashIcon } from '@/components/icons'
-import { useAppContext } from '@/context'
 import { MoonIcon } from '../icons/MoonIcon'
+import { useAppSettings } from '@/hooks'
 
 interface Props {
   brand?: string
@@ -11,7 +11,7 @@ interface Props {
 }
 
 export const Sidebar: React.FC<Props> = function ({ brand, isOpen }) {
-  const { isDark, toggleTheme } = useAppContext()
+  const { isDark, toggleTheme } = useAppSettings()
 
   return (
     <aside className='border-r border-divider grid grid-rows-[100px_1fr]'>

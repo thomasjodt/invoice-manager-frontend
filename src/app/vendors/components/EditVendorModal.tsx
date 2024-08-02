@@ -9,10 +9,9 @@ import {
   ModalHeader
 } from '@nextui-org/react'
 
-import { useForm } from '@/hooks'
 import type { Vendor } from '@/types'
 import { VendorTag } from '@/components/ui'
-import { useAppContext } from '@/context'
+import { useForm, useVendors } from '@/hooks'
 import { DeletePopover } from './DeletePopover'
 
 interface Props {
@@ -25,7 +24,7 @@ export const EditVendorModal: React.FC<Props> = function ({ isOpen, vendor, onOp
   const [isEditable, setIsEditable] = useState(false)
   const [isPopoverOpen, setIsPopoverOpen] = useState(false)
 
-  const { updateVendor } = useAppContext()
+  const { updateVendor } = useVendors()
 
   const { form, handleChange, reset } = useForm({
     name: vendor.name,

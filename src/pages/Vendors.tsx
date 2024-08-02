@@ -2,14 +2,14 @@ import { useCallback, useEffect, useState } from 'react'
 import { Button, Card, Pagination, useDisclosure } from '@nextui-org/react'
 
 import { Header, ShowItems } from '@/components/ui'
-import { useAppContext } from '@/context'
 import { PlusIcon } from '@/components/icons'
 import { FilterBar } from '../app/vendors/components/filter'
 import type { Vendor } from '@/types'
 import { NewVendorModal, VendorCard } from '../app/vendors/components'
+import { useVendors } from '@/hooks'
 
 export const Vendors: React.FC = function () {
-  const { getAllVendors, getVendorByName } = useAppContext()
+  const { getAllVendors, getVendorByName } = useVendors()
   const [page, setPage] = useState(1)
   const [pages, setPages] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(5)

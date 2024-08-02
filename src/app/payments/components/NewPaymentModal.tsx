@@ -12,11 +12,10 @@ import {
   useDisclosure
 } from '@nextui-org/react'
 
-import { useForm } from '@/hooks'
+import { useForm, useInvoices, useVendors } from '@/hooks'
 import type { Vendor, Invoice } from '@/types'
 import { currencyFormat } from '@/utils'
 import { VendorTag } from '@/components/ui'
-import { useAppContext } from '@/context'
 
 interface OnCreate { amount: string, invoiceId: string, paymentDate: string, vendor: string }
 interface Props {
@@ -27,7 +26,8 @@ interface Props {
 
 export const NewPaymentModal: React.FC<Props> = function ({ isOpenModal = false, onCloseModal, onCreate }) {
   const { isOpen, onClose, onOpen, onOpenChange } = useDisclosure()
-  const { getAllVendors, getInvoiceByVendor, getAllInvoices } = useAppContext()
+  const { getInvoiceByVendor, getAllInvoices } = useInvoices()
+  const { getAllVendors } = useVendors()
 
   const [vendors, setVendors] = useState<Vendor[]>([])
   const [invoices, setInvoices] = useState<Invoice[]>([])

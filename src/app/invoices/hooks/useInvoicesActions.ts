@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
 import { type Invoice } from '@/types'
-import { useAppContext } from '@/context'
+import { useInvoices, usePayments } from '@/hooks'
 
 interface UseInvoicesActions {
   invoices: Invoice[]
@@ -17,8 +17,8 @@ interface UseInvoicesActions {
 }
 
 export const useInvoicesActions = (): UseInvoicesActions => {
-  const { deleteInvoice, getAllInvoices, getInvoiceByVendor } = useAppContext()
-  const { deletePayment } = useAppContext()
+  const { deleteInvoice, getAllInvoices, getInvoiceByVendor } = useInvoices()
+  const { deletePayment } = usePayments()
   const [searchParams] = useSearchParams()
 
   const [invoices, setInvoices] = useState<Invoice[]>([])

@@ -8,8 +8,7 @@ import {
   ModalHeader
 } from '@nextui-org/react'
 
-import { useForm } from '@/hooks'
-import { useAppContext } from '@/context'
+import { useForm, useVendors } from '@/hooks'
 
 interface Props {
   isOpen: boolean
@@ -17,7 +16,7 @@ interface Props {
 }
 
 export const NewVendorModal: React.FC<Props> = function ({ isOpen, onOpenChange }) {
-  const { createVendor } = useAppContext()
+  const { createVendor } = useVendors()
   const { form, handleChange } = useForm({ name: '', fullName: '' })
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>, close: () => void): void => {

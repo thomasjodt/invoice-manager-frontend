@@ -4,12 +4,12 @@ import { Button, Card, Pagination } from '@nextui-org/react'
 import { Header, ShowItems } from '@/components/ui'
 import type { Payment } from '@/types'
 import { PlusIcon } from '@/components/icons'
-import { useAppContext } from '@/context'
 import { NewPaymentModal, PaymentCard } from '../app/payments/components'
 import { DeletePaymentModal } from '../app/payments/components/DeletePaymentModal'
+import { usePayments } from '@/hooks'
 
 export const Payments: React.FC = function () {
-  const { createPayment, getAllPayments, deletePayment } = useAppContext()
+  const { createPayment, getAllPayments, deletePayment } = usePayments()
   const [page, setPage] = useState(1)
   const [pages, setPages] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(5)
