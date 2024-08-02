@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { Button, Pagination } from '@nextui-org/react'
 
+import type { Invoice } from '@/types'
 import { PlusIcon } from '@/components/icons'
+import { useInvoicesActions } from '@/app/invoices'
 import { Header, ShowItems } from '@/components/ui'
 import { InvoicesTable } from '../app/invoices/components/table/InvoicesTable'
 import { EditInvoiceModal, FilterBar, NewInvoiceModal } from '../app/invoices/components'
-import { useInvoicesActions } from '@/app/invoices/hooks/useInvoicesActions'
-import { type Invoice } from '@/types'
 
 export const Invoices: React.FC = function () {
   const [searchParams] = useSearchParams()
