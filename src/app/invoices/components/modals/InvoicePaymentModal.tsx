@@ -82,8 +82,6 @@ export const InvoicePaymentModal: React.FC<Props> = function ({ invoice, onClose
     if (onClose !== undefined) onClose()
   }
 
-  console.log(balance)
-
   return (
     <Modal isOpen={invoice !== undefined} onClose={handleClose} className='max-h-svh'>
       <ModalContent>
