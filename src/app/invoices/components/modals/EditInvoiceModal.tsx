@@ -6,13 +6,7 @@ import {
   ModalBody,
   ModalContent,
   ModalHeader,
-  Snippet,
-  Table,
-  TableBody,
-  TableCell,
-  TableColumn,
-  TableHeader,
-  TableRow
+  Snippet
 } from '@nextui-org/react'
 
 import type { Invoice } from '@/types'
@@ -102,25 +96,13 @@ export const EditInvoiceModal: React.FC<Props> = function ({ invoice, onClose })
                   </div>
 
                   {(isShowing) && (
-                    <Table hideHeader isCompact removeWrapper>
-                      <TableHeader>
-                        <TableColumn>Invoice</TableColumn>
-                        <TableColumn>Amount</TableColumn>
-                        <TableColumn>Payment date</TableColumn>
-                      </TableHeader>
-                      <TableBody items={invoice.payments}>
-                        {(payment) => (
-                          <TableRow className='border border-divider bg-default/40'>
-                            <TableCell>
-                              <p className='font-semibold text-default-700'>{payment.invoice.vendor.name}</p>
-                              <p className='font-semibold text-primary-500'>{payment.invoice.invoiceNumber}</p>
-                            </TableCell>
-                            <TableCell className='font-semibold text-default-800'>{currencyFormat(payment.amount)}</TableCell>
-                            <TableCell className='text-default-600'>{dateFormat(payment.paymentDate)}</TableCell>
-                          </TableRow>
-                        )}
-                      </TableBody>
-                    </Table>
+                    invoice.payments.map((payment) => (
+                      <div key={payment.id} className='flex items-center justify-between rounded-xl p-3 bg-opacity-50 bg-default/40 w-full px-5'>
+                        <p className='text-default-600'>{payment.invoice.vendor.name}</p>
+                        <p className='font-semibold text-default-800'>{currencyFormat(payment.amount)}</p>
+                        <p className='text-default-600 text-sm'>{dateFormat(payment.paymentDate)}</p>
+                      </div>
+                    ))
                   )}
                 </>
               )}
