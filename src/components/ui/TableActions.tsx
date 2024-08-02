@@ -1,13 +1,20 @@
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@nextui-org/react'
+
+import type { Invoice } from '@/types'
 import { DeleteIcon, VerticalDotsIcon, FileIcon, CashIcon } from '@/components/icons'
+import { getBalance } from '@/utils'
 
 interface Props {
   item?: string
+  invoice?: Invoice
+  onPay?: () => void
   onDelete?: () => void
   onViewDetails?: () => void
 }
 
-export const TableActions: React.FC<Props> = function ({ onDelete, onViewDetails, item }) {
+export const TableActions: React.FC<Props> = function ({ onPay, onDelete, onViewDetails, item, invoice }) {
+  const balance = (invoice !== undefined) ? getBalance(invoice.amount, invoice.payments) : null
+
   return (
     <Dropdown classNames={{ content: 'rounded-md' }}>
       <DropdownTrigger>
@@ -16,11 +23,11 @@ export const TableActions: React.FC<Props> = function ({ onDelete, onViewDetails
         </Button>
       </DropdownTrigger>
 
-      <DropdownMenu aria-label='Invoice actions' className='dark:text-neutral-200' disabledKeys={['pay']}>
+      <DropdownMenu aria-label='Invoice actions' className='dark:text-neutral-200' disabledKeys={(balance === null || balance <= 0) ? ['pay'] : []}>
         <DropdownItem
           key='pay'
           textValue='View details'
-          onPress={onViewDetails}
+          onPress={onPay}
           startContent={<CashIcon size={18} />}
           className='rounded-md'
         >
