@@ -18,7 +18,8 @@ import { currencyFormat, dateFormat, getBalance, getStatus } from '@/utils'
 
 interface Props {
   invoice?: Invoice
-  onClose?: (wasPaid?: boolean) => void
+  onClose?: () => void
+  onPay?: () => void
 }
 
 interface Form {
@@ -33,7 +34,7 @@ const errorMessages = {
   negative: 'The amount to be paid must be greater than zero.'
 }
 
-export const InvoicePaymentModal: React.FC<Props> = function ({ invoice, onClose }) {
+export const InvoicePaymentModal: React.FC<Props> = function ({ invoice, onClose, onPay }) {
   const balance = (invoice !== undefined) ? getBalance(invoice.amount, invoice.payments) : 0
 
   const { createPayment } = usePayments()
@@ -53,7 +54,7 @@ export const InvoicePaymentModal: React.FC<Props> = function ({ invoice, onClose
     e.preventDefault()
     if (invoice === undefined) return
 
-    if (Number(form.amount) > balance) {
+    if ((Number(form.amount) > balance)) {
       fillForm({ ...form, errorMessage: errorMessages.greater })
       return
     }
@@ -67,15 +68,21 @@ export const InvoicePaymentModal: React.FC<Props> = function ({ invoice, onClose
       invoice,
       amount: Number(form.amount),
       paymentDate: (form.date !== null) ? form.date.toString() : new Date().toISOString().split('T')[0]
-    }).catch(console.error)
+    })
+      .then(() => {
+        if (onPay !== undefined) onPay()
+      })
+      .catch(console.error)
 
-    handleClose(true)
+    handleClose()
   }
 
-  const handleClose = (wasPaid?: boolean): void => {
+  const handleClose = (): void => {
     reset()
-    if (onClose !== undefined) onClose(wasPaid)
+    if (onClose !== undefined) onClose()
   }
+
+  console.log(balance)
 
   return (
     <Modal isOpen={invoice !== undefined} onClose={handleClose} className='max-h-svh'>
