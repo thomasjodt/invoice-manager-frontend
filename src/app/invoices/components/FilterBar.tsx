@@ -1,41 +1,40 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type Key } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { Autocomplete, AutocompleteItem, Card } from '@nextui-org/react'
 
+import { useVendors } from '@/hooks'
 import { type Vendor } from '@/types'
-import { useAppContext } from '@/context'
 import { SearchIcon } from '@/components/icons'
 import { VendorTag } from '@/components/ui'
-import { useSearchParams } from 'react-router-dom'
 
 interface Props {
   onSearch?: () => void
 }
 
-export const FilterBar: React.FC<Props> = function ({ onSearch }) {
-  const { getAllVendors } = useAppContext()
-  const [search, setSearParams] = useSearchParams()
+export const FilterBar: React.FC<Props> = function () {
+  const { getAllVendors } = useVendors()
+  const [search, setSearchParams] = useSearchParams()
 
   const [vendors, setVendors] = useState<Vendor[]>([])
   const [vendorKey, setVendorKey] = useState<React.Key | null>(null)
 
-  useEffect(() => {
-    const getVendors = async (): Promise<void> => {
-      const { data } = await getAllVendors(0)
-      setVendors(data)
+  const handleSelectionChange = (key: Key): void => {
+    setVendorKey(key)
+
+    if (key === null) {
+      const query = new URLSearchParams(search)
+      query.delete('vendorId')
+      setSearchParams(query)
+    } else {
+      setSearchParams(p => ({ ...p, vendorId: key.toString() }))
     }
-
-    getVendors().catch(console.error)
-  }, [getAllVendors])
+  }
 
   useEffect(() => {
-    setSearParams(
-      (vendorKey !== null)
-        ? { vendorId: vendorKey.toString() }
-        : {}
-    )
-
-    if (onSearch !== undefined) onSearch()
-  }, [vendorKey, onSearch, setSearParams, search])
+    getAllVendors(0)
+      .then(({ data }) => { setVendors(data) })
+      .catch(console.error)
+  }, [getAllVendors])
 
   return (
     <Card shadow='none' radius='none' className='p-5 border-b border-divider'>
@@ -43,10 +42,10 @@ export const FilterBar: React.FC<Props> = function ({ onSearch }) {
         placeholder='Select a vendor'
         label='Search by vendor'
         labelPlacement='outside'
-        defaultItems={vendors}
+        items={vendors}
         startContent={<SearchIcon />}
         className='max-w-[300px] [&_[data-slot=main-wrapper]]:border [&_[data-slot=main-wrapper]]:rounded-xl [&_[data-slot=main-wrapper]]:border-divider'
-        onSelectionChange={setVendorKey}
+        onSelectionChange={handleSelectionChange}
         selectedKey={vendorKey?.toString()}
         classNames={{ base: 'font-semibold' }}
       >
