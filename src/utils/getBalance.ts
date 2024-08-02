@@ -3,6 +3,10 @@ import { type Payment } from '@/types'
 export const getBalance = (amount: number, payments: number | Payment[]): number => {
   if (typeof payments === 'number') return amount - payments
 
-  const paid = payments.reduce((a, b) => a + b.amount, 0)
-  return amount - paid
+  let paid = 0
+  for (const payment of payments) {
+    paid += payment.amount * 100
+  }
+
+  return ((amount * 100) - paid) / 100
 }
