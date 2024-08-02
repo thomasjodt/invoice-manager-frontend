@@ -9,17 +9,21 @@ import {
   Snippet
 } from '@nextui-org/react'
 
-import type { Invoice } from '@/types'
+import type { Invoice, Payment } from '@/types'
 import { currencyFormat, dateFormat } from '@/utils'
 import { parseDate } from '@internationalized/date'
+import { DeleteIcon } from '@/components/icons'
+import { usePayments } from '@/hooks'
 
 interface Props {
   invoice?: Invoice
   onClose?: () => void
   onUpdate?: (invoice: Invoice) => void
+  onDeletePayment?: () => void
 }
 
-export const EditInvoiceModal: React.FC<Props> = function ({ invoice, onClose }) {
+export const EditInvoiceModal: React.FC<Props> = function ({ invoice, onClose, onDeletePayment }) {
+  const { deletePayment } = usePayments()
   const [isShowing, setIsShowing] = useState<boolean>(false)
 
   const handleShowPayments = (): void => {
@@ -29,6 +33,21 @@ export const EditInvoiceModal: React.FC<Props> = function ({ invoice, onClose })
   const handleClose = (): void => {
     setIsShowing(false)
     if (onClose !== undefined) onClose()
+  }
+
+  const handleDeletePayment = (payment: Payment) => {
+    return () => {
+      const isConfirmed = confirm('Are you sure to delete this payment?')
+
+      if (isConfirmed) {
+        deletePayment(payment.id)
+          .then(() => {
+            if (onClose !== undefined) onClose()
+            if (onDeletePayment !== undefined) onDeletePayment()
+          })
+          .catch(console.error)
+      }
+    }
   }
 
   return (
@@ -98,9 +117,18 @@ export const EditInvoiceModal: React.FC<Props> = function ({ invoice, onClose })
                   {(isShowing) && (
                     invoice.payments.map((payment) => (
                       <div key={payment.id} className='flex items-center justify-between rounded-xl p-3 bg-opacity-50 bg-default/40 w-full px-5'>
-                        <p className='text-default-600'>{payment.invoice.vendor.name}</p>
+                        <p className='text-default-600 font-semibold'>{payment.invoice.vendor.name}</p>
                         <p className='font-semibold text-default-800'>{currencyFormat(payment.amount)}</p>
                         <p className='text-default-600 text-sm'>{dateFormat(payment.paymentDate)}</p>
+                        <Button
+                          size='sm'
+                          color='danger'
+                          variant='light'
+                          title='Delete payment'
+                          isIconOnly
+                          startContent={<DeleteIcon size={20} />}
+                          onPress={handleDeletePayment(payment)}
+                        />
                       </div>
                     ))
                   )}

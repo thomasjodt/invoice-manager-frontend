@@ -36,7 +36,7 @@ export const Invoices: React.FC = function () {
 
   return (
     <>
-      <EditInvoiceModal invoice={selectedInvoice} onClose={handleCloseEdit} />
+      <EditInvoiceModal invoice={selectedInvoice} onClose={handleCloseEdit} onDeletePayment={handlePay} />
       <NewInvoiceModal isOpen={newIsOpen} onClose={handleCloseNew} onCreate={handleCreate} />
       <InvoicePaymentModal invoice={payingInvoice} onClose={handleClosePay} onPay={handlePay} />
 

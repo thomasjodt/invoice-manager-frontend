@@ -47,7 +47,7 @@ export const DeletePopover: React.FC<Props> = function ({ isPopoverOpen, toggleP
       <PopoverContent>
         <Card shadow='none'>
           <CardHeader>
-            <h3 className='font-bold'>Are you sure to delete this item?</h3>
+            <h3 className='font-bold text-default-900'>Are you sure to delete this item?</h3>
           </CardHeader>
 
           <CardBody>
