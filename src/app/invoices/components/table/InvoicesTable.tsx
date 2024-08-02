@@ -17,12 +17,13 @@ import { DeleteModal } from '../modals/DeleteModal'
 
 interface Props {
   invoices?: Invoice[]
+  onPay?: (invoice: Invoice) => void
   onView?: (invoice: Invoice) => void
   onDelete?: (invoice: Invoice) => void
   bottomContent?: React.ReactNode
 }
 
-export const InvoicesTable: React.FC<Props> = function ({ invoices = [], onDelete, onView, bottomContent }) {
+export const InvoicesTable: React.FC<Props> = function ({ bottomContent, invoices = [], onDelete, onView, onPay }) {
   const [deletingInvoice, setDeletingInvoice] = useState<Invoice | null>(null)
 
   const handleDelete = (): void => {
@@ -35,6 +36,12 @@ export const InvoicesTable: React.FC<Props> = function ({ invoices = [], onDelet
   const handleView = (invoice: Invoice) => {
     return () => {
       (onView !== undefined) && onView(invoice)
+    }
+  }
+
+  const handlePay = (invoice: Invoice) => {
+    return () => {
+      if (onPay !== undefined) onPay(invoice)
     }
   }
 
@@ -114,8 +121,10 @@ export const InvoicesTable: React.FC<Props> = function ({ invoices = [], onDelet
                 <TableCell>
                   <TableActions
                     item='invoice'
+                    invoice={invoice}
                     onDelete={() => { setDeletingInvoice(invoice) }}
                     onViewDetails={handleView(invoice)}
+                    onPay={handlePay(invoice)}
                   />
                 </TableCell>
               </TableRow>
