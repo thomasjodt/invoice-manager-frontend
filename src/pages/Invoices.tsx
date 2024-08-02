@@ -1,19 +1,13 @@
-import { useEffect, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
 import { Button, Pagination } from '@nextui-org/react'
 
-import type { Invoice } from '@/types'
 import { PlusIcon } from '@/components/icons'
-import { useInvoicesActions } from '@/app/invoices'
+import { useInvoicesActions, useModalHandlers } from '@/app/invoices'
 import { Header, ShowItems } from '@/components/ui'
 import { InvoicesTable } from '../app/invoices/components/table/InvoicesTable'
 import { EditInvoiceModal, FilterBar, NewInvoiceModal } from '../app/invoices/components'
+import { InvoicePaymentModal } from '@/app/invoices/components/modals'
 
 export const Invoices: React.FC = function () {
-  const [searchParams] = useSearchParams()
-  const [isVisible, setIsVisible] = useState(false)
-  const [selectedInvoice, setSelectedInvoice] = useState<Invoice | undefined>()
-
   const {
     page,
     count,
@@ -26,37 +20,26 @@ export const Invoices: React.FC = function () {
     changeNumberOfItems
   } = useInvoicesActions()
 
-  const handleView = (invoice: Invoice): void => {
-    setSelectedInvoice(invoice)
-  }
-
-  const handleCreate = (): void => {
-    getInvoices(page, numberOfItems).catch(console.error)
-  }
-
-  const handleClose = (): void => {
-    setSelectedInvoice(undefined)
-  }
-
-  const handleOpenNewInvoiceModal = (): void => {
-    setIsVisible(true)
-  }
-
-  const handleCloseNewInvoiceModal = (): void => {
-    setIsVisible(false)
-  }
-
-  useEffect(() => {
-    const vendorId = searchParams.get('vendorId')
-    if (vendorId === null) {
-      getInvoices(page, numberOfItems).catch(console.error)
-    }
-  }, [getInvoices, page, numberOfItems, searchParams])
+  const {
+    newIsOpen,
+    payingInvoice,
+    selectedInvoice,
+    handlePay,
+    handleView,
+    handleCreate,
+    handleOpenPay,
+    handleCloseNew,
+    handleClosePay,
+    handleCloseEdit,
+    handleOpenNewInvoiceModal
+  } = useModalHandlers(page, numberOfItems, getInvoices)
 
   return (
     <>
-      <EditInvoiceModal invoice={selectedInvoice} onClose={handleClose} />
-      <NewInvoiceModal isOpen={isVisible} onClose={handleCloseNewInvoiceModal} onCreate={handleCreate} />
+      <EditInvoiceModal invoice={selectedInvoice} onClose={handleCloseEdit} />
+      <NewInvoiceModal isOpen={newIsOpen} onClose={handleCloseNew} onCreate={handleCreate} />
+      <InvoicePaymentModal invoice={payingInvoice} onClose={handleClosePay} onPay={handlePay} />
+
       <Header title='Invoices'>
         <Button
           color='primary'
@@ -79,6 +62,7 @@ export const Invoices: React.FC = function () {
             invoices={invoices}
             onDelete={removeInvoice}
             onView={handleView}
+            onPay={handleOpenPay}
             bottomContent={
               <div className='flex items-end justify-between p-3 bg-neutral-100 rounded-b-xl border-t border-divider dark:bg-neutral-900'>
                 <div className='flex gap-3 items-center'>
