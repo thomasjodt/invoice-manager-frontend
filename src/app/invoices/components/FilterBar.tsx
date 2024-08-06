@@ -1,4 +1,4 @@
-import { useEffect, useState, type Key } from 'react'
+import React, { useEffect, useState, type Key } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { Autocomplete, AutocompleteItem, Card } from '@nextui-org/react'
 
@@ -16,7 +16,7 @@ export const FilterBar: React.FC<Props> = function () {
   const [search, setSearchParams] = useSearchParams()
 
   const [vendors, setVendors] = useState<Vendor[]>([])
-  const [vendorKey, setVendorKey] = useState<React.Key | null>(null)
+  const [vendorKey, setVendorKey] = useState<Key | null>(null)
 
   const handleSelectionChange = (key: Key): void => {
     setVendorKey(key)
@@ -39,15 +39,15 @@ export const FilterBar: React.FC<Props> = function () {
   return (
     <Card shadow='none' radius='none' className='p-5 border-b border-divider'>
       <Autocomplete
-        placeholder='Select a vendor'
         label='Search by vendor'
         labelPlacement='outside'
-        items={vendors}
+        placeholder='Select a vendor'
+        defaultItems={vendors}
         startContent={<SearchIcon />}
-        className='max-w-[300px] [&_[data-slot=main-wrapper]]:border [&_[data-slot=main-wrapper]]:rounded-xl [&_[data-slot=main-wrapper]]:border-divider'
-        onSelectionChange={handleSelectionChange}
         selectedKey={vendorKey?.toString()}
-        classNames={{ base: 'font-semibold' }}
+        onSelectionChange={handleSelectionChange}
+        scrollShadowProps={{ isEnabled: false }}
+        className='max-w-[300px] [&_[data-slot=main-wrapper]]:border [&_[data-slot=main-wrapper]]:rounded-xl [&_[data-slot=main-wrapper]]:border-divider font-semibold'
       >
         {(vendor) => (
           <AutocompleteItem key={vendor.id} textValue={vendor.name}>
