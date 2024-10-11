@@ -1,2 +1,3 @@
-export { PaymentCard } from './PaymentCard'
-export { NewPaymentModal } from './NewPaymentModal'
+export * from './PaymentCard'
+export * from './NewPaymentModal'
+export * from './DeletePaymentModal'

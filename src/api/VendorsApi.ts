@@ -3,7 +3,7 @@ import type { ApiResponse, Vendor } from '@/types'
 
 export const VendorsApi = {
   getVendors: async (page: number = 0, offset: number = 5): Promise<ApiResponse<Vendor[]>> => {
-    if (page < 0) throw new Error('The page cannot be less than zero.')
+    if (page < 0) throw new Error('La página no puede ser menor a cero.')
 
     const res = (page === 0)
       ? await config.get<ApiResponse<Vendor[]>>('/vendors')

@@ -1,2 +1,2 @@
-export { VendorCard } from './VendorCard'
-export { NewVendorModal } from './NewVendorModal'
+export * from './VendorCard'
+export * from './NewVendorModal'

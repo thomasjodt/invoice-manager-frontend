@@ -3,7 +3,7 @@ import type { ApiResponse, CreatePayment, Payment } from '@/types'
 
 export const PaymentsApi = {
   getPayments: async (page: number = 0, offset: number = 5): Promise<ApiResponse<Payment[]>> => {
-    if (page < 0) throw new Error('This number cannot be less than zero.')
+    if (page < 0) throw new Error('La página no puede ser menor a cero.')
 
     const { data } = (page === 0)
       ? await config.get<ApiResponse<Payment[]>>('/payments')

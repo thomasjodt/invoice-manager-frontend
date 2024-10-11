@@ -1,8 +1,8 @@
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@nextui-org/react'
 
 import type { Invoice } from '@/types'
-import { DeleteIcon, VerticalDotsIcon, FileIcon, CashIcon } from '@/components/icons'
 import { getBalance } from '@/utils'
+import { DeleteIcon, VerticalDotsIcon, FileIcon, CashIcon } from '@/components/icons'
 
 interface Props {
   item?: string
@@ -26,33 +26,33 @@ export const TableActions: React.FC<Props> = function ({ onPay, onDelete, onView
       <DropdownMenu aria-label='Invoice actions' className='dark:text-neutral-200' disabledKeys={(balance === null || balance <= 0) ? ['pay'] : []}>
         <DropdownItem
           key='pay'
-          textValue='View details'
+          textValue='Pagar'
           onPress={onPay}
           startContent={<CashIcon size={18} />}
           className='rounded-md'
         >
-          Make a payment
+          Haz un pago
         </DropdownItem>
 
         <DropdownItem
           key='view'
-          textValue='View details'
+          textValue='Ver detalles'
           onPress={onViewDetails}
           startContent={<FileIcon size={18} />}
           className='rounded-md'
         >
-          View details
+          Ver detalles
         </DropdownItem>
 
         <DropdownItem
           key='delete'
           color='danger'
-          textValue='Delete'
+          textValue='Eliminar'
           onPress={onDelete}
           startContent={<DeleteIcon size={18} />}
           className='rounded-md'
         >
-          Delete {item}
+          Eliminar {item}
         </DropdownItem>
       </DropdownMenu>
     </Dropdown>

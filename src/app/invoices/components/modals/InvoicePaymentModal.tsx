@@ -30,8 +30,8 @@ interface Form {
 }
 
 const errorMessages = {
-  greater: 'The amount to be paid cannot be greater than the invoice balance.',
-  negative: 'The amount to be paid must be greater than zero.'
+  greater: 'El monto a pagar no puede ser mayor que el saldo de la factura.',
+  negative: 'El monto debe ser mayor que cero.'
 }
 
 export const InvoicePaymentModal: React.FC<Props> = function ({ invoice, onClose, onPay }) {
@@ -87,7 +87,7 @@ export const InvoicePaymentModal: React.FC<Props> = function ({ invoice, onClose
       <ModalContent>
         {() => (
           <>
-            <ModalHeader className='text-default-900 border-b border-divider mb-5'>Make a payment</ModalHeader>
+            <ModalHeader className='text-default-900 border-b border-divider mb-5'>Haz un pago</ModalHeader>
             <ModalBody>
               <Card shadow='none' className='border border-divider rounded-md p-3'>
                 <div className='flex gap-3 items-center'>
@@ -100,14 +100,14 @@ export const InvoicePaymentModal: React.FC<Props> = function ({ invoice, onClose
                   </span>
                 </div>
                 <section className='grid grid-cols-[100px_1fr]'>
-                  <span className='text-default-400'>Balance:</span>
+                  <span className='text-default-400'>Saldo:</span>
                   <div>
                     <span className='font-semibold text-medium'>{currencyFormat(balance)}</span>
                     {' / '}
                     <span className='text-default-600 text-tiny'>{(invoice !== undefined) && currencyFormat(invoice.amount)}</span>
                   </div>
 
-                  <span className='text-default-400'>Due date:</span>
+                  <span className='text-default-400'>Fecha de vencimiento:</span>
                   <p className='text-default-600'>{(invoice !== undefined) && dateFormat(invoice.dueDate)}</p>
                 </section>
               </Card>
@@ -115,7 +115,7 @@ export const InvoicePaymentModal: React.FC<Props> = function ({ invoice, onClose
               <form onSubmit={handleSubmit}>
                 <div className='mb-3'>
                   <Input
-                    label='Amount to pay'
+                    label='Monto a pagar'
                     type='number'
                     isInvalid={form.errorMessage !== null}
                     onChange={handleChange}
@@ -135,11 +135,11 @@ export const InvoicePaymentModal: React.FC<Props> = function ({ invoice, onClose
                   checked={form.isCustomDate}
                   onChange={handleChange}
                 >
-                  Custom date
+                  Fecha personalizada
                 </Checkbox>
 
                 <DatePicker
-                  label='Payment date'
+                  label='Fecha de pago'
                   isDisabled={!form.isCustomDate}
                   name='date'
                   value={(form.isCustomDate)
@@ -149,7 +149,7 @@ export const InvoicePaymentModal: React.FC<Props> = function ({ invoice, onClose
                   onChange={handleDateChange}
                 />
                 <div className='flex justify-end my-3'>
-                  <Button type='submit' color='primary'>Pay the invoice</Button>
+                  <Button type='submit' color='primary'>Hacer el pago</Button>
                 </div>
               </form>
             </ModalBody>

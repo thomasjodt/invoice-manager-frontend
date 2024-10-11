@@ -21,6 +21,7 @@
     "noFallthroughCasesInSwitch": true,
     "paths": {
       "@/*": ["./src/*"],
+      "@/icons/*": ["./src/components/icons/*"],
     }
   },
   "include": ["src", "vite.config.ts"],

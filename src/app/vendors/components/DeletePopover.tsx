@@ -41,13 +41,13 @@ export const DeletePopover: React.FC<Props> = function ({ isPopoverOpen, toggleP
       onOpenChange={() => { togglePopover(true) }}
     >
       <PopoverTrigger>
-        <Button color='danger' variant='light'>Delete vendor</Button>
+        <Button color='danger' variant='light'>Eliminar proveedor</Button>
       </PopoverTrigger>
 
       <PopoverContent>
         <Card shadow='none'>
           <CardHeader>
-            <h3 className='font-bold text-default-900'>Are you sure to delete this item?</h3>
+            <h3 className='font-bold text-default-900'>Estás seguro de eliminar este elemento?</h3>
           </CardHeader>
 
           <CardBody>
@@ -60,14 +60,14 @@ export const DeletePopover: React.FC<Props> = function ({ isPopoverOpen, toggleP
               color='default'
               onClick={closePopover}
             >
-              Cancel
+              Cancelar
             </Button>
             <Button
               color='danger'
               variant='solid'
               onClick={handleDelete(vendor.id)}
             >
-              Delete vendor
+              Eliminar
             </Button>
           </CardFooter>
         </Card>

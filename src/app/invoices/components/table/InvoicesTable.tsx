@@ -57,7 +57,7 @@ export const InvoicesTable: React.FC<Props> = function ({ bottomContent, invoice
         onCloseModal={handleCloseDeleteModal}
       />
       <Table
-        aria-label='Table to show the invoices'
+        aria-label='Tabla para mostrar las facturas'
         removeWrapper
         bottomContentPlacement='outside'
         className='border rounded-xl bg-white dark:bg-zinc-900 mx-auto overflow-hidden dark:border-neutral-700 dark:text-neutral-200 justify-between'
@@ -74,7 +74,7 @@ export const InvoicesTable: React.FC<Props> = function ({ bottomContent, invoice
           )}
         </TableHeader>
 
-        <TableBody items={invoices} emptyContent='There is no invoices to show.'>
+        <TableBody items={invoices} emptyContent='No hay facturas para mostrar.'>
           {(invoice) => {
             const { amount, dueDate, emissionDate, id, invoiceNumber, payments, vendor } = invoice
             const days = getDays(emissionDate, dueDate)
@@ -120,7 +120,7 @@ export const InvoicesTable: React.FC<Props> = function ({ bottomContent, invoice
 
                 <TableCell>
                   <TableActions
-                    item='invoice'
+                    item='factura'
                     invoice={invoice}
                     onDelete={() => { setDeletingInvoice(invoice) }}
                     onViewDetails={handleView(invoice)}

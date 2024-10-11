@@ -78,7 +78,7 @@ export const EditInvoiceModal: React.FC<Props> = function ({ invoice, onClose, o
         <ModalContent>
           {() => (
             <>
-              <ModalHeader className='dark:text-neutral-200'>Detailed information</ModalHeader>
+              <ModalHeader className='dark:text-neutral-200'>Información detallada</ModalHeader>
               <ModalBody className='pb-10'>
                 <div>
                   <h3 className='font-bold dark:text-neutral-300'>Vendor</h3>
@@ -89,14 +89,14 @@ export const EditInvoiceModal: React.FC<Props> = function ({ invoice, onClose, o
                 </div>
 
                 <div>
-                  <h3 className='font-bold dark:text-neutral-300'>Invoice number</h3>
+                  <h3 className='font-bold dark:text-neutral-300'>Número de factura</h3>
                   <Snippet symbol='' className='w-full'>
                     {invoice?.invoiceNumber}
                   </Snippet>
                 </div>
 
                 <div>
-                  <h3 className='font-bold dark:text-neutral-300'>Amount</h3>
+                  <h3 className='font-bold dark:text-neutral-300'>Monto</h3>
                   <Snippet symbol='' hideCopyButton className='w-full' size='lg'>
                     {(invoice !== undefined) && currencyFormat(invoice.amount)}
                   </Snippet>
@@ -104,11 +104,11 @@ export const EditInvoiceModal: React.FC<Props> = function ({ invoice, onClose, o
 
                 <div className='flex justify-between gap-3'>
                   <div className='flex-grow'>
-                    <h3 className='font-bold dark:text-neutral-300'>Emission Date</h3>
+                    <h3 className='font-bold dark:text-neutral-300'>Fecha de emisión</h3>
                     {(invoice !== undefined) && (
                       <DateInput
                         size='lg'
-                        aria-label='emission date'
+                        aria-label='Fecha de emisión'
                         isReadOnly
                         value={parseDate(invoice.emissionDate)}
                         description={dateFormat(invoice.emissionDate)}
@@ -117,11 +117,11 @@ export const EditInvoiceModal: React.FC<Props> = function ({ invoice, onClose, o
                   </div>
 
                   <div className='flex-grow'>
-                    <h3 className='font-bold dark:text-neutral-300'>Due Date</h3>
+                    <h3 className='font-bold dark:text-neutral-300'>Fecha de vencimiento</h3>
                     {(invoice !== undefined) && (
                       <DateInput
                         size='lg'
-                        aria-label='due date'
+                        aria-label='Fecha de vencimiento'
                         isReadOnly
                         value={parseDate(invoice.dueDate)}
                         description={dateFormat(invoice.dueDate)}
@@ -133,8 +133,8 @@ export const EditInvoiceModal: React.FC<Props> = function ({ invoice, onClose, o
                 {(invoice !== undefined && invoice.payments.length > 0) && (
                   <>
                     <div className='flex justify-between'>
-                      <h3 className='font-bold dark:text-neutral-300'>Payments</h3>
-                      <Button size='sm' onPress={handleShowPayments}>Show payments</Button>
+                      <h3 className='font-bold dark:text-neutral-300'>Pagos</h3>
+                      <Button size='sm' onPress={handleShowPayments}>Mostrar pagos</Button>
                     </div>
 
                     {(isShowing) && (
@@ -147,7 +147,7 @@ export const EditInvoiceModal: React.FC<Props> = function ({ invoice, onClose, o
                             size='sm'
                             color='danger'
                             variant='light'
-                            title='Delete payment'
+                            title='Eliminar pago'
                             isIconOnly
                             startContent={<DeleteIcon size={20} />}
                             onPress={handleDeletePaymentOpen(payment)}

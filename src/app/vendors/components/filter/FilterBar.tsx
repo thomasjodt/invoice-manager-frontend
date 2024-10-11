@@ -20,7 +20,7 @@ export const FilterBar: React.FC<Props> = memo(function FilterBar ({ onSearch })
   return (
     <Card shadow='none' className='rounded-none border-b border-divider p-3'>
       <Input
-        placeholder='Search vendor'
+        placeholder='Buscar proveedor'
         className='max-w-[300px] ml-3'
         onChange={(e) => {
           setInput(e.target.value)

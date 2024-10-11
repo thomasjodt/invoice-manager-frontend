@@ -1,12 +1,11 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Button, Card, Pagination } from '@nextui-org/react'
 
-import { Header, ShowItems } from '@/components/ui'
 import type { Payment } from '@/types'
-import { PlusIcon } from '@/components/icons'
-import { NewPaymentModal, PaymentCard } from '../app/payments/components'
-import { DeletePaymentModal } from '../app/payments/components/DeletePaymentModal'
 import { usePayments } from '@/hooks'
+import { PlusIcon } from '@/components/icons'
+import { Header, ShowItems } from '@/components/ui'
+import { NewPaymentModal, PaymentCard, DeletePaymentModal } from '@/app/payments/components'
 
 export const Payments: React.FC = function () {
   const { createPayment, getAllPayments, deletePayment } = usePayments()
@@ -80,13 +79,13 @@ export const Payments: React.FC = function () {
 
   return (
     <>
-      <Header title='Payments'>
+      <Header title='Pagos'>
         <Button
           color='primary'
           endContent={<PlusIcon />}
           onPress={openCreateModal}
         >
-          Add Payment
+          Hacer un pago
         </Button>
       </Header>
 
@@ -105,10 +104,10 @@ export const Payments: React.FC = function () {
       <div>
         {(count > 0) && (
           <div className='text-neutral-500 dark:text-neutral-200 font-semibold text-sm mx-5 my-4 flex justify-between'>
-            <p>Total {count} payments</p>
+            <p>Total: {count} pagos</p>
 
             <div className='flex items-center gap-3'>
-              <p>Vendors per page</p>
+              <p>Elementos por página:</p>
               <ShowItems onChange={setItemsPerPage} />
             </div>
           </div>
@@ -122,7 +121,7 @@ export const Payments: React.FC = function () {
               : 'max-w-xl mx-auto flex justify-center items-center min-h-[500px] mt-5 border-divider border'
           }
         >
-          <div>
+          <div className='flex flex-col gap-3'>
             {
               (payments.length > 0)
                 ? (payments.map((payment) => (

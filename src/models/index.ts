@@ -1,1 +1,1 @@
-export { InvoiceDto } from './InvoiceDto'
+export * from './InvoiceDto'

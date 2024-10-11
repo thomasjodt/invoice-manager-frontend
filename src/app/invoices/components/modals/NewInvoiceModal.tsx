@@ -101,14 +101,14 @@ export const NewInvoiceModal: React.FC<Props> = function ({ isOpen, onCreate, on
       <ModalContent>
         {() => (
           <>
-            <ModalHeader>Create New Invoice</ModalHeader>
+            <ModalHeader className='text-default-600'>Crear una factura</ModalHeader>
 
             <form onSubmit={(e) => { handleSubmit(e).catch(console.error) }}>
               <ModalBody>
                 <Autocomplete
                   name='vendor'
                   label='Vendor'
-                  placeholder='Select a vendor'
+                  placeholder='Selecciona un proveedor'
                   defaultItems={vendors}
                   inputValue={vendor}
                   onInputChange={onchange}
@@ -123,7 +123,7 @@ export const NewInvoiceModal: React.FC<Props> = function ({ isOpen, onCreate, on
 
                 <Input
                   maxLength={13}
-                  label='Invoice Number'
+                  label='Número de factura'
                   placeholder='FF01-12345678'
                   className='mb-3'
                   value={form.invoiceNumber}
@@ -132,7 +132,7 @@ export const NewInvoiceModal: React.FC<Props> = function ({ isOpen, onCreate, on
                 />
 
                 <Input
-                  label='Amount'
+                  label='Monto'
                   placeholder=''
                   type='number'
                   className='mb-3'
@@ -144,7 +144,7 @@ export const NewInvoiceModal: React.FC<Props> = function ({ isOpen, onCreate, on
                 <div className='flex gap-2'>
                   <DatePicker
                     name='emissionDate'
-                    label='Emission Date'
+                    label='Fecha de emisión'
                     className='mb-3'
                     value={emissionDate}
                     onChange={setEmissionDate}
@@ -152,7 +152,7 @@ export const NewInvoiceModal: React.FC<Props> = function ({ isOpen, onCreate, on
 
                   <DatePicker
                     name='dueDate'
-                    label='Due Date'
+                    label='Fecha de vencimiento'
                     className='mb-3'
                     value={dueDate}
                     onChange={setDueDate}
@@ -162,7 +162,7 @@ export const NewInvoiceModal: React.FC<Props> = function ({ isOpen, onCreate, on
 
               <ModalFooter>
                 <Button color='primary' type='submit'>
-                  Create Invoice
+                  Crear la factura
                 </Button>
               </ModalFooter>
             </form>

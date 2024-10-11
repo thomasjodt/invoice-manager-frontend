@@ -1,9 +1,8 @@
 import { NavLink } from 'react-router-dom'
 
-import { SideButton } from './SideButton'
-import { UserIcon, ReceiptIcon, SunLowIcon, CashIcon } from '@/components/icons'
-import { MoonIcon } from '../icons/MoonIcon'
+import { SideButton } from '.'
 import { useAppSettings } from '@/hooks'
+import { UserIcon, ReceiptIcon, SunLowIcon, CashIcon, MoonIcon } from '@/components/icons'
 
 interface Props {
   brand?: string
@@ -30,21 +29,21 @@ export const Sidebar: React.FC<Props> = function ({ brand, isOpen }) {
         <div className='flex flex-col gap-1 w-full items-center'>
           <SideButton
             link='invoices'
-            label='Invoices'
+            label='Facturas'
             isOpen={isOpen}
             icon={<ReceiptIcon size={24} />}
           />
 
           <SideButton
             link='vendors'
-            label='Vendors'
+            label='Proveedores'
             isOpen={isOpen}
             icon={<UserIcon size={24} />}
           />
 
           <SideButton
             link='payments'
-            label='Payments'
+            label='Pagos'
             isOpen={isOpen}
             icon={<CashIcon size={24} />}
           />
@@ -52,7 +51,7 @@ export const Sidebar: React.FC<Props> = function ({ brand, isOpen }) {
 
         <div className='flex flex-col gap-1 w-full items-center'>
           <SideButton
-            label={`${(isDark) ? 'Light' : 'Dark'} theme`}
+            label={`Tema ${(isDark) ? 'Claro' : 'Oscuro'} `}
             isOpen={isOpen}
             icon={(isDark) ? <SunLowIcon /> : <MoonIcon />}
             onClick={toggleTheme}

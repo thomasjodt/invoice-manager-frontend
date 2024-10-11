@@ -1,11 +1,9 @@
 import { Button, Pagination } from '@nextui-org/react'
 
 import { PlusIcon } from '@/components/icons'
-import { useInvoicesActions, useModalHandlers } from '@/app/invoices'
 import { Header, ShowItems } from '@/components/ui'
-import { InvoicesTable } from '../app/invoices/components/table/InvoicesTable'
-import { EditInvoiceModal, FilterBar, NewInvoiceModal } from '../app/invoices/components'
-import { InvoicePaymentModal } from '@/app/invoices/components/modals'
+import { useInvoicesActions, useModalHandlers } from '@/app/invoices'
+import { EditInvoiceModal, FilterBar, NewInvoiceModal, InvoicePaymentModal, InvoicesTable } from '@/app/invoices/components'
 
 export const Invoices: React.FC = function () {
   const {
@@ -40,20 +38,20 @@ export const Invoices: React.FC = function () {
       <NewInvoiceModal isOpen={newIsOpen} onClose={handleCloseNew} onCreate={handleCreate} />
       <InvoicePaymentModal invoice={payingInvoice} onClose={handleClosePay} onPay={handlePay} />
 
-      <Header title='Invoices'>
+      <Header title='Facturas'>
         <Button
           color='primary'
           endContent={<PlusIcon />}
           onPress={handleOpenNewInvoiceModal}
         >
-          Create Invoice
+          Crear factura
         </Button>
       </Header>
 
       <div className='flex flex-col'>
         <FilterBar />
         <section className='text-neutral-500 text-sm font-semibold flex justify-between mt-3 mx-5 dark:text-neutral-200'>
-          <p>Total {count} invoices</p>
+          <p>Total: {count} facturas</p>
 
         </section>
 
@@ -66,7 +64,7 @@ export const Invoices: React.FC = function () {
             bottomContent={
               <div className='flex items-end justify-between p-3 bg-neutral-100 rounded-b-xl border-t border-divider dark:bg-neutral-900'>
                 <div className='flex gap-3 items-center'>
-                  <p>Invoices per page:</p>
+                  <p>Facturas por página:</p>
                   <ShowItems onChange={changeNumberOfItems} />
                 </div>
 

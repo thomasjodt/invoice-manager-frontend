@@ -1,6 +1,7 @@
-import { Sidebar } from '@/components/ui/Sidebar'
-import { useAppSettings } from '@/hooks'
 import { useEffect } from 'react'
+
+import { useAppSettings } from '@/hooks'
+import { Sidebar } from '@/components/ui'
 
 interface Props {
   children: React.ReactNode

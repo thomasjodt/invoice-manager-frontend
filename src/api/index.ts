@@ -1,4 +1,4 @@
-export { config } from './config'
-export { InvoicesApi } from './InvoicesApi'
-export { VendorsApi } from './VendorsApi'
-export { PaymentsApi } from './PaymentsApi'
+export * from './config'
+export * from './InvoicesApi'
+export * from './VendorsApi'
+export * from './PaymentsApi'

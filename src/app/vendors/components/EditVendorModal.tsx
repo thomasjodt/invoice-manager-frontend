@@ -54,13 +54,13 @@ export const EditVendorModal: React.FC<Props> = function ({ isOpen, vendor, onOp
             <form onSubmit={handleSubmit}>
               <ModalBody>
                 <div className='grid md:grid-cols-[100px_1fr] mb-5'>
-                  <p className='font-medium text-neutral-600'>Name</p>
+                  <p className='font-medium text-neutral-600'>Nombre</p>
                   {
                     (isEditable)
                       ? (
                         <Input
                           name='name'
-                          placeholder='Short Name'
+                          placeholder='Nombre corto'
                           value={form.name}
                           onChange={handleChange}
                         />
@@ -70,13 +70,13 @@ export const EditVendorModal: React.FC<Props> = function ({ isOpen, vendor, onOp
                 </div>
 
                 <div className='grid md:grid-cols-[100px_1fr] mb-5'>
-                  <p className='font-medium text-neutral-600'>Full Name</p>
+                  <p className='font-medium text-neutral-600'>Nombre completo</p>
                   {
                     (isEditable)
                       ? (
                         <Input
                           name='fullName'
-                          placeholder='Full Name'
+                          placeholder='Nombre completo'
                           value={form.fullName}
                           onChange={handleChange}
                         />
@@ -96,9 +96,9 @@ export const EditVendorModal: React.FC<Props> = function ({ isOpen, vendor, onOp
                         variant='light'
                         onClick={resetForm}
                       >
-                        Discard changes
+                        Descartar cambios
                       </Button>
-                      <Button color='primary' type='submit'>Save changes</Button>
+                      <Button color='primary' type='submit'>Guardar cambios</Button>
                     </div>
                   )
                 }
@@ -114,7 +114,7 @@ export const EditVendorModal: React.FC<Props> = function ({ isOpen, vendor, onOp
                     togglePopover={setIsPopoverOpen}
                   />
 
-                  <Button color='primary' variant='solid' type='button' onPress={() => { setIsEditable(true) }}>Edit Vendor</Button>
+                  <Button color='primary' variant='solid' type='button' onPress={() => { setIsEditable(true) }}>Editar Proveedor</Button>
                 </div>
               )
             }

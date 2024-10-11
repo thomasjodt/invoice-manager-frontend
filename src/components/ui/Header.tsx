@@ -1,7 +1,8 @@
 import type { ReactNode } from 'react'
 import { Button } from '@nextui-org/react'
-import { BurgerIcon } from '../icons/BurgerIcon'
+
 import { useAppSettings } from '@/hooks'
+import { BurgerIcon } from '@/components/icons'
 
 interface Props {
   title: string

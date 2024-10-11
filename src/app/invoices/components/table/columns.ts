@@ -1,11 +1,11 @@
 export const columns = [
-  { key: 'vendor', label: 'Vendor' },
-  { key: 'invoice_number', label: 'Invoice number' },
-  { key: 'amount', label: 'Amount' },
-  { key: 'emission_date', label: 'Emission date' },
-  { key: 'due_date', label: 'Due date' },
-  { key: 'days', label: 'Days' },
-  { key: 'status', label: 'Status' },
-  { key: 'balance', label: 'Balance' },
+  { key: 'vendor', label: 'Proveedor' },
+  { key: 'invoice_number', label: 'Número de factura' },
+  { key: 'amount', label: 'Monto' },
+  { key: 'emission_date', label: 'Fecha de emisión' },
+  { key: 'due_date', label: 'Fecha de vencimiento' },
+  { key: 'days', label: 'Días' },
+  { key: 'status', label: 'Estado' },
+  { key: 'balance', label: 'Saldo' },
   { key: 'actions', label: '' }
 ]

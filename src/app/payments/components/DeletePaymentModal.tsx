@@ -29,16 +29,16 @@ export const DeletePaymentModal: React.FC<Props> = function ({ isModalOpen, onDe
           () => (
             <>
               <ModalHeader>
-                <h3 className='font-semibold'>Are you sure to delete this payment?</h3>
+                <h3 className='font-semibold'>Estás seguro de eliminar este pago?</h3>
               </ModalHeader>
 
               <ModalBody>
-                <p className='text-neutral-600'>This action cannot be reversed.</p>
+                <p className='text-neutral-600'>Esta acción no se puede revertir.</p>
               </ModalBody>
 
               <ModalFooter className='flex justify-between'>
-                <Button variant='light' onPress={onCloseModal}>No, cancel</Button>
-                <Button color='danger' onPress={handleDelete}>Yes, delete</Button>
+                <Button variant='light' onPress={onCloseModal}>No, cancelar</Button>
+                <Button color='danger' onPress={handleDelete}>Sí, eliminar</Button>
               </ModalFooter>
             </>
           )

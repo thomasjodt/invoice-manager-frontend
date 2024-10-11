@@ -39,9 +39,9 @@ export const FilterBar: React.FC<Props> = function () {
   return (
     <Card shadow='none' radius='none' className='p-5 border-b border-divider'>
       <Autocomplete
-        label='Search by vendor'
+        label='Buscar proveedor'
         labelPlacement='outside'
-        placeholder='Select a vendor'
+        placeholder='Selecciona una opción'
         defaultItems={vendors}
         startContent={<SearchIcon />}
         selectedKey={vendorKey?.toString()}

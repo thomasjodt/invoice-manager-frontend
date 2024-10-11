@@ -31,26 +31,26 @@ export const NewVendorModal: React.FC<Props> = function ({ isOpen, onOpenChange 
       <ModalContent>
         {(close) => (
           <>
-            <ModalHeader>Create a New Vendor</ModalHeader>
+            <ModalHeader className='text-default-600'>Crear un nuevo proveedor</ModalHeader>
             <form onSubmit={(e) => { handleSubmit(e, close) }}>
               <ModalBody>
                 <div className='grid md:grid-cols-[100px_1fr] mb-5'>
-                  <p className='font-medium text-neutral-600'>Name</p>
+                  <p className='font-medium text-default-500'>Nombre</p>
                   <Input
                     name='name'
-                    label='Name'
-                    placeholder='Short Name'
+                    label='Nombre'
+                    placeholder='Nombre corte'
                     value={form.name}
                     onChange={handleChange}
                   />
                 </div>
 
                 <div className='grid md:grid-cols-[100px_1fr] mb-5'>
-                  <p className='font-medium text-neutral-600'>Full Name</p>
+                  <p className='font-medium text-default-500'>Nombre completo</p>
                   <Input
                     name='fullName'
-                    label='Full Name'
-                    placeholder='Full Name'
+                    label='Nombre completo'
+                    placeholder='Nombre completo'
                     value={form.fullName}
                     onChange={handleChange}
                   />
@@ -58,7 +58,7 @@ export const NewVendorModal: React.FC<Props> = function ({ isOpen, onOpenChange 
               </ModalBody>
 
               <ModalFooter>
-                <Button color='primary' variant='solid' type='submit'>Create Vendor</Button>
+                <Button color='primary' variant='solid' type='submit'>Crear proveedor</Button>
               </ModalFooter>
             </form>
           </>

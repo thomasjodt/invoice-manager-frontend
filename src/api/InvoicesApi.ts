@@ -4,7 +4,7 @@ import type { ApiResponse, Invoice, createInvoice } from '@/types'
 
 export const InvoicesApi = {
   getInvoices: async (page: number = 0, offset: number = 5): Promise<ApiResponse<Invoice[]>> => {
-    if (page < 0) throw new Error('The page cannot be less than zero.')
+    if (page < 0) throw new Error('La página no puede ser menor a cero.')
 
     const { data } = (page === 0)
       ? await config.get<ApiResponse<Invoice[]>>('/invoices')
@@ -13,7 +13,7 @@ export const InvoicesApi = {
   },
 
   getInvoicesByVendor: async (vendorId: number, page: number = 0, offset: number = 5): Promise<ApiResponse<Invoice[]>> => {
-    if (page < 0) throw new Error('The page cannot be less than zero.')
+    if (page < 0) throw new Error('La página no puede ser menor a cero.')
 
     const { data } = (page === 0)
       ? await config.get<ApiResponse<Invoice[]>>(`/invoices?vendorId=${vendorId}`)

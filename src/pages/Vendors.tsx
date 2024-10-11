@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Button, Card, Pagination, useDisclosure } from '@nextui-org/react'
 
-import { Header, ShowItems } from '@/components/ui'
-import { PlusIcon } from '@/components/icons'
-import { FilterBar } from '../app/vendors/components/filter'
 import type { Vendor } from '@/types'
-import { NewVendorModal, VendorCard } from '../app/vendors/components'
 import { useVendors } from '@/hooks'
+import { PlusIcon } from '@/components/icons'
+import { Header, ShowItems } from '@/components/ui'
+import { FilterBar } from '../app/vendors/components/filter'
+import { NewVendorModal, VendorCard } from '../app/vendors/components'
 
 export const Vendors: React.FC = function () {
   const { getAllVendors, getVendorByName } = useVendors()
@@ -66,9 +66,9 @@ export const Vendors: React.FC = function () {
         onOpenChange={onOpenChange}
       />
 
-      <Header title='Vendors'>
+      <Header title='Proveedores'>
         <Button color='primary' variant='solid' onClick={onOpen}>
-          Add Vendor
+          Agregar proveedor
           <PlusIcon size={18} />
         </Button>
       </Header>
@@ -79,10 +79,10 @@ export const Vendors: React.FC = function () {
         <div className='max-w-xl lg:max-w-4xl mx-auto'>
           {(count > 0) && (
             <div className='text-neutral-500 dark:text-white font-semibold text-sm mx-5 my-4 flex justify-between'>
-              <p>Total {count} vendors</p>
+              <p>Total: {count} proveedores</p>
 
               <div className='flex items-center gap-3'>
-                <p>Vendors per page</p>
+                <p>Proveedores por página</p>
                 <ShowItems onChange={setItemsPerPage} />
               </div>
             </div>

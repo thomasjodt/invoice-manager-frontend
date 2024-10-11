@@ -21,16 +21,16 @@ export const DeleteModal: React.FC<Props> = function ({ title, description, isMo
         {() => (
           <>
             <ModalHeader className={`text-default-900 ${(classNames?.title !== undefined) ? classNames.title : ''}`.trim()}>
-              {(title !== undefined) ? title : 'Are you absolutely sure?'}
+              {(title !== undefined) ? title : 'Estás completamente seguro?'}
             </ModalHeader>
 
             <ModalBody className={`text-default-600 ${(classNames?.description !== undefined) ? classNames.description : ''}`.trim()}>
-              {(description !== undefined) ? description : 'This action cannot be undone and will be permanent.'}
+              {(description !== undefined) ? description : 'Esta acción no se puede deshacer y será permanente.'}
             </ModalBody>
 
             <ModalFooter className='flex justify-between'>
-              <Button variant='light' onPress={onCloseModal}>No, cancel</Button>
-              <Button color='danger' onPress={onDelete}>Yes, delete</Button>
+              <Button variant='light' onPress={onCloseModal}>No, cancelar</Button>
+              <Button color='danger' onPress={onDelete}>Sí, eliminar</Button>
             </ModalFooter>
           </>
         )}

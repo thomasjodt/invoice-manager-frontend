@@ -115,14 +115,14 @@ export const NewPaymentModal: React.FC<Props> = function ({ isOpenModal = false,
         {(close) => (
           <>
             <ModalHeader>
-              <h3 className='text-lg font-bold'>Make a Payment</h3>
+              <h3 className='text-lg font-bold text-default-800'>Hacer un pago</h3>
             </ModalHeader>
 
             <ModalBody>
               <Autocomplete
-                label='Vendors'
+                label='Proveedores'
                 name='vendor'
-                placeholder='Select a vendor'
+                placeholder='Selecciona un proveedor'
                 defaultItems={vendors}
                 onSelectionChange={onVendorChange}
                 allowsCustomValue
@@ -135,9 +135,9 @@ export const NewPaymentModal: React.FC<Props> = function ({ isOpenModal = false,
               </Autocomplete>
 
               <Autocomplete
-                label='Invoices'
+                label='Facturas'
                 name='invoiceId'
-                placeholder={(vendorKey === null) || invoices.length === 0 ? 'There is no invoice to pay' : 'Search the invoice you want to pay'}
+                placeholder={(vendorKey === null) || invoices.length === 0 ? 'No har facturas para mostrar' : 'Busca la factura que deseas pagar'}
                 defaultItems={invoices}
                 onSelectionChange={onInvoiceChange}
                 isDisabled={(vendorKey === null) || invoices.length === 0}
@@ -161,8 +161,8 @@ export const NewPaymentModal: React.FC<Props> = function ({ isOpenModal = false,
               <Input
                 type='number'
                 name='amount'
-                label='Amount'
-                placeholder='Amount of the payment'
+                label='Monto'
+                placeholder='Monto del pago'
                 value={form.amount}
                 onChange={handleChange}
                 startContent='S/'
@@ -175,7 +175,7 @@ export const NewPaymentModal: React.FC<Props> = function ({ isOpenModal = false,
                   handlePayment()
                   close()
                 }}
-              >Make the payment
+              >Continuar con el pago
               </Button>
             </ModalFooter>
           </>

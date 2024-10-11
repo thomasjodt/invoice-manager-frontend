@@ -1,1 +1,1 @@
-export { statuses } from './status'
+export * from './status'

@@ -14,9 +14,15 @@ export const StatusChip: React.FC<Props> = function ({ status }) {
     pending: 'border-warning-200'
   }
 
+  const translatedStatuses: Record<Status, string> = {
+    overdue: 'Vencido',
+    paid: 'Pagado',
+    pending: 'Pendiente'
+  }
+
   return (
     <Chip radius='sm' variant='flat' color={statuses[status]} className={`min-w-[80px] text-center border ${border[status]}`}>
-      {status}
+      {translatedStatuses[status]}
     </Chip>
   )
 }
